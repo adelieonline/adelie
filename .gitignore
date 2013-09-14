@@ -1,0 +1,21 @@
+/.bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+tmp
+
+.*.swp
+.*.swo
+*.pyc
+my.cnf.*
+*~
+*.py.bak
+.DS_Store
+
+db/schema.rb
+db/structure.sql
