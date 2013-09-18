@@ -78,6 +78,13 @@
 
 
 %label
+  Youtube embed url
+%br
+%input#product_video{:type => "text", :name => "product_video", :value => @product.video_url}
+%br
+
+
+%label
   Tier 0 should be ~50% of our base users that gets $0 discount
   Tier 10 should be 100% discount
 %span.error#total_percent_error
@@ -256,6 +263,7 @@
     ship_date = $("#product_ship").val();
     price = $("#product_price").val();
     tag_line = $("#product_tag_line").val();
+    video_url = $("#product_video").val();
     product_id = #{@product.id};
     save_game = true;
     if (name == "") {
@@ -326,10 +334,20 @@
     if (save_game) {
       $.ajax({
         url: '/admin/editproduct',
-        data: {tier_percents: tier_percents, tier_discounts: tier_discounts, name: name, desc: description, start: start_datetime, end: end_datetime, price: price, ship: ship_date, tag_line: tag_line, product_id: product_id},
+        data: {tier_percents: tier_percents,
+                tier_discounts: tier_discounts,
+                name: name,
+                desc: description,
+                start: start_datetime,
+                end: end_datetime,
+                price: price,
+                ship: ship_date,
+                tag_line: tag_line,
+                product_id: product_id,
+                video_url: video_url},
         type: "POST",
         async: false,
-        success: function (response) {
+        complete: function (response) {
                     if (response == "False") {
                       $("#unknown_error").show();
                     }

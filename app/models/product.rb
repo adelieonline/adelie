@@ -1,12 +1,33 @@
 class Product < ActiveRecord::Base
   include Concerns::ReportingRecord
-  attr_accessible :name, :price, :description, :tag_line, :start_time, :end_time, :ship_date, :credited, :created_ts, :updated_ts
+  attr_accessible :name,
+                    :price,
+                    :description,
+                    :tag_line,
+                    :start_time,
+                    :end_time,
+                    :ship_date,
+                    :credited,
+                    :video_url,
+                    :created_ts,
+                    :updated_ts
 
-  def ready?
-    return true
+  has_many :pictures
+
+  def is_ready?
+    return self.pictures.length > 0
   end
 
-  def active?
-    return true
+  def is_active?
+    return self.start_time < Time.now.utc && self.end_time > Time.now.utc
   end
+
+  def is_upcoming?
+    return self.start_time > Time.now.utc
+  end
+
+  def is_past?
+    return self.end_time < Time.now.utc
+  end
+
 end

@@ -37,6 +37,7 @@ class AdminController < ApplicationController
     price = params[:price].presence
     ship_date = DateTime.strptime(params[:ship].presence, "%m/%d/%Y")
     tag_line = params[:tag_line].presence
+    video_url = params[:video_url].presence
     should_save = true
     should_save = false if tier_discounts.length != 11 || tier_percents.length != 11
     should_save = false if name == "" || description == "" || start_time == "" || end_time == "" || price == "" || ship_date == "" || tag_line == ""
@@ -53,7 +54,8 @@ class AdminController < ApplicationController
                                price: price,
                                tag_line: tag_line,
                                end_time: end_time,
-                               ship_date: ship_date
+                               ship_date: ship_date,
+                               video_url: video_url
       if product.present?
         for i in 0..11
           DiscountTier.create discount: tier_discounts[i],
@@ -77,6 +79,7 @@ class AdminController < ApplicationController
     ship_date = DateTime.strptime(params[:ship].presence, "%m/%d/%Y")
     tag_line = params[:tag_line].presence
     product_id = params[:product_id].presence
+    video_url = params[:video_url].presence
     should_edit = true
     should_edit = false if tier_discounts.length != 11 || tier_percents.length != 11
     should_edit = false if name == "" || description == "" || start_time == "" || end_time == "" || price == "" || ship_date == "" || tag_line == ""
@@ -94,7 +97,8 @@ class AdminController < ApplicationController
                                 end_time: end_time,
                                 price: price,
                                 ship_date: ship_date,
-                                tag_line: tag_line
+                                tag_line: tag_line,
+                                video_url: video_url
       for i in 0..11
         old_discount_tier = DiscountTier.where(:product_id => product.id, :tier_number => i).first
         if old_discount_tier
