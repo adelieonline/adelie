@@ -1,0 +1,24 @@
+.nav-pills>li>a {
+  border-radius: 0;
+}
+
+.nav-pills>li.active>a {
+  background-color: #0d747c;
+}
+
+.nav-pills>li.active>a:hover {
+  background-color: #0d747c;
+}
+
+.container .jumbotron {
+  border-radius: 0;
+}
+
+.navbar-brand {
+  font-size: 36px;
+}
+
+.navbar-text {
+  margin-right: 5px;
+  margin-left: 5px;
+}

@@ -1,16 +1,73 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Adelie</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+  <head>
+    <title>Adelie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% # stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css", :media => "all" %>
+    <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootswatch/3.0.0/amelia/bootstrap.min.css", :media => "all" %>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
 
-<%= yield %>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Adelie</a>
+    </div>
 
-</body>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li class="divider"></li>
+              <li>                                                                                                                                                                                
+                <%= link_to "Logout", destroy_user_session_path, :method => :delete %> 
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li>
+            <a href="/users/sign_up">Create Account</a>
+          </li>
+          <li class="vertical-divider navbar-text">|</li>
+          <li>
+            <a href="/users/sign_in">Sign In</a>
+          </li>
+        <% end %>
+        <li class="vertical-divider navbar-text">|</li>
+        <li>
+          <a href="#">Cart</a>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div>
+    </nav>
+
+    <div class="container">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 content">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+
+  </body>
+
 </html>
