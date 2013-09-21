@@ -1,0 +1,43 @@
+<% if @cart_items.present? %>
+  <% @cart_items.each do |cart_item| %>
+    <label>Product Name:</label>
+    <%= cart_item[:product].name %>
+    <br />
+    <label>Quantity</label>
+    <input type="text" id="quantity_<%= cart_item[:product].id %>" value="<%= cart_item[:quantity] %>" />
+    <br />
+    <button class="btn btn-secondary" onClick="update_quantity(<%= cart_item[:product].id %>);">
+      Update
+    </button>
+    <button class="btn btn-primary" onClick="delete_product(<%= cart_item[:product].id %>);">
+      Delete
+    </button>
+    <br />
+  <% end %>
+  <a class="btn btn-danger" href="/checkout">
+    Checkout
+  </a>
+<% else %>
+  <label>There's nothing in your cart Brah</label>
+<% end %>
+<script type="text/javascript">
+  function update_quantity(product_id) {
+    quantity = $("#quantity_" + product_id).val();
+    if (!isNaN(+quantity)) {
+      $.ajax({
+        url: '/cart/update',
+        data: {product_id: product_id, quantity: quantity},
+        type: "POST",
+        async: false,
+        complete: function (response) {
+                    location.reload();
+                }
+      });
+    }
+  }
+
+  function delete_product(product_id) {
+    $("#quantity_" + product_id).val(0);
+    update_quantity(product_id);
+  }
+</script>

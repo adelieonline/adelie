@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
   protect_from_forgery with: :null_session
+  before_filter :is_authorized_user
   def add_product
     @products = Product.all
   end
@@ -117,4 +118,11 @@ class AdminController < ApplicationController
     picture.delete
     render :json => "deleted"
   end
+
+
+  private
+    AUTHORIZED_USERS = ["skier2k5@gmail.com", "adelieonline@gmail.com"]
+    def is_authorized_user
+      return redirect_to :controller => "index", :action => "index" if ((not current_user) || (not AUTHORIZED_USERS.include?(current_user.email)))
+    end
 end
