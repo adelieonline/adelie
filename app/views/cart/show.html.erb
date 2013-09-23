@@ -1,25 +1,29 @@
-<% if @cart_items.present? %>
-  <% @cart_items.each do |cart_item| %>
-    <label>Product Name:</label>
-    <%= cart_item[:product].name %>
-    <br />
-    <label>Quantity</label>
-    <input type="text" id="quantity_<%= cart_item[:product].id %>" value="<%= cart_item[:quantity] %>" />
-    <br />
-    <button class="btn btn-secondary" onClick="update_quantity(<%= cart_item[:product].id %>);">
-      Update
-    </button>
-    <button class="btn btn-primary" onClick="delete_product(<%= cart_item[:product].id %>);">
-      Delete
-    </button>
-    <br />
-  <% end %>
-  <a class="btn btn-danger" href="/checkout">
-    Checkout
-  </a>
-<% else %>
-  <label>There's nothing in your cart Brah</label>
-<% end %>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1 content">
+    <% if @cart_items.present? %>
+      <% @cart_items.each do |cart_item| %>
+        <label>Product Name:</label>
+        <%= cart_item[:product].name %>
+        <br />
+        <label>Quantity</label>
+        <input type="text" id="quantity_<%= cart_item[:product].id %>" value="<%= cart_item[:quantity] %>" />
+        <br />
+        <button class="btn btn-secondary" onClick="update_quantity(<%= cart_item[:product].id %>);">
+          Update
+        </button>
+        <button class="btn btn-primary" onClick="delete_product(<%= cart_item[:product].id %>);">
+          Delete
+        </button>
+        <br />
+      <% end %>
+      <a class="btn btn-danger" href="/checkout">
+        Checkout
+      </a>
+    <% else %>
+      <label>There's nothing in your cart Brah</label>
+    <% end %>
+  </div>
+</div>
 <script type="text/javascript">
   function update_quantity(product_id) {
     quantity = $("#quantity_" + product_id).val();

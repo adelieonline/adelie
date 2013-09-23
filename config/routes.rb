@@ -16,5 +16,5 @@ Adelie::Application.routes.draw do
   post 'cart/update' => 'cart#update'
 
 
-  get 'product/show' => 'product#show'
+  get 'product/:id' => 'product#show'
 end

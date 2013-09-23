@@ -1,7 +1,7 @@
 class IndexController < ApplicationController
 
   def index
-    @product = Product.first
+    @product = Product.first if Product.first
   end
 
 end

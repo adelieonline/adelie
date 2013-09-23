@@ -1,3 +1,19 @@
+body {
+  padding-top: 70px;
+}
+
+.no-margin-top {
+  margin-top: 0
+}
+
+.divide {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.form-control {
+  color: black;
+}
+
 .nav-pills>li>a {
   border-radius: 0;
 }
