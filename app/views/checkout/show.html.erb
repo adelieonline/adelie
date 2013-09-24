@@ -375,47 +375,50 @@
       $("#errorPaymentCode").show();
       place_order = false;
     }
-    $.ajax({
-      url: 'checkout/checkout',
-      type: 'POST',
-      data: {shipping_name: shipping_name,
-             shipping_address_one: shipping_address_one,
-             shipping_address_two: shipping_address_two,
-             shipping_city: shipping_city,
-             shipping_state: shipping_state,
-             shipping_zip: shipping_zip,
-             same_as_shipping: same_as_shipping,
-             billing_name: billing_name,
-             billing_address_one: billing_address_one,
-             billing_address_two: billing_address_two,
-             billing_city: billing_city,
-             billing_state: billing_state,
-             billing_zip: billing_zip,
-             payment_name: payment_name,
-             payment_card: payment_card,
-             payment_month: payment_month,
-             payment_year: payment_year,
-             payment_code: payment_code,
-             card_type: card_type},
-      async: false,
-      success: function (response) {
-                 if (response.status == "error") {
-                   $.each(response.details, function (index, value) {
-                     if (value.field == "payer.funding_instruments[0].credit_card") {
-                       $("#errorExpirationDate").show();
-                     }
-                     else if (value.field == "payer.funding_instruments[0].credit_card.number") {
-                       $("#errorPaymentCard").show();
-                     }
-                   });
-                 }
-                 else {
+    if (place_order) {
+      $.ajax({
+        url: 'checkout/checkout',
+        type: 'POST',
+        data: {shipping_name: shipping_name,
+               shipping_address_one: shipping_address_one,
+               shipping_address_two: shipping_address_two,
+               shipping_city: shipping_city,
+               shipping_state: shipping_state,
+               shipping_zip: shipping_zip,
+               same_as_shipping: same_as_shipping,
+               billing_name: billing_name,
+               billing_address_one: billing_address_one,
+               billing_address_two: billing_address_two,
+               billing_city: billing_city,
+               billing_state: billing_state,
+               billing_zip: billing_zip,
+               payment_name: payment_name,
+               payment_card: payment_card,
+               payment_month: payment_month,
+               payment_year: payment_year,
+               payment_code: payment_code,
+               card_type: card_type},
+        async: false,
+        success: function (response) {
+                   if (response.status == "error") {
+                     $.each(response.details, function (index, value) {
+                       if (value.field == "payer.funding_instruments[0].credit_card") {
+                         $("#errorExpirationDate").show();
+                       }
+                       else if (value.field == "payer.funding_instruments[0].credit_card.number") {
+                         $("#errorPaymentCard").show();
+                       }
+                     });
+                   }
+                   else {
+                     window.location = '/checkout/receipt/' + response.order_id
 
-                 }
-               },
-      complete: function (response) {
-                  console.log(response);
-                }
-    });
+                   }
+                 },
+        complete: function (response) {
+                    console.log(response);
+                  }
+      });
+    }
   }
 </script>

@@ -1,0 +1,27 @@
+<h2>Thank you for placing your order</h2>
+<h3>Order Receipt</h3>
+<label>
+  Subtotal: $<%= number_with_precision(@total, :precision => 2) %>
+</label>
+<br />
+<label>
+  Tax (6.25%): $<%= number_with_precision(@tax, :precision => 2) %>
+</label>
+<br />
+<label>
+  Total: $<%= number_with_precision(@total + @tax, :precision => 2) %>
+</label>
+<br />
+<% @products.each do |product, quantity| %>
+  <label>
+    <%= product.name %>
+  </label>
+  <br />
+  <label>
+    Quantity: <%= quantity %>
+  </label>
+  <br />
+  <label>
+    Price: $<%= number_with_precision(product.price, :precision => 2) %>
+  </label>
+<% end %>

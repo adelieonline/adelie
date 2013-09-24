@@ -3,6 +3,7 @@ include PayPal::SDK::REST
 
 class CheckoutController < ApplicationController
   protect_from_forgery with: :null_session
+  TAX_PERCENT = 0.0625
 
   def show
     if current_user
@@ -17,13 +18,13 @@ class CheckoutController < ApplicationController
           @cart_items.push({:product => product, :quantity => cart_item.quantity})
           @price += product.price.to_f * cart_item.quantity.to_f
         end
-        @tax = @price * 0.0625
+        @tax = @price * TAX_PERCENT
         @total = @price + @tax
       else
         return redirect_to :controller => "index", :action => "index"
       end
     else
-      return redirect_to :controller => "users", :action => "sign_in"
+      return redirect_to :controller => "devise/sessions", :action => "new"
     end
   end
 
@@ -79,7 +80,7 @@ class CheckoutController < ApplicationController
           items.push(item)
           total += product.price.to_f * cart_item.quantity.to_i
         end
-        tax = total * 0.0625
+        tax = total * TAX_PERCENT
         transactions = [{
                          :item_list => {
                            :items => items
@@ -135,12 +136,35 @@ class CheckoutController < ApplicationController
                                   :product_id => cart_item.product_id
             end
           end
-          return render :json => {:status => "success"}
+          return render :json => {:status => "success", :order_id => order.id}
         else
            return render :json => {:status => "error", :details => payment.error['details']}
         end
+      else
+        return render :json => {:status => "error"}
       end
+    else
+      return redirect_to :controller => "devise/sessions", :action => "new"
     end
   end
 
+  def receipt
+    return redirect_to :controller => 'index', :action => 'index' if not current_user
+    order_id = params[:id].presence
+    order = Order.where(:id => order_id, :user_id => current_user.id).first
+    return redirect_to :controller => 'index', :action => 'index' if order.blank?
+    order_products = OrderProduct.where(:order_id => order.id)
+    @total = 0.0
+    @products = {}
+    order_products.each do |op|
+      product = Product.where(:id => op.product_id).first
+      if @products.include?(product)
+        @products[product] += 1
+      else
+        @products[product] = 1
+      end
+      @total += product.price.to_f
+    end
+    @tax = @total * 0.0625
+  end
 end

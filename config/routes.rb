@@ -21,4 +21,5 @@ Adelie::Application.routes.draw do
 
   get 'checkout' => 'checkout#show'
   post 'checkout/checkout' => 'checkout#checkout'
+  get 'checkout/receipt/:id' => 'checkout#receipt'
 end
