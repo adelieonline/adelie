@@ -28,6 +28,10 @@
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li id="products-tab"><a href="/products">Products</a></li>
+          <li id="how-it-works-tab"><a href="/how-it-works">How It Works</a></li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <li class="dropdown">
@@ -52,8 +56,8 @@
           <% end %>
           <li class="vertical-divider navbar-text hidden-xs">|</li>
           <li>
-          <a href="/cart">Cart
-            <span class="badge">42</span>
+          <a href="/cart"><i class="icon-shopping-cart icon-large"></i>
+            &nbsp;<span class="badge" id="cart-value">0</span>
           </a>
           </li>
         </ul>

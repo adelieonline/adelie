@@ -10,8 +10,8 @@ class CartController < ApplicationController
     else
       cart = session[:cart].presence || []
       cart.each do |cart_item|
-        product = Product.where(:id => cart_item.product_id).first
-        @cart_items.push({:product => product, :quantity => cart_item.quantity})
+        product = Product.where(:id => cart_item[:product_id]).first
+        @cart_items.push({:product => product, :quantity => cart_item[:quantity]})
       end
     end
   end

@@ -10,6 +10,8 @@ Adelie::Application.routes.draw do
   post 'admin/editproduct' => 'admin#edit_product'
   post 'admin/deletepicture' => 'admin#delete_picture'
 
+  get '/products' => 'index#index'
+  get '/how-it-works' => 'index#howitworks'
 
   get 'cart' => 'cart#show'
   post 'cart/add' => 'cart#add'

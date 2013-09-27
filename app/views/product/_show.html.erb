@@ -1,84 +1,137 @@
-<div class="row">
-  <div class="col-sm-5">
-    <h2 class="no-font no-margin-top"><%= @product.name %></h2>
-    <form class="form-horizontal" role="form">
-      <div class="form-group">
-        <label class="col-xs-4 control-label no-font-size">Price</label>
-        <div class="col-xs-8">
-          <p class="form-control-static">
-          <i class="icon-usd"></i><%= @product.price %> <small>+ shipping</small>
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="product_quantity" class="col-xs-4 control-label no-font-size">Quantity</label>
-        <div class="col-xs-8">
-          <select id="product_quantity" class="form-control">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-      </div>
-      <input type="hidden" id="product_id" value="<%= @product.id %>">
-    </form>
-    <button type="button" class="btn btn-default btn-lg square" style="margin-bottom:30px;width:100%" onClick="addToCart()">
-      <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
-    </button>
-  </div>
-  <div class="col-sm-7">
-    <ul class="nav nav-tabs nav-product" id="product-info">
-      <li class="active">
-      <a href="#product_images" data-toggle="pill">
-        <i class="icon-camera-retro"></i>
-      </a>
-      </li>
-      <li>
-      <a href="#product_description" data-toggle="pill">
-        <i class="icon-tag "></i>
-      </a>
-      </li>
-      <li>
-      <a href="#product_reviews" data-toggle="pill">
-        <i class="icon-pencil"></i>
-      </a>
-      </li>
-    </ul>
-
-    <div class="tab-content" style="height:250px;overflow:auto">
-      <div class="tab-pane active" id="product_images">
-        <div id="product-carousel" style="height:250px" class="carousel slide" data-interval="false">
-          <ol class="carousel-indicators">
-            <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#product-carousel" data-slide-to="1"></li>
-            <li data-target="#product-carousel" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner">
-            <div class="item active">
-              Sample Image 1
-            </div>
-            <div class="item">
-              Sample Image 2
-            </div>
-            <div class="item">
-              Sample Image 3
-            </div>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm-5">
+      <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-xs-4 control-label no-font-size">Price</label>
+          <div class="col-xs-8">
+            <p class="form-control-static">
+            <i class="icon-usd"></i><%= product.price %> <sup><em> +shipping</em></sup>
+            </p>
           </div>
-          <a class="left carousel-control" href="#product-carousel" data-slide="prev">
-            <span class="icon-prev"></span>
-          </a>
-          <a class="right carousel-control" href="#product-carousel" data-slide="next">
-            <span class="icon-next"></span>
-          </a>
         </div>
-      </div>
-      <div class="tab-pane" id="product_description">
-        <p style="font-size:16px;margin-top:10px"><%= @product.description %></p>
-      </div>
-      <div class="tab-pane" id="product_reviews">
-        <p style="font-size:16px;margin-top:10px">No reviews! Be the first to write a review!
+        <div class="form-group">
+          <label for="product_quantity" class="col-xs-4 control-label no-font-size">Quantity</label>
+          <div class="col-xs-8">
+            <select id="product_quantity" class="form-control">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </div>
+        <input type="hidden" id="product_id" value="<%= product.id %>">
+      </form>
+      <button type="button" class="btn btn-default btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart()">
+        <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
+      </button>
+    </div>
+    <div class="col-sm-7">
+      <ul class="nav nav-tabs nav-product" id="product-info">
+        <li class="active">
+        <a href="#product_images" data-toggle="pill">
+          <i class="icon-camera-retro"></i>
+        </a>
+        </li>
+        <li>
+        <a href="#product_description" data-toggle="pill">
+          <i class="icon-tag"></i>
+        </a>
+        </li>
+        <li>
+        <a href="#product_time" data-toggle="pill">
+          <i class="icon-time"></i>
+        </a>
+        </li>
+        <li>
+        <a href="#product_reviews" data-toggle="pill">
+          <i class="icon-pencil"></i>
+        </a>
+        </li>
+      </ul>
+
+      <div class="tab-content" style="height:250px;overflow:auto">
+        <div class="tab-pane active" id="product_images">
+          <div id="product-carousel" style="height:250px" class="carousel slide" data-interval="false">
+            <ol class="carousel-indicators">
+              <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
+              <li data-target="#product-carousel" data-slide-to="1"></li>
+              <li data-target="#product-carousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="item active">
+                Sample Image 1
+              </div>
+              <div class="item">
+                Sample Image 2
+              </div>
+              <div class="item">
+                Sample Image 3
+              </div>
+            </div>
+            <a class="left carousel-control" href="#product-carousel" data-slide="prev">
+              <span class="icon-prev"></span>
+            </a>
+            <a class="right carousel-control" href="#product-carousel" data-slide="next">
+              <span class="icon-next"></span>
+            </a>
+          </div>
+        </div>
+        <div class="tab-pane" id="product_description" style="font-size:16px;margin-top:10px">
+          <p><%= product.description %></p>
+        </div>
+        <div class="tab-pane" id="product_time" style="font-size:16px;margin-top:10px">
+          Ship Date: 
+          <div class="add-tab">
+            <%= product.ship_date.to_formatted_s(:long_ordinal) %>
+          </div>
+          <% if product.start_time < Date.today and product.end_time > Date.today %>
+            Sale Ends In:
+            <div id="product_countdown">
+              <div class="col-xs-3 center">
+                <span class="countdown-section">
+                  <span id="days" class="well well-sm"></span>  
+                  <br>
+                  days
+                </span>
+              </div>
+              <div class="col-xs-3 center">
+                <span class="countdown-section">
+                  <span id="hours" class="well well-sm"></span>    
+                  <br>
+                  hours
+                </span>
+              </div>
+              <div class="col-xs-3 center">
+                <span class="countdown-section">
+                  <span id="minutes" class="well well-sm"></span> 
+                  <br>
+                  minutes
+                </span>
+              </div>
+              <div class="col-xs-3 center">
+                <span class="countdown-section">
+                  <span id="seconds" class="well well-sm"></span> 
+                  <br>
+                  seconds
+                </span>
+              </div>
+            </div>
+          <% elsif product.start_time > Date.today %>
+            Sale Begins On:
+            <div class="add-tab">
+              <%= product.start_time.to_formatted_s(:long_ordinal) %>
+            </div>
+          <% else %>
+            Sale Has Ended!
+          <% end %>
+        </div>
+        <div class="tab-pane" id="product_reviews" style="font-size:16px;margin-top:10px">
+          <p>No reviews! Be the first to write a review!</p>
+        </div>
       </div>
     </div>
   </div>
@@ -98,5 +151,26 @@
         console.log(response);
       }
     });
+    $('#cart-value').html(parseInt($('#cart-value').text()) + parseInt(product_quantity))
   }
+</script>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    var productEndDate = new Date("<%= product.end_time.to_formatted_s(:long) %>");
+    $('#product_countdown').countdown(productEndDate.valueOf(), function(event) {
+      $this = $(this);
+      switch(event.type) {
+      case "seconds":
+      case "minutes":
+      case "hours":
+      case "days":
+      $this.find('span#'+event.type).html(event.value);
+      break;
+      case "finished":
+      $this.fadeTo('slow', .5);
+      break;
+      }
+      });
+    });
 </script>

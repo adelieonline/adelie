@@ -1,24 +1,43 @@
 <% if @cart_items.present? %>
-  <% @cart_items.each do |cart_item| %>
-    <label>Product Name:</label>
-    <%= cart_item[:product].name %>
-    <br />
-    <label>Quantity</label>
-    <input type="text" id="quantity_<%= cart_item[:product].id %>" value="<%= cart_item[:quantity] %>" />
-    <br />
-    <button class="btn btn-secondary" onClick="update_quantity(<%= cart_item[:product].id %>);">
-      Update
-    </button>
-    <button class="btn btn-primary" onClick="delete_product(<%= cart_item[:product].id %>);">
-      Delete
-    </button>
-    <br />
-  <% end %>
-  <a class="btn btn-danger" href="/checkout">
-    Checkout
-  </a>
+  <% sub_total = 0 %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th> Name </th>
+        <th> Quantity </th>
+        <th> Options </th>
+        <th> Price </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |cart_item| %>
+        <tr>
+          <td><h3 class="no-margin-top"><%= cart_item[:product].name %></h3></td>
+          <td><input type="number" id="quantity_<%= cart_item[:product].id %>" value="<%= cart_item[:quantity] %>" /></td>
+          <td>
+            <button class="btn btn-default btn-sm" onClick="update_quantity(<%= cart_item[:product].id %>);">
+              Update Quantity
+            </button>
+            <button class="btn btn-primary btn-sm" onClick="delete_product(<%= cart_item[:product].id %>);">
+              Remove From Cart
+            </button>
+          </td>
+          <td><h3 class="no-margin-top no-font">$<%= cart_item[:product].price %> <small>x<%= cart_item[:quantity] %></small></h3></td>
+          <% sub_total += cart_item[:product].price * cart_item[:quantity] %>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><h4 class="no-margin-top no-font">Subtotal: $<%= sub_total %></h4></td>
+      </tfoot>
+    </table>
+    <a class="btn btn-default" href="/checkout">
+      Checkout
+    </a>
 <% else %>
-  <label>There's nothing in your cart Brah</label>
+  <h3>Your Cart is Currently Empty!</h3>
 <% end %>
 
 <script type="text/javascript">
