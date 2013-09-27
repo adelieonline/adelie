@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessible :active, :created_ts, :updated_ts, :email, :password
+
+  has_many :orders
+  has_one :shipping_address
 end

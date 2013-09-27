@@ -1,0 +1,424 @@
+<h3>Order Summary</h3>
+<label>
+  Items (<%= @items %>): $<%= number_with_precision(@price, :precision => 2) %>
+</label>
+<br />
+<label>
+  Shipping/Handling: $0.00
+</label>
+<br />
+<label>
+  Tax (6.25%): $<%= number_with_precision(@tax, :precision => 2) %>
+</label>
+<br />
+<label>
+  Total Price: $<%= number_with_precision(@total, :precision => 2) %>
+</label>
+<h3>Items:</h3>
+<% @cart_items.each do |cart_item| %>
+  <label>
+    <%= cart_item[:product].name %>
+  </label>
+  <br />
+  <label>
+      $<%= number_with_precision(cart_item[:product].price, :precision => 2) %>
+  </label>
+  <br />
+  <label>
+    Quantity: 
+  </label>
+  <label>
+    <%= cart_item[:quantity]%>
+  </label>
+  <br />
+<% end %>
+<br />
+<br />
+<div id="shippingForm">
+  <h5>Shipping Address</h5>
+  <span class="error" id="errorShippingName">Please enter a name</span>
+  <label>Full Name:</label>
+  <input type="text" name="shippingName" id="shippingName" />
+  <br />
+
+  <span class="error" id="errorShippingAddress">Please enter an address</span>
+  <label>Address Line 1:</label>
+  <input type="text" name="shippingAddressOne" id="shippingAddressOne" />
+  <br />
+
+  <label>Address Line 2:</label>
+  <input type="text" name="shippingAddressTwo" id="shippingAddressTwo" />
+  <br />
+
+  <span class="error" id="errorShippingCity">Please enter a city</span>
+  <label>City:</label>
+  <input type="text" name="shippingCity" id="shippingCity" />
+  <br />
+
+  <span class="error" id="errorShippingState">Please enter a state</span>
+  <label>State:</label>
+  <select name="shippingState" id="shippingState">
+    <option value="AL">Alabama</option>
+    <option value="AK">Alaska</option>
+    <option value="AZ">Arizona</option>
+    <option value="AR">Arkansas</option>
+    <option value="CA">California</option>
+    <option value="CO">Colorado</option>
+    <option value="CT">Connecticut</option>
+    <option value="DE">Delaware</option>
+    <option value="FL">Florida</option>
+    <option value="GA">Georgia</option>
+    <option value="HI">Hawaii</option>
+    <option value="ID">Idaho</option>
+    <option value="IL">Illinois</option>
+    <option value="IN">Indiana</option>
+    <option value="IA">Iowa</option>
+    <option value="KS">Kansas</option>
+    <option value="KY">Kentucky</option>
+    <option value="LA">Louisiana</option>
+    <option value="ME">Maine</option>
+    <option value="MD">Maryland</option>
+    <option value="MA">Massachusetts</option>
+    <option value="MI">Michigan</option>
+    <option value="MN">Minnesota</option>
+    <option value="MS">Mississippi</option>
+    <option value="MO">Missouri</option>
+    <option value="MT">Montana</option>
+    <option value="NE">Nebraska</option>
+    <option value="NV">Nevada</option>
+    <option value="NH">New Hampshire</option>
+    <option value="NJ">New Jersey</option>
+    <option value="NM">New Mexico</option>
+    <option value="NY">New York</option>
+    <option value="NC">North Carolina</option>
+    <option value="ND">North Dakota</option>
+    <option value="OH">Ohio</option>
+    <option value="OK">Oklahoma</option>
+    <option value="OR">Oregon</option>
+    <option value="PA">Pennsylvania</option>
+    <option value="RI">Rhode Island</option>
+    <option value="SC">South Carolina</option>
+    <option value="SD">South Dakota</option>
+    <option value="TN">Tennessee</option>
+    <option value="TX">Texas</option>
+    <option value="UT">Utah</option>
+    <option value="VT">Vermont</option>
+    <option value="VA">Virginia</option>
+    <option value="WA">Washington</option>
+    <option value="WV">West Virginia</option>
+    <option value="WI">Wisconsin</option>
+    <option value="WY">Wyoming</option>
+  </select>
+  <br />
+
+  <span class="error" id="errorShippingZip">Please enter a zip code</span>
+  <label>Zip Code:</label>
+  <input type="text" name="shippingZip" id="shippingZip" />
+</div>
+<div id="billingContainer">
+  <h5>Billing Address</h5>
+  <label>Same as shipping address</label>
+  <input type="checkbox" name="sameAsShipping" id="sameAsShipping" onChange="toggle_billing_address()" checked />
+  <div id="billingForm">
+    <span class="error" id="errorBillingName">Please enter a name</span>
+    <label>Full Name:</label>
+    <input type="text" name="billingName" id="billingName" />
+    <br />
+
+    <span class="error" id="errorBillingAddress">Please enter an address</span>
+    <label>Address Line 1:</label>
+    <input type="text" name="billingAddressOne" id="billingAddressOne" />
+    <br />
+
+    <label>Address Line 2:</label>
+    <input type="text" name="billingAddressTwo" id="billingAddressTwo" />
+    <br />
+
+    <span class="error" id="errorBillingCity">Please enter a city</span>
+    <label>City:</label>
+    <input type="text" name="billingCity" id="billingCity" />
+    <br />
+
+    <span class="error" id="errorBillingState">Please enter a state</span>
+    <label>State:</label>
+    <select name="billingState" id="billingState">
+      <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+    <br />
+
+    <span class="error" id="errorBillingZip">Please enter a zip code</span>
+    <label>Zip Code:</label>
+    <input type="text" name="billingZip" id="billingZip" />
+  </div>
+</div>
+<div id="paymentInfoDiv">
+  <h5>Payment Information</h5>
+  <span class="error" id="errorPaymentName">Please enter a name</span>
+  <label>Name on Card:</label>
+  <input type="text" name="paymentName" id="paymentName" />
+  <br />
+
+  <span class="error" id="errorPaymentCard">Please enter a valid card number</span>
+  <label>Card Number:</label>
+  <input type="text" name="paymentCard" id="paymentCard" />
+  <br />
+
+  <span class="error" id="errorPaymentDate">Please enter a valid date</span>
+  <span class="error" id="errorExpirationDate">Please enter a future date</span>
+  <label>Expiration Date:</label>
+  <select name="paymentMonth" id="paymentMonth">
+    <option value="01">01</option>
+    <option value="02">02</option>
+    <option value="03">03</option>
+    <option value="04">04</option>
+    <option value="05">05</option>
+    <option value="06">06</option>
+    <option value="07">07</option>
+    <option value="08">08</option>
+    <option value="09">09</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select> / 
+  <select name="paymentYear" id="paymentYear">
+    <option value="2013">2013</option>
+    <option value="2014">2014</option>
+    <option value="2015">2015</option>
+    <option value="2016">2016</option>
+    <option value="2017">2017</option>
+    <option value="2018">2018</option>
+    <option value="2019">2019</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+    <option value="2029">2029</option>
+    <option value="2030">2030</option>
+    <option value="2031">2031</option>
+    <option value="2032">2032</option>
+    <option value="2033">2033</option>
+  </select>
+  <br />
+
+  <span class="error" id="errorPaymentCode">Please enter a valid code</span>
+  <label>CVC code:</label>
+  <input type="text" name="paymentCode" id="paymentCode" maxlength="4"/>
+  <br />
+  <input type="hidden" name="card_type" id="card_type" />
+</div>
+<input class="btn btn-primary" type="submit" value="Place your order" onClick="return place_order();" />
+
+<script type="text/javascript">
+  toggle = true;
+  $("#billingForm").hide();
+  function toggle_billing_address() {
+    if (toggle) {
+      $("#billingForm").show();
+      toggle = false;
+    }
+    else {
+      $("#billingForm").hide();
+      toggle = true;
+    }
+  }
+
+  function place_order() {
+    $(".error").hide();
+    shipping_name = $("#shippingName").val();
+    shipping_address_one = $("#shippingAddressOne").val();
+    shipping_address_two = $("#shippingAddressTwo").val();
+    shipping_city = $("#shippingCity").val();
+    shipping_state = $("#shippingState").val();
+    shipping_zip = $("#shippingZip").val();
+    same_as_shipping = $("#sameAsShipping").is(':checked');
+    billing_name = $("#billingName").val();
+    billing_address_one = $("#billingAddressOne").val();
+    billing_address_two = $("#billingAddressTwo").val();
+    billing_city = $("#billingCity").val();
+    billing_state = $("#billingState").val();
+    billing_zip = $("#billingZip").val();
+    payment_name = $("#paymentName").val();
+    payment_card = $("#paymentCard").val();
+    payment_month = $("#paymentMonth").val();
+    payment_year = $("#paymentYear").val();
+    payment_code = $("#paymentCode").val();
+    var place_order = true;
+    var zip_pattern = new RegExp(/^\d{5}(-\d{4})?$/);
+    if (shipping_name == "") {
+      $("#errorShippingName").show();
+      place_order = false;
+    }
+    if (shipping_address_one == "") {
+      $("#errorShippingAddress").show();
+      place_order = false;
+    }
+    if (shipping_city == "") {
+      $("#errorShippingCity").show();
+      place_order = false;
+    }
+    if (shipping_state == "") {
+      $("#errorShippingState").show();
+      place_order = false;
+    }
+    if (shipping_zip == "" || !zip_pattern.test(shipping_zip)) {
+      $("#errorShippingZip").show();
+      place_order = false;
+    }
+    if (billing_name == "" && !same_as_shipping) {
+      $("#errorBillingName").show();
+      place_order = false;
+    }
+    if (billing_address_one == "" && !same_as_shipping) {
+      $("#errorBillingAddress").show();
+      place_order = false;
+    }
+    if (billing_city == "" && !same_as_shipping) {
+      $("#errorBillingCity").show();
+      place_order = false;
+    }
+    if (billing_state == "" && !same_as_shipping) {
+      $("#errorBillingState").show();
+      place_order = false;
+    }
+    if ((billing_zip == "" || !zip_pattern.test(billing_zip)) && !same_as_shipping) {
+      $("#errorBillingZip").show();
+      place_order = false;
+    }
+    if (payment_name == "") {
+      $("#errorPaymentName").show();
+      place_order = false;
+    }
+    var visa_pattern = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
+    var master_card_pattern = new RegExp(/^5[1-5][0-9]{14}$/);
+    var amex_pattern = new RegExp(/^3[47][0-9]{13}$/);
+    var discover_pattern = new RegExp(/^6(?:011|5[0-9]{2})[0-9]{12}$/);
+    card_type = "none";
+    if (payment_card == "") {
+      $("#errorPaymentCard").show();
+      place_order = false;
+    }
+    else {
+      payment_card.replace(/[^0-9]+/, "");
+      if (visa_pattern.test(payment_card))
+        card_type = "visa";
+      else if (master_card_pattern.test(payment_card))
+        card_type = "mastercard";
+      else if (amex_pattern.test(payment_card))
+        card_type = "amex";
+      else if (discover_pattern.test(payment_card))
+        card_type = "discover";
+      if (card_type == "none") {
+        $("#errorPaymentCard").show();
+        place_order = false;
+      }
+      $("#card_type").val(card_type);
+    }
+    if (payment_month == "" || payment_year == "") {
+      $("#errorPaymentDate").show();
+      place_order = false;
+    }
+    if (payment_code == "") {
+      $("#errorPaymentCode").show();
+      place_order = false;
+    }
+    if (place_order) {
+      $.ajax({
+        url: 'checkout/checkout',
+        type: 'POST',
+        data: {shipping_name: shipping_name,
+               shipping_address_one: shipping_address_one,
+               shipping_address_two: shipping_address_two,
+               shipping_city: shipping_city,
+               shipping_state: shipping_state,
+               shipping_zip: shipping_zip,
+               same_as_shipping: same_as_shipping,
+               billing_name: billing_name,
+               billing_address_one: billing_address_one,
+               billing_address_two: billing_address_two,
+               billing_city: billing_city,
+               billing_state: billing_state,
+               billing_zip: billing_zip,
+               payment_name: payment_name,
+               payment_card: payment_card,
+               payment_month: payment_month,
+               payment_year: payment_year,
+               payment_code: payment_code,
+               card_type: card_type},
+        async: false,
+        success: function (response) {
+                   if (response.status == "error") {
+                     $.each(response.details, function (index, value) {
+                       if (value.field == "payer.funding_instruments[0].credit_card") {
+                         $("#errorExpirationDate").show();
+                       }
+                       else if (value.field == "payer.funding_instruments[0].credit_card.number") {
+                         $("#errorPaymentCard").show();
+                       }
+                     });
+                   }
+                   else {
+                     window.location = '/checkout/receipt/' + response.order_id
+
+                   }
+                 },
+        complete: function (response) {
+                    console.log(response);
+                  }
+      });
+    }
+  }
+</script>
