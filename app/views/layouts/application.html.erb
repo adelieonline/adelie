@@ -52,7 +52,9 @@
         <% end %>
         <li class="vertical-divider navbar-text hidden-xs">|</li>
         <li>
-          <a href="/cart">Cart</a>
+          <a href="/cart">Cart
+          <span class="badge">42</span>
+        </a>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -73,7 +75,11 @@
         </div>
       <% end %>  
 
-      <%= yield %>
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 content">
+          <%= yield %>
+        </div>
+      </div>
 
     </div>
 

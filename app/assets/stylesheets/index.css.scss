@@ -2,8 +2,25 @@ body {
   padding-top: 70px;
 }
 
+.no-font {
+  font-family: inherit;
+}
+
+.square {
+  border-radius: 0;
+}
+
+.badge {
+  color: #ad1d28;
+  background-color: white;
+}
+
+.carousel-indicators {
+  bottom: 0;
+}
+
 .no-margin-top {
-  margin-top: 0
+  margin-top: 0;
 }
 
 .divide {
@@ -14,16 +31,39 @@ body {
   color: black;
 }
 
-.nav-pills>li>a {
+.nav-pills-custom>li>a {
   border-radius: 0;
 }
 
-.nav-pills>li.active>a {
+.nav-pills-custom>li.active>a {
   background-color: #0d747c;
 }
 
-.nav-pills>li.active>a:hover {
+.nav-pills-custom>li.active>a:hover {
   background-color: #0d747c;
+}
+
+.nav-product {
+  border-bottom-color: white;
+}
+
+.nav-product>li>a {
+  border-radius: 0;
+}
+
+.nav-product>li>a:hover {
+  background-color: white;
+  border-bottom-color: white;
+}
+
+.nav-product>li.active>a {
+  background-color: white;
+  color: black;
+}
+
+.nav-product>li.active>a:hover {
+  background-color: white;
+  color: black;
 }
 
 .container .jumbotron {

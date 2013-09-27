@@ -1,29 +1,26 @@
-<div class="row">
-  <div class="col-sm-10 col-sm-offset-1 content">
-    <ul class="nav nav-pills" id="tabs">
-      <li class="active"><a href="#products" data-toggle="pill">Products</a></li>
-      <li><a href="#how_it_works" data-toggle="pill">How It Works</a></li>
-    </ul>
+<ul class="nav nav-pills nav-pills-custom" id="tabs">
+  <li class="active"><a href="#products" data-toggle="pill">Products</a></li>
+  <li><a href="#how_it_works" data-toggle="pill">How It Works</a></li>
+</ul>
 
-    <div class="container">
-      <div class="tab-content">
-        <div class="tab-pane active" id="products">
-          <div class="jumbotron">
-            <% if @product %>
-              <%= render 'product/show', locals: {product: @product} %>
-            <% else %>
-              <h2> Soon, young padawan. Soon. </h2>
-              <p>
-                Take a look at some of our upcoming releases below!
-              </p>
-            <% end %>
-          </div>
-        </div>
-        <div class="tab-pane" id="how_it_works">
-          <div class="jumbotron">
-            VIDEO SCHEEZY OF HOW IT WORKS
-          </div>
-        </div>
+<div class="container">
+  <div class="tab-content">
+    <div class="tab-pane active" id="products">
+      <div class="jumbotron">
+        <% if @product %>
+          <h2 class="no-margin-top divide" style="text-align:center;margin-bottom:25px;padding-bottom:15px"> Current Product </h2>
+          <%= render 'product/show', locals: {product: @product} %>
+        <% else %>
+          <h2> Soon, young padawan. Soon. </h2>
+          <p>
+          Take a look at some of our upcoming releases below!
+          </p>
+        <% end %>
+      </div>
+    </div>
+    <div class="tab-pane" id="how_it_works">
+      <div class="jumbotron">
+        VIDEO SCHEEZY OF HOW IT WORKS
       </div>
     </div>
   </div>
