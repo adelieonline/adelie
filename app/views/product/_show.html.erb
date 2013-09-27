@@ -2,11 +2,11 @@
   <div class="col-sm-5">
     <h2 class="no-font no-margin-top"><%= @product.name %></h2>
     <i class="icon-usd"></i><%= @product.price %> <small>+ shipping</small>
-    <h4 class="no-font" style="text-align:center">Sale Ends</h4>
-    TIMER GOES HERE
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <button type="button" class="btn btn-default btn-lg square" style="margin-bottom:10px;width:100%" onClick="addToCart()"><i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART</button>
+        <button type="button" class="btn btn-default btn-lg square" style="margin-top:30px;margin-bottom:30px;width:100%" onClick="addToCart()">
+          <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
+        </button>
       </div>
     </div>
   </div>
@@ -22,39 +22,45 @@
         <i class="icon-tag "></i>
       </a>
       </li>
+      <li>
+      <a href="#product_reviews" data-toggle="pill">
+        <i class="icon-pencil"></i>
+      </a>
+      </li>
     </ul>
 
-    <div class="container">
-      <div class="tab-content">
-        <div class="tab-pane active" id="product_images">
-          <div id="product-carousel" style="height:200px" class="carousel slide" data-interval="false">
-            <ol class="carousel-indicators">
-              <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
-              <li data-target="#product-carousel" data-slide-to="1"></li>
-              <li data-target="#product-carousel" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="item active">
-                Sample Image 1
-              </div>
-              <div class="item">
-                Sample Image 2
-              </div>
-              <div class="item">
-                Sample Image 3
-              </div>
+    <div class="tab-content" style="height:250px;overflow:auto">
+      <div class="tab-pane active" id="product_images">
+        <div id="product-carousel" style="height:250px" class="carousel slide" data-interval="false">
+          <ol class="carousel-indicators">
+            <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#product-carousel" data-slide-to="1"></li>
+            <li data-target="#product-carousel" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              Sample Image 1
             </div>
-            <a class="left carousel-control" href="#product-carousel" data-slide="prev">
-              <span class="icon-prev"></span>
-            </a>
-            <a class="right carousel-control" href="#product-carousel" data-slide="next">
-              <span class="icon-next"></span>
-            </a>
+            <div class="item">
+              Sample Image 2
+            </div>
+            <div class="item">
+              Sample Image 3
+            </div>
           </div>
+          <a class="left carousel-control" href="#product-carousel" data-slide="prev">
+            <span class="icon-prev"></span>
+          </a>
+          <a class="right carousel-control" href="#product-carousel" data-slide="next">
+            <span class="icon-next"></span>
+          </a>
         </div>
-        <div class="tab-pane" id="product_description">
-          <p style="font-size:16px;margin-top:10px"><%= @product.description %></p>
-        </div>
+      </div>
+      <div class="tab-pane" id="product_description">
+        <p style="font-size:16px;margin-top:10px"><%= @product.description %></p>
+      </div>
+      <div class="tab-pane" id="product_reviews">
+        <p style="font-size:16px;margin-top:10px">No reviews! Be the first to write a review!
       </div>
     </div>
   </div>
