@@ -7,7 +7,7 @@
   <div class="tab-pane active" id="products">
     <div class="jumbotron">
       <% if @product %>
-        <h2 class="no-margin-top divide" style="text-align:center;margin-bottom:25px;padding-bottom:15px"> Current Product </h2>
+        <h2 class="no-margin-top divide center" style="margin-bottom:25px;padding-bottom:15px"> Current Product </h2>
         <%= render 'product/show', locals: {product: @product} %>
       <% else %>
         <h2> Soon, young padawan. Soon. </h2>

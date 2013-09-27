@@ -6,8 +6,28 @@ body {
   font-family: inherit;
 }
 
+.no-font-size {
+  font-size: medium;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+
+}
+.center {
+  text-align: center;
+}
+
 .square {
   border-radius: 0;
+}
+
+.form-horizontal .control-label {
+  text-align: left;
 }
 
 .badge {

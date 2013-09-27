@@ -1,14 +1,32 @@
 <div class="row">
   <div class="col-sm-5">
     <h2 class="no-font no-margin-top"><%= @product.name %></h2>
-    <i class="icon-usd"></i><%= @product.price %> <small>+ shipping</small>
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <button type="button" class="btn btn-default btn-lg square" style="margin-top:30px;margin-bottom:30px;width:100%" onClick="addToCart()">
-          <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
-        </button>
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-xs-4 control-label no-font-size">Price</label>
+        <div class="col-xs-8">
+          <p class="form-control-static">
+          <i class="icon-usd"></i><%= @product.price %> <small>+ shipping</small>
+          </p>
+        </div>
       </div>
-    </div>
+      <div class="form-group">
+        <label for="product_quantity" class="col-xs-4 control-label no-font-size">Quantity</label>
+        <div class="col-xs-8">
+          <select id="product_quantity" class="form-control">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
+      <input type="hidden" id="product_id" value="<%= @product.id %>">
+    </form>
+    <button type="button" class="btn btn-default btn-lg square" style="margin-bottom:30px;width:100%" onClick="addToCart()">
+      <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
+    </button>
   </div>
   <div class="col-sm-7">
     <ul class="nav nav-tabs nav-product" id="product-info">
@@ -70,10 +88,10 @@
 <script type="text/javascript">
   function add_to_cart() {
     var product_id = $("#product_id").val();
-    var quantity = $("#quantity").val();
+    var product_quantity = $("#product_quantity").val();
     $.ajax({
       url: '/cart/add',
-      data: {product_id:product_id, quantity:quantity},
+      data: {product_id: product_id, quantity: product_quantity},
       type: "POST",
       async: false,
       success: function(response) {
