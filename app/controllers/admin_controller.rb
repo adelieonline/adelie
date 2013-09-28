@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
-  protect_from_forgery with: :null_session
-  before_filter :is_authorized_user
+  protect_from_forgery
   def add_product
+    is_authorized_user
     @products = Product.all
   end
 
@@ -11,9 +11,9 @@ class AdminController < ApplicationController
       picture = params[:picture].presence
       caption = params[:caption].presence
       product = Product.where(:id => product_id).first
-      picture = Picture.create caption: caption,
-                               picture: picture,
-                               product_id: product.id
+      picture = Picture.create! caption: caption,
+                                picture: picture,
+                                product_id: product.id
     end
     product_id = params[:id].presence
     @product = Product.where(:id => product_id).first
@@ -29,6 +29,7 @@ class AdminController < ApplicationController
   end
 
   def save_product
+    is_authorized_user
     tier_discounts = params[:tier_discounts].presence
     tier_percents = params[:tier_percents].presence
     name = params[:name].presence
@@ -70,6 +71,7 @@ class AdminController < ApplicationController
   end
 
   def edit_product
+    is_authorized_user
     tier_discounts = params[:tier_discounts].presence
     tier_percents = params[:tier_percents].presence
     name = params[:name].presence
@@ -113,6 +115,7 @@ class AdminController < ApplicationController
   end
 
   def delete_picture
+    is_authorized_user
     picture_id = params[:picture_id].presence
     picture = Picture.where(:id => picture_id).first
     picture.delete

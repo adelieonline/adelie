@@ -37,10 +37,10 @@
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
+              <li><a href="/account">My Account</a></li>
               <li><a href="#">Another action</a></li>
               <li class="divider"></li>
-              <li>                                                                                                                                                                                
+              <li>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete %> 
               </li>
             </ul>
@@ -57,7 +57,11 @@
           <li class="vertical-divider navbar-text hidden-xs">|</li>
           <li>
           <a href="/cart"><i class="icon-shopping-cart icon-large"></i>
-            &nbsp;<span class="badge" id="cart-value">0</span>
+            <% if user_signed_in? %>
+              &nbsp;<span class="badge" id="cart-value"><%= current_user.cart_length %></span>
+            <% else %>
+              &nbsp;<span class="badge" id="cart-value"><%= session[:cart] ? session[:cart].length : 0 %></span>
+            <% end %>
           </a>
           </li>
         </ul>
@@ -77,7 +81,7 @@
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           <%= alert %>
         </div>
-      <% end %>  
+      <% end %>
 
       <div class="row">
         <div class="col-sm-10 col-sm-offset-1 content">

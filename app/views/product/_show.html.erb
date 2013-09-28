@@ -7,7 +7,7 @@
           <label class="col-xs-4 control-label no-font-size">Price</label>
           <div class="col-xs-8">
             <p class="form-control-static">
-            <i class="icon-usd"></i><%= product.price %> <sup><em> +shipping</em></sup>
+            <i class="icon-usd"></i><%= number_with_precision(product.price, :precision => 2) %> <sup><em> +shipping</em></sup>
             </p>
           </div>
         </div>
@@ -57,20 +57,29 @@
         <div class="tab-pane active" id="product_images">
           <div id="product-carousel" style="height:250px" class="carousel slide" data-interval="false">
             <ol class="carousel-indicators">
-              <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
-              <li data-target="#product-carousel" data-slide-to="1"></li>
-              <li data-target="#product-carousel" data-slide-to="2"></li>
+              <% if product.video_url.presence %>
+                <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
+                <% product.pictures.each_with_index do |picture, index| %>
+                    <li data-target="#product-carousel" data-slide-to="<%= index + 1 %>"></li>
+                <% end %>
+              <% else %>
+                <% product.pictures.each_with_index do |picture, index| %>
+                    <li data-target="#product-carousel" data-slide-to="<%= index %>" <%= index == 0 ? "class='active'" : "" %>></li>
+                <% end %>
+              <% end %>
             </ol>
             <div class="carousel-inner">
-              <div class="item active">
-                Sample Image 1
-              </div>
-              <div class="item">
-                Sample Image 2
-              </div>
-              <div class="item">
-                Sample Image 3
-              </div>
+              <% if product.video_url.presence %>
+                <div class="item active">
+                  <iframe width="468" height="250" src="<%= product.video_url %>" frameborder="0" allowfullscreen>
+                  </iframe>
+                </div>
+              <% end %>
+              <% product.pictures.each do |picture| %>
+                <div class="item">
+                    <%= image_tag picture.picture, :width => 468 %>
+                </div>
+              <% end %>
             </div>
             <a class="left carousel-control" href="#product-carousel" data-slide="prev">
               <span class="icon-prev"></span>
@@ -147,8 +156,8 @@
       data: {product_id: product_id, quantity: product_quantity},
       type: "POST",
       async: false,
-      success: function(response) {
-        console.log(response);
+      compete: function(response) {
+        window.location = "/cart"
       }
     });
     $('#cart-value').html(parseInt($('#cart-value').text()) + parseInt(product_quantity))
