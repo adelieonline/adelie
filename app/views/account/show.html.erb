@@ -1,0 +1,26 @@
+<h3>Orders</h3>
+<% @orders.each_with_index do |(order_id, products), index| %>
+  <h4>Order #<%= index + 1 %></h4>
+  <% products.each do |product, order_products| %>
+    <label>
+      Product Name: <%= product.name %>
+    </label>
+    <br />
+    <% if product.is_past? %>
+      <% order_products.each_with_index do |op, index| %>
+        <label>
+            Product #<%= index + 1 %>
+        </label>
+        <br />
+        <label>
+          Tier Number: <%= op.random_tier == 0? op.time_tier : op.random_tier  %>
+      </label>
+      <br />
+      <% end %>
+    <% else %>
+      <label>
+        Quantity: <%= op.length %>
+      </label>
+    <% end %>
+  <% end %>
+<% end %>

@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
 
   has_many :orders
   has_one :shipping_address
+
+  def cart_length
+    return 2
+  end
 end
