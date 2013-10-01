@@ -84,10 +84,6 @@
           <p><%= product.description %></p>
         </div>
         <div class="tab-pane" id="product_time" style="font-size:16px;margin-top:10px">
-          Ship Date: 
-          <div class="add-tab">
-            <%= product.ship_date.to_formatted_s(:long_ordinal) %>
-          </div>
           <% if product.start_time < Date.today and product.end_time > Date.today %>
             Sale Ends In:
             <div id="product_countdown">
@@ -128,6 +124,10 @@
           <% else %>
             Sale Has Ended!
           <% end %>
+          Ship Date: 
+          <div class="add-tab">
+            <%= product.ship_date.to_formatted_s(:long_ordinal) %>
+          </div>
         </div>
         <div class="tab-pane" id="product_reviews" style="font-size:16px;margin-top:10px">
           <p>No reviews! Be the first to write a review!</p>
