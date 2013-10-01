@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
   has_one :shipping_address
 
   def cart_length
-    return 2
+    count = 0
+    Cart.where(user_id: self.id).first.cart_items.each do |item|
+      count += item.quantity
+    end
+    return count
   end
 end
