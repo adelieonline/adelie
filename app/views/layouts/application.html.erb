@@ -60,7 +60,17 @@
             <% if user_signed_in? %>
               &nbsp;<span class="badge" id="cart-value"><%= current_user.cart_length %></span>
             <% else %>
-              &nbsp;<span class="badge" id="cart-value"><%= session[:cart] ? session[:cart].length : 0 %></span>
+              &nbsp;<span class="badge" id="cart-value">
+              <% if session[:cart] %>
+                <% count = 0 %>
+                <% session[:cart].each do |item| %>
+                  <% count += item[:quantity] %>
+                <% end %>
+                <%= count %>
+              <% else %>
+                0
+              <% end %>
+              </span>
             <% end %>
           </a>
           </li>
