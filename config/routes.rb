@@ -9,6 +9,8 @@ Adelie::Application.routes.draw do
   match 'admin/showproduct' => 'admin#show_product', :via => [:get, :post]
   post 'admin/editproduct' => 'admin#edit_product'
   post 'admin/deletepicture' => 'admin#delete_picture'
+  match 'admin/givecredit/:id' => 'admin#give_credit', :via => [:get, :post]
+  post 'admin/savetiers' => 'admin#save_tiers'
 
   get '/products' => 'index#index'
   get '/how-it-works' => 'index#howitworks'

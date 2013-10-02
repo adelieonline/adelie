@@ -1,0 +1,234 @@
+%label
+  Tier 0 should be ~50% of our base users that gets $0 discount
+  Tier 10 should be 100% discount
+%span.error#total_percent_error
+  <br />
+  Total percent must be equal to 100%
+%table
+  %tr
+    %th
+      Tier #
+    %th
+      Discount (in $)
+    %th
+      Percent of Users (in %)
+  %tr
+    %td{:colspan => 3}
+      .error#tier_0_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 0
+    %td
+      0
+    %td
+      %input#tier_0_percent{:type => "text", :name => "tier_0_percent", :value => @discount_tiers[0].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_1_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 1
+    %td
+      %input#tier_1_discount{:type => "text", :name => "tier_1_discount", :value => @discount_tiers[1].discount, :disabled => true}
+    %td
+      %input#tier_1_percent{:type => "text", :name => "tier_1_percent", :value => @discount_tiers[1].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_2_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 2
+    %td
+      %input#tier_2_discount{:type => "text", :name => "tier_2_discount", :value => @discount_tiers[2].discount, :disabled => true}
+    %td
+      %input#tier_2_percent{:type => "text", :name => "tier_2_percent", :value => @discount_tiers[2].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_3_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 3
+    %td
+      %input#tier_3_discount{:type => "text", :name => "tier_3_discount", :value => @discount_tiers[3].discount, :disabled => true}
+    %td
+      %input#tier_3_percent{:type => "text", :name => "tier_3_percent", :value => @discount_tiers[3].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_4_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 4
+    %td
+      %input#tier_4_discount{:type => "text", :name => "tier_4_discount", :value => @discount_tiers[4].discount, :disabled => true}
+    %td
+      %input#tier_4_percent{:type => "text", :name => "tier_4_percent", :value => @discount_tiers[4].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_5_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 5
+    %td
+      %input#tier_5_discount{:type => "text", :name => "tier_5_discount", :value => @discount_tiers[5].discount, :disabled => true}
+    %td
+      %input#tier_5_percent{:type => "text", :name => "tier_5_percent", :value => @discount_tiers[5].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_6_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 6
+    %td
+      %input#tier_6_discount{:type => "text", :name => "tier_6_discount", :value => @discount_tiers[6].discount, :disabled => true}
+    %td
+      %input#tier_6_percent{:type => "text", :name => "tier_6_percent", :value => @discount_tiers[6].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_7_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 7
+    %td
+      %input#tier_7_discount{:type => "text", :name => "tier_7_discount", :value => @discount_tiers[7].discount, :disabled => true}
+    %td
+      %input#tier_7_percent{:type => "text", :name => "tier_7_percent", :value => @discount_tiers[7].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_8_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 8
+    %td
+      %input#tier_8_discount{:type => "text", :name => "tier_8_discount", :value => @discount_tiers[8].discount, :disabled => true}
+    %td
+      %input#tier_8_percent{:type => "text", :name => "tier_8_percent", :value => @discount_tiers[8].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_9_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 9
+    %td
+      %input#tier_9_discount{:type => "text", :name => "tier_9_discount", :value => @discount_tiers[9].discount, :disabled => true}
+    %td
+      %input#tier_9_percent{:type => "text", :name => "tier_9_percent", :value => @discount_tiers[9].percent, :disabled => true}
+  %tr
+    %td{:colspan => 3}
+      .error#tier_10_error
+        Fill in all fields
+  %tr
+    %td
+      Tier 10
+    %td
+      %input#tier_10_discount{:type => "text", :name => "tier_10_discount", :value => @discount_tiers[10].discount, :disabled => true}
+    %td
+      %input#tier_10_percent{:type => "text", :name => "tier_10_percent", :value => @discount_tiers[10].percent, :disabled => true}
+%button#credit_button.btn.btn-primary{:onClick => "give_credit();"}
+  Give Credit
+%button#unlock_button.btn.btn-primary{:onClick => "unlock_fields();"}
+  Unlock Fields
+
+:javascript
+  $(function() {
+    locked = true;
+  });
+  function unlock_fields() {
+    for (var i = 0; i <= 10; i++) {
+      $("#tier_" + i + "_discount").removeAttr("disabled");
+      $("#tier_" + i + "_percent").removeAttr("disabled");
+    }
+    $("#unlock_button").attr("onClick", "lock_fields();");
+    $("#unlock_button").text("Lock and Save Fields");
+    locked = false;
+  }
+  function lock_fields() {
+    $(".error").hide();
+    var price = #{@product.price};
+    var product_id = #{@product.id};
+    var save_product = true;
+    var tier_discounts = [];
+    var tier_percents = [];
+    var total_percent = 0;
+    for (var i = 0; i <= 10; i++) {
+      var discount = $("#tier_" + i + "_discount").val();
+      if ((discount == "" || discount < 0 || discount > price || isNaN(discount)) && i > 0) {
+        $("#tier_" + i + "_error").show();
+        save_product = false;
+      }
+      var percent = $("#tier_" + i + "_percent").val();
+      if (percent == "" || percent < 0 || percent > 100 || isNaN(percent)) {
+        $("#tier_" + i + "_error").show();
+        save_product = false;
+      }
+      if (i == 0)
+        tier_discounts.push(0);
+      else
+        tier_discounts.push(discount);
+      tier_percents.push(percent);
+      total_percent += parseFloat(percent);
+    }
+    if (total_percent != 100) {
+      $("#total_percent_error").show();
+      save_product = false;
+    }
+    if (save_product) {
+      $.ajax({
+        url: '/admin/savetiers',
+        data: {tier_percents: tier_percents,
+               tier_discounts: tier_discounts,
+               product_id: product_id},
+        type: "POST",
+        async: false,
+        complete: function () {
+                   location.reload();
+                 }
+      });
+    }
+  }
+  function give_credit() {
+    var orders = #{@product.order_products.length};
+    var price = #{@product.price};
+    var money_given_back = 0;
+    var products_discounted = 0;
+    for (var i = 10; i >= 0; i--) {
+      var discount = 0;
+      if (i > 0) {
+        var discount = parseFloat($("#tier_" + i + "_discount").val());
+      }
+      var percent = $("#tier_" + i + "_percent").val();
+      var tier_products_discounted = Math.ceil(Math.ceil(orders * (percent / 100.0)) / 2.0) * 2;
+      if (i == 0 || tier_products_discounted + products_discounted > orders) {
+        tier_products_discounted = orders - products_discounted;
+      }
+      console.log(tier_products_discounted)
+      products_discounted += tier_products_discounted;
+      money_given_back += tier_products_discounted * discount;
+    }
+    alert_text = "Are these numbers correct?";
+    alert_text += "\nTotal games sold: " + orders;
+    alert_text += "\nRevenue made: " + (price * orders);
+    alert_text += "\nGames discounted: " + products_discounted;
+    alert_text += "\nRevenue given back: " + money_given_back;
+    alert_text += "\nAvg cost per game: " + (((orders * price) - money_given_back) / orders);
+    if (confirm(alert_text) && locked) {
+      $("#credit_button").hide();
+      $.ajax({
+        url: '/admin/givecredit/#{@product.id}',
+        type: 'POST',
+        data: {product_id: #{@product.id}},
+        success: function () {
+          //window.location = '/admin/showcredit/#{@product.id}';
+        }
+      });
+    }
+  }

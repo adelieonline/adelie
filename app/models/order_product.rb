@@ -6,7 +6,8 @@ class OrderProduct < ActiveRecord::Base
                   :time_tier,
                   :random_tier,
                   :created_ts,
-                  :updated_ts
+                  :updated_ts,
+                  :user_id
 
   belongs_to :order
 end

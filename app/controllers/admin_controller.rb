@@ -1,3 +1,6 @@
+require 'paypal-sdk-rest'
+include PayPal::SDK::REST
+
 class AdminController < ApplicationController
   protect_from_forgery
   def add_product
@@ -44,7 +47,7 @@ class AdminController < ApplicationController
     should_save = false if tier_discounts.length != 11 || tier_percents.length != 11
     should_save = false if name == "" || description == "" || start_time == "" || end_time == "" || price == "" || ship_date == "" || tag_line == ""
     total_percent = 0
-    for i in 0..11
+    for i in 0..10
       should_save = false if tier_discounts[i] == "" || tier_percents[i] == ""
       total_percent += tier_percents[i].to_f
     end
@@ -59,7 +62,7 @@ class AdminController < ApplicationController
                                ship_date: ship_date,
                                video_url: video_url
       if product.present?
-        for i in 0..11
+        for i in 0..10
           DiscountTier.create discount: tier_discounts[i],
                               percent: tier_percents[i],
                               tier_number: i,
@@ -87,7 +90,7 @@ class AdminController < ApplicationController
     should_edit = false if tier_discounts.length != 11 || tier_percents.length != 11
     should_edit = false if name == "" || description == "" || start_time == "" || end_time == "" || price == "" || ship_date == "" || tag_line == ""
     total_percent = 0
-    for i in 0..11
+    for i in 0..10
       should_edit = false if tier_discounts[i] == "" || tier_percents[i] == ""
       total_percent += tier_percents[i].to_f
     end
@@ -102,7 +105,7 @@ class AdminController < ApplicationController
                                 ship_date: ship_date,
                                 tag_line: tag_line,
                                 video_url: video_url
-      for i in 0..11
+      for i in 0..10
         old_discount_tier = DiscountTier.where(:product_id => product.id, :tier_number => i).first
         if old_discount_tier
           old_discount_tier.update_attributes :discount => tier_discounts[i],
@@ -122,6 +125,109 @@ class AdminController < ApplicationController
     render :json => "deleted"
   end
 
+  def give_credit
+    is_authorized_user
+    product_id = params[:id].presence
+    @product = Product.where(:id => product_id).first
+    if request.method == "POST"
+      return redirect_to :controller => "admin", :action => "add_product" if @product.credited
+      tiers = @product.discount_tiers.all(:order => 'tier_number DESC')
+      order_products = @product.order_products.all(:order => 'created_ts')
+      tier_product_discounts = []
+      products_discounted = 0
+      tiers.each do |tier|
+        tier_discounts = ((tier.percent / 100.0 * order_products.length).ceil / 2.0).ceil * 2
+        if tier.tier_number == 0 || tier_discounts + products_discounted > order_products.length
+          tier_discounts = order_products.length - products_discounted
+        end
+        products_discounted += tier_discounts
+        tier_product_discounts.push(tier_discounts)
+      end
+      on_tier = 0
+      games_up_to_tier = tier_product_discounts[0] / 2
+      products_discounted = 0
+      all_discounted = 0
+      order_products.each do |order_product|
+        if products_discounted >= games_up_to_tier
+          random_discount = tier_product_discounts[on_tier] / 2
+          while random_discount > 0 && all_discounted < order_products.length
+            op = order_products.sample
+            if op.time_tier == 0 && op.random_tier == 0
+              op.update_attributes(:random_tier =>(10 - on_tier))
+              if tiers[on_tier].discount > 0
+                Credit.create :user_id => op.user_id,
+                              :order_id => op.order_id,
+                              :order_product_id => op.id,
+                              :product_id => op.product_id,
+                              :credit => tiers[on_tier].discount
+              end
+              random_discount -= 1
+              all_discounted += 1
+            end
+          end
+          on_tier += 1
+          on_tier = 10 if on_tier > 10
+          games_up_to_tier += (tier_product_discounts[on_tier] / 2)
+        end
+        if order_product.random_tier == 0
+          order_product.update_attributes(:time_tier => (10 - on_tier))
+          if tiers[on_tier].discount > 0
+            Credit.create :user_id => order_product.user_id,
+                          :order_id => order_product.order_id,
+                          :order_product_id => order_product.id,
+                          :product_id => order_product.product_id,
+                          :credit => tiers[on_tier].discount
+          end
+          products_discounted += 1
+          all_discounted += 1
+        end
+      end
+      credits = @product.credits
+      credits.each do |credit|
+        order = credit.order
+        order_refund = OrderRefund.where(:order_id => order.id, :product_id => @product.id).first
+        if order_refund
+          refund_amount = order_refund.refund_amount
+          refund_amount += credit.credit
+          order_refund.update_attributes(:refund_amount => refund_amount)
+
+        else
+          OrderRefund.create! :order_id => order.id,
+                              :product_id => @product.id,
+                              :refund_amount => credit.credit
+        end
+      end
+      @product.update_attributes(:credited => true)
+      return render :json => order_products
+    else
+      return redirect_to :controller => "admin", :action => "add_product" if @product.blank?
+      @discount_tiers = @product.discount_tiers
+    end
+  end
+
+  def save_tiers
+    product_id = params[:product_id].presence
+    product = Product.where(:id => product_id).first
+    tier_discounts = params[:tier_discounts].presence
+    tier_percents = params[:tier_percents].presence
+    return redirect_to :controller => "admin", :action => "add_product" if product.blank? || tier_discounts.blank? || tier_percents.blank?
+    save_tiers = false if tier_discounts.length != 11 || tier_percents.length != 11
+    total_percent = 0
+    for i in 0..10
+      save_tiers = false if tier_discounts[i] == "" || tier_percents[i] == ""
+      total_percent += tier_percents[i].to_f
+    end
+    if save_tiers
+      for i in 0..10
+        old_discount_tier = DiscountTier.where(:product_id => product.id, :tier_number => i).first
+        if old_discount_tier
+          old_discount_tier.update_attributes :discount => tier_discounts[i],
+                                              :percent => tier_percents[i]
+        end
+      end
+    end
+    return render :json => "ok"
+  end
 
   private
     AUTHORIZED_USERS = ["skier2k5@gmail.com", "adelieonline@gmail.com"]

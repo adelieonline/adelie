@@ -2,16 +2,20 @@ class CartController < ApplicationController
   def show
     @cart_items = []
     if current_user
-      cart = Cart.where(:user_id => current_user.id, :checked_out => false).first || []
-      cart.cart_items.each do |cart_item|
-        product = Product.where(:id => cart_item.product_id).first
-        @cart_items.push({:product => product, :quantity => cart_item.quantity})
+      cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
+      if cart
+        cart.cart_items.each do |cart_item|
+          product = Product.where(:id => cart_item.product_id).first
+          @cart_items.push({:product => product, :quantity => cart_item.quantity})
+        end
       end
     else
-      cart = session[:cart].presence || []
-      cart.each do |cart_item|
-        product = Product.where(:id => cart_item[:product_id]).first
-        @cart_items.push({:product => product, :quantity => cart_item[:quantity]})
+      cart = session[:cart].presence
+      if cart
+        cart.each do |cart_item|
+          product = Product.where(:id => cart_item[:product_id]).first
+          @cart_items.push({:product => product, :quantity => cart_item[:quantity]})
+        end
       end
     end
   end

@@ -10,4 +10,5 @@ class Order < ActiveRecord::Base
                   :updated_ts
 
   has_many :order_products
+  has_many :credits
 end

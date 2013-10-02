@@ -260,7 +260,7 @@
   <br />
   <input type="hidden" name="card_type" id="card_type" />
 </div>
-<input class="btn btn-primary" type="submit" value="Place your order" onClick="return place_order();" />
+<input id="place_order" class="btn btn-primary" type="submit" value="Place your order" onClick="return place_order();" />
 
 <script type="text/javascript">
   toggle = true;
@@ -278,6 +278,7 @@
 
   function place_order() {
     $(".error").hide();
+    $("#place_order").attr("disabled");
     shipping_name = $("#shippingName").val();
     shipping_address_one = $("#shippingAddressOne").val();
     shipping_address_two = $("#shippingAddressTwo").val();
@@ -417,6 +418,7 @@
                  },
         complete: function (response) {
                     console.log(response);
+                    $("#place_order").removeAttr("disabled");
                   }
       });
     }

@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   attr_accessible :active, :created_ts, :updated_ts, :email, :password
 
   has_many :orders
-  has_one :shipping_address
+  has_many :order_products
+  has_many :credits
 
   def cart_length
     count = 0

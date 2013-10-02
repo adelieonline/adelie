@@ -30,7 +30,7 @@ class CheckoutController < ApplicationController
 
   def checkout
     if current_user
-      cart = Cart.where(:user_id => current_user.id).first
+      cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
       return redirect_to :controller => "cart", :action => "show" if cart.blank?
       shipping_name = params[:shipping_name].presence
       shipping_address_one = params[:shipping_address_one].presence
@@ -129,13 +129,15 @@ class CheckoutController < ApplicationController
                                                     :country => "US"
           order = Order.create :user_id => current_user.id,
                                :ship_address_id => shipping_address.id,
-                               :paypal_payment_id => payment.id
+                               :paypal_payment_id => payment.transactions[0].related_resources[0].sale.id
           cart.cart_items.each do |cart_item|
             for x in 1..cart_item.quantity.to_i
               OrderProduct.create :order_id => order.id,
-                                  :product_id => cart_item.product_id
+                                  :product_id => cart_item.product_id,
+                                  :user_id => current_user.id
             end
           end
+          cart.update_attributes(:checked_out => true)
           return render :json => {:status => "success", :order_id => order.id}
         else
            return render :json => {:status => "error", :details => payment.error['details']}

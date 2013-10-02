@@ -12,9 +12,19 @@
         %a{:href => "/admin/showproduct?id=#{product.id}"}
           #{product.name}
       %td
-        False
+        #{product.is_active?}
       %td
         #{product.credited}
+      %td
+        - if product.is_past? && !product.credited
+          %button.btn.btn-primary{:onClick => "give_credit(#{product.id});"}
+            Give Credit
+        - elsif product.is_past? && product.credited
+          %button.btn.btn-secondary{:onClick => "show_credit(#{product.id});"}
+            Show Credit
+        - else
+          %button.disabled
+            Not Ready
 %span.error#unknown_error
   There was an unknown error. Please reload the page and try again.
 %br
@@ -246,6 +256,9 @@
     $("#product_start_time").timepicker();
     $("#product_end_time").timepicker();
   });
+  function give_credit(product_id) {
+    window.location = "/admin/givecredit/" + product_id;
+  }
   function submit_game() {
     $(".error").hide()
     name = $("#product_name").val();

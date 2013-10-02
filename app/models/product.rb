@@ -13,6 +13,9 @@ class Product < ActiveRecord::Base
                     :updated_ts
 
   has_many :pictures
+  has_many :order_products
+  has_many :discount_tiers
+  has_many :credits
 
   def is_ready?
     return self.pictures.length > 0
