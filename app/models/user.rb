@@ -12,8 +12,11 @@ class User < ActiveRecord::Base
 
   def cart_length
     count = 0
-    Cart.where(user_id: self.id).first.cart_items.each do |item|
-      count += item.quantity
+    cart = Cart.where(user_id: self.id, :checked_out => false).first
+    if cart
+      cart.cart_items.each do |item|
+        count += item.quantity
+      end
     end
     return count
   end
