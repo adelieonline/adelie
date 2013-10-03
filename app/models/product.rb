@@ -16,6 +16,8 @@ class Product < ActiveRecord::Base
   has_many :order_products
   has_many :discount_tiers
   has_many :credits
+  has_many :product_consoles, :dependent => :destroy
+  has_many :consoles, :through => :product_consoles
 
   def is_ready?
     return self.pictures.length > 0

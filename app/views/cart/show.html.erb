@@ -5,6 +5,7 @@
       <tr>
         <th> Name </th>
         <th> Quantity </th>
+        <th> Console </th>
         <th> Options </th>
         <th> Price </th>
       </tr>
@@ -13,12 +14,25 @@
       <% @cart_items.each do |cart_item| %>
         <tr>
           <td><h3 class="no-margin-top"><%= cart_item[:product].name %></h3></td>
-          <td><input type="number" id="quantity_<%= cart_item[:product].id %>" value="<%= cart_item[:quantity] %>" /></td>
+          <td><input type="number" id="quantity_<%= cart_item[:id] %>" value="<%= cart_item[:quantity] %>" /></td>
           <td>
-            <button class="btn btn-default btn-sm" onClick="update_quantity(<%= cart_item[:product].id %>);">
+            <select id="console_<%= cart_item[:id] %>">
+              <% cart_item[:product].consoles.each do |console| %>
+                <% if cart_item[:console].id == console.id %>
+                  <option value="<%= console.id %>" selected="selected">
+                <% else %>
+                  <option value="<%= console.id %>" >
+                <% end %>
+                  <%= console.name %>
+                </option>
+              <% end %>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-default btn-sm" onClick="update_quantity(<%= cart_item[:id] %>);">
               Update Quantity
             </button>
-            <button class="btn btn-primary btn-sm" onClick="delete_product(<%= cart_item[:product].id %>);">
+            <button class="btn btn-primary btn-sm" onClick="delete_product(<%= cart_item[:id] %>);">
               Remove From Cart
             </button>
           </td>
@@ -41,12 +55,13 @@
 <% end %>
 
 <script type="text/javascript">
-  function update_quantity(product_id) {
-    quantity = $("#quantity_" + product_id).val();
+  function update_quantity(cart_item_id) {
+    quantity = $("#quantity_" + cart_item_id).val();
+    console_id = $("#console_" + cart_item_id).val();
     if (!isNaN(+quantity)) {
       $.ajax({
         url: '/cart/update',
-        data: {product_id: product_id, quantity: quantity},
+        data: {cart_item_id: cart_item_id, quantity: quantity, console_id: console_id},
         type: "POST",
         async: false,
         complete: function (response) {

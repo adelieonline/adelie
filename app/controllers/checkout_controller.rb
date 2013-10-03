@@ -134,7 +134,8 @@ class CheckoutController < ApplicationController
             for x in 1..cart_item.quantity.to_i
               OrderProduct.create :order_id => order.id,
                                   :product_id => cart_item.product_id,
-                                  :user_id => current_user.id
+                                  :user_id => current_user.id,
+                                  :console_id => cart_item.console_id
             end
           end
           cart.update_attributes(:checked_out => true)

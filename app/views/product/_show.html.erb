@@ -21,6 +21,13 @@
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
+            <select id="product_console" class="form-control">
+              <% product.consoles.each do |console| %>
+                <option value="<%= console.id %>">
+                  <%= console.name %>
+                </option>
+              <% end %>
+            </select>
           </div>
         </div>
         <input type="hidden" id="product_id" value="<%= product.id %>">
@@ -28,6 +35,11 @@
       <button type="button" class="btn btn-default btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart()">
         <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
       </button>
+      <% product.consoles.each do |console| %>
+        <label>
+          <%= console.name %>
+        </label>
+      <% end %>
     </div>
     <div class="col-sm-7">
       <ul class="nav nav-tabs nav-product" id="product-info">
@@ -151,13 +163,14 @@
   function add_to_cart() {
     var product_id = $("#product_id").val();
     var product_quantity = $("#product_quantity").val();
+    var product_console = $("#product_console").val();
     $.ajax({
       url: '/cart/add',
-      data: {product_id: product_id, quantity: product_quantity},
+      data: {product_id: product_id, quantity: product_quantity, console_id: product_console},
       type: "POST",
       async: false,
       complete: function(response) {
-        window.location = "/cart"
+        //window.location = "/cart"
       }
     });
     $('#cart-value').html(parseInt($('#cart-value').text()) + parseInt(product_quantity))

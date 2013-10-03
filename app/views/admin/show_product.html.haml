@@ -83,6 +83,20 @@
 %input#product_video{:type => "text", :name => "product_video", :value => @product.video_url}
 %br
 
+%label
+  Consoles
+%span.error#consoles_error
+  Please select at least one console
+%br
+%select#console_select{:multiple => "multiple"}
+  - @consoles.each do |console|
+    - if @product.consoles.include? console
+      %option{:value => console.name, :selected => "selected"}
+        = console.name
+    - else
+      %option{:value => console.name }
+        = console.name
+%br
 
 %label
   Tier 0 should be ~50% of our base users that gets $0 discount
@@ -236,6 +250,7 @@
 
 :javascript
   $(function() {
+    $("#console_select").multipleSelect();
     $("#product_start_date").datepicker();
     $("#product_end_date").datepicker();
     $("#product_ship").datepicker();
@@ -264,6 +279,7 @@
     price = $("#product_price").val();
     tag_line = $("#product_tag_line").val();
     video_url = $("#product_video").val();
+    consoles = $("#console_select").multipleSelect('getSelects');
     product_id = #{@product.id};
     save_game = true;
     if (name == "") {
@@ -302,6 +318,10 @@
     }
     if (ship_date == "") {
       $("#ship_blank_error").show();
+      save_game = false;
+    }
+    if (consoles.length == 0) {
+      $("#consoles_error").show();
       save_game = false;
     }
     tier_discounts = [];
@@ -344,7 +364,8 @@
                 ship: ship_date,
                 tag_line: tag_line,
                 product_id: product_id,
-                video_url: video_url},
+                video_url: video_url,
+                consoles: consoles},
         type: "POST",
         async: false,
         complete: function (response) {
