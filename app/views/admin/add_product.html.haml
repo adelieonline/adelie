@@ -17,8 +17,8 @@
         #{product.credited}
       %td
         - if product.is_past? && !product.credited
-          %button.btn.btn-primary{:onClick => "give_credit(#{product.id});"}
-            Give Credit
+          %button.btn.btn-primary
+            No Credit Yet
         - elsif product.is_past? && product.credited
           %button.btn.btn-secondary{:onClick => "show_credit(#{product.id});"}
             Show Credit
@@ -268,9 +268,6 @@
     $("#product_start_time").timepicker();
     $("#product_end_time").timepicker();
   });
-  function give_credit(product_id) {
-    window.location = "/admin/givecredit/" + product_id;
-  }
   function submit_game() {
     $(".error").hide()
     name = $("#product_name").val();

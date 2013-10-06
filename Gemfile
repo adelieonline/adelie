@@ -7,7 +7,7 @@ gem 'devise'
 gem 'haml-rails'
 gem 'protected_attributes'
 gem 'paperclip', '~> 3.0'
-gem 'paypal-sdk-rest'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
