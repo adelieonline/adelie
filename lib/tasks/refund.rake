@@ -69,13 +69,13 @@ namespace :refund do
           order = credit.order
           order_refund = OrderRefund.where(:order_id => order.id, :product_id => product.id).first
           if order_refund
-            refund_amount = order_refund.refund_amount
-            refund_amount += credit.credit
-            order_refund.update_attributes(:refund_amount => refund_amount)
+            refund_amount_cents = order_refund.refund_amount_cents
+            refund_amount_cents += (credit.credit * 100)
+            order_refund.update_attributes(:refund_amount_cents => refund_amount)
           else
             OrderRefund.create! :order_id => order.id,
                                 :product_id => product.id,
-                                :refund_amount => credit.credit
+                                :refund_amount_cents => (credit.credit * 100)
           end
           product.update_attributes(:credited => true)
         end
@@ -92,14 +92,12 @@ namespace :refund do
     unrefunded_order_refunds = OrderRefund.where(:product_id => ENV['PRODUCT_ID'], :refunded => false)
     unrefunded_order_refunds.each do |order_refund|
       puts "Updating order refund: " + order_refund.id.to_s
-      refund_amount = order_refund.refund_amount
+      refund_amount_cents = order_refund.refund_amount_cents
       order = Order.where(:id => order_refund.order_id).first
       Stripe.api_key = Rails.application.config.stripe_api_key
       ch = Stripe::Charge.retrieve(order.stripe_charge_id)
-      puts ch
-      return
       begin
-        ch.refund(:amount => refund_amount.to_i)
+        ch.refund(:amount => refund_amount_cents.to_i)
         order_refund.update_attributes(:refunded => true)
       rescue
         puts "Error: refund did not go through"

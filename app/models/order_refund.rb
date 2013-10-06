@@ -3,7 +3,7 @@ class OrderRefund < ActiveRecord::Base
 
   attr_accessible :order_id,
                   :product_id,
-                  :refund_amount,
+                  :refund_amount_cents,
                   :refunded,
                   :created_ts,
                   :updated_ts
