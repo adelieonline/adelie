@@ -106,4 +106,32 @@ class CartController < ApplicationController
     end
     return render :json => "Not Updated"
   end
+
+  def switch_over
+    if session[:cart].presence
+      cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
+      if cart.blank?
+        cart = Cart.create! :user_id => current_user.id,
+                            :checked_out => false
+      end
+      session[:cart].each do |cart_item|
+        product = Product.where(:id => cart_item[:product_id]).first
+        if product
+          found = false
+          cart.cart_items.each do |ci|
+            if product.id.t0_i == ci.product_id.to_i
+              found = true
+            end
+          end
+          if !found
+            CartItem.create! :cart_id => cart.id,
+                             :product_id => product.id,
+                             :quantity => cart_item[:quantity].to_i,
+                             :console_id => cart_item[:console_id].to_i
+          end
+        end
+      end
+    end
+    return redirect_to :controller => "index", :action => "index"
+  end
 end
