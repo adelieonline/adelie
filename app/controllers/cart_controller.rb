@@ -119,7 +119,7 @@ class CartController < ApplicationController
         if product
           found = false
           cart.cart_items.each do |ci|
-            if product.id.t0_i == ci.product_id.to_i
+            if product.id.to_i == ci.product_id.to_i && cart_item[:console_id].to_i == ci.console_id.to_i
               found = true
             end
           end
