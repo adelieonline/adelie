@@ -16,21 +16,11 @@
           <td><h3 class="no-margin-top"><%= cart_item[:product].name %></h3></td>
           <td><input type="number" id="quantity_<%= cart_item[:id] %>" value="<%= cart_item[:quantity] %>" /></td>
           <td>
-            <select id="console_<%= cart_item[:id] %>">
-              <% cart_item[:product].consoles.each do |console| %>
-                <% if cart_item[:console].id == console.id %>
-                  <option value="<%= console.id %>" selected="selected">
-                <% else %>
-                  <option value="<%= console.id %>" >
-                <% end %>
-                  <%= console.name %>
-                </option>
-              <% end %>
-            </select>
+            <%= cart_item[:console].name %>
           </td>
           <td>
             <button class="btn btn-default btn-sm" onClick="update_quantity(<%= cart_item[:id] %>);">
-              Update Quantity
+              Update 
             </button>
             <button class="btn btn-primary btn-sm" onClick="delete_product(<%= cart_item[:id] %>);">
               Remove From Cart
@@ -41,6 +31,7 @@
         <% end %>
       </tbody>
       <tfoot>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

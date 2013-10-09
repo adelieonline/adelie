@@ -21,6 +21,11 @@
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="product_console" class="col-xs-4 control-label no-font-size">Console</label>
+          <div class="col-xs-8">
             <select id="product_console" class="form-control">
               <% product.consoles.each do |console| %>
                 <option value="<%= console.id %>">
@@ -32,8 +37,8 @@
         </div>
         <input type="hidden" id="product_id" value="<%= product.id %>">
       </form>
-      <button type="button" class="btn btn-default btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart()">
-        <i class="icon-plus icon-large" style="color:#ad1d28"></i> ADD TO CART
+      <button type="button" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart()">
+        <i class="icon-plus icon-large"></i> ADD TO CART
       </button>
       <% product.consoles.each do |console| %>
         <label>
