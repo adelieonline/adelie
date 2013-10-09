@@ -6,21 +6,19 @@
       Product Name: <%= product.name %>
     </label>
     <br />
-    <% if product.is_past? %>
-      <% order_products.each_with_index do |op, index| %>
-        <label>
-            Product #<%= index + 1 %>
-        </label>
-        <br />
-        <label>
-          Tier Number: <%= op.random_tier == 0? op.time_tier : op.random_tier  %>
+    <% order_products.each_with_index do |op, index| %>
+      <label>
+        Product #<%= index + 1 %>
       </label>
       <br />
-      <% end %>
-    <% else %>
       <label>
-        Quantity: <%= op.length %>
+        Experience Level: <%= op.experience_level %>
       </label>
+      <br />
+      <label>
+        Tier Number: <%= op.random_tier == 0? op.time_tier : op.random_tier  %>
+      </label>
+      <br />
     <% end %>
   <% end %>
 <% end %>

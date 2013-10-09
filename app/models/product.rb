@@ -9,6 +9,7 @@ class Product < ActiveRecord::Base
                     :ship_date,
                     :credited,
                     :video_url,
+                    :num_orders,
                     :created_ts,
                     :updated_ts
 

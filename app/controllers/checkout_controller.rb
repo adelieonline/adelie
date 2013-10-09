@@ -52,14 +52,17 @@ class CheckoutController < ApplicationController
          stripe_token.blank?
         should_checkout = false
       end
-      if should_checkout
-        subtotal = 0.0
-        description = current_user.email
-        cart.cart_items.each do |cart_item|
-          product = Product.where(:id => cart_item.product_id).first
-          description += "|" + product.name.to_s + "|" + cart_item.quantity.to_s
-          subtotal += product.price.to_f * cart_item.quantity.to_i
+      subtotal = 0.0
+      description = current_user.email
+      cart.cart_items.each do |cart_item|
+        product = Product.where(:id => cart_item.product_id).first
+        if product.blank?
+          should_checkout = false
         end
+        description += "|" + product.name.to_s + "|" + cart_item.quantity.to_s
+        subtotal += product.price.to_f * cart_item.quantity.to_i
+      end
+      if should_checkout
         tax = subtotal * TAX_PERCENT
         total = (tax + subtotal) * 100
         Stripe.api_key = Rails.application.config.stripe_api_key
@@ -71,7 +74,6 @@ class CheckoutController < ApplicationController
             :description => description
           )
         rescue Stripe::CardError => e
-          return render :json => e
           return redirect_to :controller => "checkout", :action => "show", :error => "unknown"
         end
         shipping_address = ShipAddress.create :user_id => current_user.id,
@@ -88,11 +90,15 @@ class CheckoutController < ApplicationController
                              :card_type => card_type,
                              :total_cents => total.to_i
         cart.cart_items.each do |cart_item|
+          product = Product.where(:id => cart_item.product_id).first
+          num_orders = product.num_orders.to_i + cart_item.quantity.to_i
+          product.update_attributes(:num_orders => num_orders)
           for x in 1..cart_item.quantity.to_i
             OrderProduct.create :order_id => order.id,
                                 :product_id => cart_item.product_id,
                                 :user_id => current_user.id,
-                                :console_id => cart_item.console_id
+                                :console_id => cart_item.console_id,
+                                :place_in_line => product.order_products.count + 1
           end
         end
         cart.update_attributes(:checked_out => true)
