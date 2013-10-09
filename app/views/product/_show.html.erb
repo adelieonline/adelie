@@ -40,11 +40,6 @@
       <button type="button" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart()">
         <i class="icon-plus icon-large"></i> ADD TO CART
       </button>
-      <% product.consoles.each do |console| %>
-        <label>
-          <%= console.name %>
-        </label>
-      <% end %>
     </div>
     <div class="col-sm-7">
       <ul class="nav nav-tabs nav-product" id="product-info">
@@ -175,7 +170,7 @@
       type: "POST",
       async: false,
       complete: function(response) {
-        //window.location = "/cart"
+        window.location = "/cart"
       }
     });
     $('#cart-value').html(parseInt($('#cart-value').text()) + parseInt(product_quantity))

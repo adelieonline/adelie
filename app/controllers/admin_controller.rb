@@ -1,5 +1,4 @@
-require 'paypal-sdk-rest'
-include PayPal::SDK::REST
+require 'stripe'
 
 class AdminController < ApplicationController
   protect_from_forgery
