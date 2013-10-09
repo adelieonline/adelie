@@ -8,6 +8,7 @@ gem 'haml-rails'
 gem 'protected_attributes'
 gem 'paperclip', '~> 3.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'unicorn'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

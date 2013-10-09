@@ -28,4 +28,5 @@ Adelie::Application.configure do
   # number of complex assets.
   config.assets.debug = true
   config.stripe_api_key = 'sk_test_L7tarpEirs85dm95NoxRMmQW'
+  config.stripe_publishable_key = 'pk_test_VDibhwkeKEdInW1tMaW5fseP'
 end
