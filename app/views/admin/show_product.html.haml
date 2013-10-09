@@ -238,7 +238,7 @@
   Edit Product
 %br
 - for picture in @product_pictures
-  = image_tag picture.picture
+  = image_tag picture.picture.url(:thumb)
   %button{:onClick => "delete_picture(#{picture.id});"}
     Delete Picture
   %br

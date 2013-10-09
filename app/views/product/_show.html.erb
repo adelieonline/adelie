@@ -89,7 +89,7 @@
               <% end %>
               <% product.pictures.each do |picture| %>
                 <div class="item">
-                    <%= image_tag picture.picture, :width => 468 %>
+                    <%= image_tag picture.picture(:medium), :width => 468 %>
                 </div>
               <% end %>
             </div>
