@@ -4,7 +4,7 @@
 </label>
 <br />
 <label>
-  Shipping/Handling: $0.00
+    Shipping/Handling: $<span id="shipping_total"><%= number_with_precision(@shipping, :precision => 2) %></span>
 </label>
 <br />
 <label>
@@ -14,6 +14,20 @@
 <label>
   Total Price: $<%= number_with_precision(@total, :precision => 2) %>
 </label>
+<form action="/checkout/checkout" method="POST" id="payment-form">
+<h3>Shipping</h3>
+<span class="error" id="errorShippingTypeButton">Please choose a shipping type</span>
+<% @shipping_types.each_with_index do |shipping_type, index| %>
+    <% if index == 0 %>
+      <input onChange="change_shipping()" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>" checked>
+    <% else %>
+      <input onChange="change_shipping()" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>">
+    <% end %>
+  <label>
+      $<%= number_with_precision(shipping_type.price, :precision => 2) %> - <%= shipping_type.name %>
+  </label>
+  <br />
+<% end %>
 <h3>Items:</h3>
 <% @cart_items.each do |cart_item| %>
   <label>
@@ -34,7 +48,6 @@
 <% end %>
 <br />
 <br />
-<form action="/checkout/checkout" method="POST" id="payment-form">
 <div id="shippingForm">
   <h5>Shipping Address</h5>
   <span class="error" id="errorShippingName">Please enter a name</span>
@@ -151,9 +164,10 @@
 </form>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
-  Stripe.setPublishableKey('pk_test_VDibhwkeKEdInW1tMaW5fseP');
+Stripe.setPublishableKey('<%= Rails.application.config.stripe_publishable_key %>');
 </script>
 <script type="text/javascript">
+  subtotal = <%= @subtotal %>;
   jQuery(function($) {
     $('#payment-form').submit(function(event) {
       var $form = $(this);
@@ -165,6 +179,7 @@
       shipping_city = $("#shipping_city").val();
       shipping_state = $("#shipping_state").val();
       shipping_zip = $("#shipping_zip").val();
+      shipping_id = $("input:radio[name='shipping_type_button']:checked").val();
       var place_order = true;
       var zip_pattern = new RegExp(/^\d{5}(-\d{4})?$/);
       if (shipping_name == "") {
@@ -185,6 +200,10 @@
       }
       if (shipping_zip == "" || !zip_pattern.test(shipping_zip)) {
         $("#errorShippingZip").show();
+        place_order = false;
+      }
+      if (shipping_id == "") {
+        $("#errorShippingButton").show();
         place_order = false;
       }
       if (place_order)

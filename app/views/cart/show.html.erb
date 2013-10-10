@@ -48,11 +48,10 @@
 <script type="text/javascript">
   function update_quantity(cart_item_id) {
     quantity = $("#quantity_" + cart_item_id).val();
-    console_id = $("#console_" + cart_item_id).val();
     if (!isNaN(+quantity)) {
       $.ajax({
         url: '/cart/update',
-        data: {cart_item_id: cart_item_id, quantity: quantity, console_id: console_id},
+        data: {cart_item_id: cart_item_id, quantity: quantity},
         type: "POST",
         async: false,
         complete: function (response) {

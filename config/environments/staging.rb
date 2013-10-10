@@ -77,6 +77,6 @@ Adelie::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.stripe_api_key = 'sk_live_WLbfn7yJLxJkwAmZeKzEGosp'
-  config.stripe_publishable_key = 'pk_live_tTQMcWlKghx5p6ZegQvbI6OZ'
+  config.stripe_api_key = 'sk_test_L7tarpEirs85dm95NoxRMmQW'
+  config.stripe_publishable_key = 'pk_test_VDibhwkeKEdInW1tMaW5fseP'
 end

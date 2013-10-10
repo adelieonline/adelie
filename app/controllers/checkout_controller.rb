@@ -18,7 +18,10 @@ class CheckoutController < ApplicationController
           @price += product.price.to_f * cart_item.quantity.to_f
         end
         @tax = @price * TAX_PERCENT
-        @total = @price + @tax
+        @shipping_types = ShippingType.all
+        @shipping = @shipping_types.first.price
+        @subtotal = @price + @tax
+        @total = @subtotal + @shipping
         @error = params[:error].present?
       else
         return redirect_to :controller => "index", :action => "index"
@@ -41,6 +44,7 @@ class CheckoutController < ApplicationController
       card_type = params[:stripe_card_type].presence
       last_four = params[:stripe_last_four].presence
       stripe_token = params[:stripe_token].presence
+      shipping_type = ShippingType.where(id: params[:shipping_type_button].presence).first
       should_checkout = true
       if shipping_name.blank? ||
          shipping_address_one.blank? ||
@@ -49,19 +53,23 @@ class CheckoutController < ApplicationController
          shipping_zip.blank? ||
          card_type.blank? ||
          last_four.blank? ||
-         stripe_token.blank?
+         stripe_token.blank? ||
+         shipping_type.blank?
         should_checkout = false
       end
-      if should_checkout
-        subtotal = 0.0
-        description = current_user.email
-        cart.cart_items.each do |cart_item|
-          product = Product.where(:id => cart_item.product_id).first
-          description += "|" + product.name.to_s + "|" + cart_item.quantity.to_s
-          subtotal += product.price.to_f * cart_item.quantity.to_i
+      subtotal = 0.0
+      description = current_user.email
+      cart.cart_items.each do |cart_item|
+        product = Product.where(:id => cart_item.product_id).first
+        if product.blank?
+          should_checkout = false
         end
+        description += "|" + product.name.to_s + "|" + cart_item.quantity.to_s
+        subtotal += product.price.to_f * cart_item.quantity.to_i
+      end
+      if should_checkout
         tax = subtotal * TAX_PERCENT
-        total = (tax + subtotal) * 100
+        total = (tax + subtotal + shipping_type.price) * 100
         Stripe.api_key = Rails.application.config.stripe_api_key
         begin
           charge = Stripe::Charge.create(
@@ -71,7 +79,6 @@ class CheckoutController < ApplicationController
             :description => description
           )
         rescue Stripe::CardError => e
-          return render :json => e
           return redirect_to :controller => "checkout", :action => "show", :error => "unknown"
         end
         shipping_address = ShipAddress.create :user_id => current_user.id,
@@ -87,12 +94,18 @@ class CheckoutController < ApplicationController
                              :card_last_four => last_four,
                              :card_type => card_type,
                              :total_cents => total.to_i
+        OrderShippingType.create! :order_id => order.id,
+                                  :shipping_type_id => shipping_type.id
         cart.cart_items.each do |cart_item|
+          product = Product.where(:id => cart_item.product_id).first
+          num_orders = product.num_orders.to_i + cart_item.quantity.to_i
+          product.update_attributes(:num_orders => num_orders)
           for x in 1..cart_item.quantity.to_i
             OrderProduct.create :order_id => order.id,
                                 :product_id => cart_item.product_id,
                                 :user_id => current_user.id,
-                                :console_id => cart_item.console_id
+                                :console_id => cart_item.console_id,
+                                :place_in_line => product.order_products.count + 1
           end
         end
         cart.update_attributes(:checked_out => true)
@@ -111,7 +124,7 @@ class CheckoutController < ApplicationController
     order = Order.where(:id => order_id, :user_id => current_user.id).first
     return redirect_to :controller => 'index', :action => 'index' if order.blank?
     order_products = OrderProduct.where(:order_id => order.id)
-    @total = 0.0
+    @subtotal = 0.0
     @products = {}
     order_products.each do |op|
       product = Product.where(:id => op.product_id).first
@@ -120,8 +133,11 @@ class CheckoutController < ApplicationController
       else
         @products[product] = 1
       end
-      @total += product.price.to_f
+      @subtotal += product.price.to_f
     end
-    @tax = @total * 0.0625
+    @tax = @subtotal * 0.0625
+    shipping_type = ShippingType.where(:id => OrderShippingType.where(:order_id => order.id).first.shipping_type_id).first
+    @shipping = shipping_type.price
+    @total = @shipping + @tax + @subtotal
   end
 end

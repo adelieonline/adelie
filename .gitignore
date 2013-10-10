@@ -17,6 +17,7 @@ my.cnf.*
 *~
 *.py.bak
 .DS_Store
+.env
 
 db/schema.rb
 db/structure.sql

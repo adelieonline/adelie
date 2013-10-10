@@ -1,7 +1,7 @@
 <h2>Thank you for placing your order</h2>
 <h3>Order Receipt</h3>
 <label>
-  Subtotal: $<%= number_with_precision(@total, :precision => 2) %>
+  Subtotal: $<%= number_with_precision(@subtotal, :precision => 2) %>
 </label>
 <br />
 <label>
@@ -9,7 +9,11 @@
 </label>
 <br />
 <label>
-  Total: $<%= number_with_precision(@total + @tax, :precision => 2) %>
+  Shipping: $<%= number_with_precision(@shipping, :precision => 2) %>
+</label>
+<br />
+<label>
+  Total: $<%= number_with_precision(@total, :precision => 2) %>
 </label>
 <br />
 <% @products.each do |product, quantity| %>
