@@ -98,6 +98,7 @@ class CheckoutController < ApplicationController
                                               :name => shipping_name,
                                               :address_one => shipping_address_one,
                                               :address_two => shipping_address_two,
+                                              :zipcode => shipping_zip,
                                               :city => shipping_city,
                                               :state => shipping_state,
                                               :country => "US"
@@ -109,10 +110,12 @@ class CheckoutController < ApplicationController
                              :total_cents => total.to_i
         OrderShippingType.create! :order_id => order.id,
                                   :shipping_type_id => shipping_type.id
+        order_summary = []
         cart.cart_items.each do |cart_item|
           product = Product.where(:id => cart_item.product_id).first
           num_orders = product.num_orders.to_i + cart_item.quantity.to_i
           product.update_attributes(:num_orders => num_orders)
+          order_summary.append({:product_name => product.name, :quantity => cart_item.quantity, :cost => (product.price * cart_item.quantity), :release => product.release_date})
           for x in 1..cart_item.quantity.to_i
             OrderProduct.create :order_id => order.id,
                                 :product_id => cart_item.product_id,
@@ -122,6 +125,27 @@ class CheckoutController < ApplicationController
           end
         end
         cart.update_attributes(:checked_out => true)
+        html = render_to_string(
+                        :partial => "/email/receipt",
+                        :locals => {
+                            :order_summary => order_summary,
+                            :shipping_price => shipping_type.price,
+                            :shipping_type => shipping_type.name,
+                            :total_price => (total.to_f / 100.0),
+                            :card_last_four => last_four,
+                            :ship_name => shipping_name,
+                            :ship_one => shipping_address_one,
+                            :ship_two => shipping_address_two,
+                            :ship_city => shipping_city,
+                            :ship_state => shipping_state,
+                            :ship_zip => shipping_zip})
+        ses = AWS::SimpleEmailService.new()
+        ses.send_email(
+          :subject => 'Your Adelie Online Receipt',
+          :from => 'support@adelieonline.com',
+          :to => current_user.email,
+          :body_text => '',
+          :body_html => html)
         return redirect_to :controller => "checkout", :action => "receipt", :id => order.id
       else
         return render :json => {:status => "error"}

@@ -6,6 +6,7 @@ class ShipAddress < ActiveRecord::Base
                   :address_one,
                   :address_two,
                   :city,
+                  :zipcode,
                   :state,
                   :country,
                   :created_ts,
