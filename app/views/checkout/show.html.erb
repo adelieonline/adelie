@@ -12,16 +12,16 @@
 </label>
 <br />
 <label>
-  Total Price: $<%= number_with_precision(@total, :precision => 2) %>
+    Total Price: $<span id="total_price"><%= number_with_precision(@total, :precision => 2) %></span>
 </label>
 <form action="/checkout/checkout" method="POST" id="payment-form">
 <h3>Shipping</h3>
 <span class="error" id="errorShippingTypeButton">Please choose a shipping type</span>
 <% @shipping_types.each_with_index do |shipping_type, index| %>
     <% if index == 0 %>
-      <input onChange="change_shipping()" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>" checked>
+        <input onChange="change_shipping('<%= number_with_precision(shipping_type.price, :precision => 2) %>')" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>" checked>
     <% else %>
-      <input onChange="change_shipping()" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>">
+        <input onChange="change_shipping('<%= number_with_precision(shipping_type.price, :precision => 2) %>')" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>">
     <% end %>
   <label>
       $<%= number_with_precision(shipping_type.price, :precision => 2) %> - <%= shipping_type.name %>
@@ -168,6 +168,10 @@ Stripe.setPublishableKey('<%= Rails.application.config.stripe_publishable_key %>
 </script>
 <script type="text/javascript">
   subtotal = <%= @subtotal %>;
+  function change_shipping(price) {
+    $("#shipping_total").text(price);
+    $("#total_price").text((parseFloat(subtotal) + parseFloat(price)).toFixed(2));
+  }
   jQuery(function($) {
     $('#payment-form').submit(function(event) {
       var $form = $(this);
