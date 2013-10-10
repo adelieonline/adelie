@@ -56,7 +56,7 @@ class CartController < ApplicationController
           redirect_to cart_path and return
         end
       end
-      session[:cart].push({:id => (max_id + 1), :product_id => new_cart_item.product_id, :quantity => new_cart_item.quantity, :console_id => new_cart_item.console.id})
+      session[:cart].push({:id => (max_id + 1), :product_id => new_cart_item.product_id, :quantity => new_cart_item.quantity, :console_id => new_cart_item.console_id})
       redirect_to cart_path and return
     end
   end
