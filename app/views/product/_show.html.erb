@@ -261,31 +261,31 @@
       </button>
     </div>
     <div class="col-sm-7">
-      <ul class="nav nav-tabs nav-product" id="product-info">
+      <ul class="nav nav-tabs nav-product" id="product-<%= product.id %>-info">
         <li class="active">
-        <a href="#product_images" data-toggle="pill">
+        <a href="#product_<%= product.id %>_images" data-toggle="pill">
           <i class="icon-camera-retro"></i>
         </a>
         </li>
         <li>
-        <a href="#product_description" data-toggle="pill">
+        <a href="#product_<%= product.id %>_description" data-toggle="pill">
           <i class="icon-tag"></i>
         </a>
         </li>
         <li>
-        <a href="#product_time" data-toggle="pill">
+        <a href="#product_<%= product.id %>_time" data-toggle="pill">
           <i class="icon-time"></i>
         </a>
         </li>
         <li>
-        <a href="#product_reviews" data-toggle="pill">
+        <a href="#product_<%= product.id %>_reviews" data-toggle="pill">
           <i class="icon-pencil"></i>
         </a>
         </li>
       </ul>
 
       <div class="tab-content" style="height:250px;overflow:auto">
-        <div class="tab-pane active" id="product_images">
+        <div class="tab-pane active" id="product_<%= product.id %>_images">
           <div id="product-<%= product.id %>-carousel" style="height:250px" class="carousel slide" data-interval="false">
             <ol class="carousel-indicators">
               <% if product.video_url.presence %>
@@ -312,24 +312,24 @@
                 </div>
               <% end %>
             </div>
-            <a class="left carousel-control" href="#product-carousel" data-slide="prev">
+            <a class="left carousel-control" href="#product-<%= product.id %>-carousel" data-slide="prev">
               <span class="icon-prev"></span>
             </a>
-            <a class="right carousel-control" href="#product-carousel" data-slide="next">
+            <a class="right carousel-control" href="#product-<%= product.id %>-carousel" data-slide="next">
               <span class="icon-next"></span>
             </a>
           </div>
         </div>
-        <div class="tab-pane" id="product_description" style="font-size:16px;margin-top:10px">
+        <div class="tab-pane" id="product_<%= product.id %>_description" style="font-size:16px;margin-top:10px">
           <p><%= product.description %></p>
         </div>
-        <div class="tab-pane" id="product_time" style="font-size:16px;margin-top:10px">
+        <div class="tab-pane" id="product_<%= product.id %>_time" style="font-size:16px;margin-top:10px">
           Ship Date: 
           <div class="add-tab">
             <%= product.ship_date.to_formatted_s(:long_ordinal) %>
           </div>
         </div>
-        <div class="tab-pane" id="product_reviews" style="font-size:16px;margin-top:10px">
+        <div class="tab-pane" id="product_<%= product.id %>_reviews" style="font-size:16px;margin-top:10px">
           <p>No reviews! Be the first to write a review!</p>
         </div>
       </div>
