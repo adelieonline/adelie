@@ -6,9 +6,76 @@ body {
   padding-left: 3em;
 }
 
+.no-padding-left {
+  padding-left: 0;
+}
+.no-padding-right {
+  padding-right: 0;
+}
+
+.wraparound {
+  position:relative;
+  padding:15px 20px 5px 30px;
+  background-color: #d9edf7;
+  margin:0 -70px 0 -70px;
+}
+.wraparound:before,
+.wraparound:after {
+  content:" ";
+  border-top:10px solid #3a87ad;
+  position:absolute;
+  bottom:-10px;
+} 
+.wraparound:before {
+  border-left:10px solid transparent;
+  left:0;
+}
+.wraparound:after {
+  border-right:10px solid transparent;
+  right:0;
+}
+.wraparound-xs {
+  position:relative;
+  padding:20px 30px;
+  background-color: #d9edf7;
+  margin:0 -40px 0 -40px;
+}
+.wraparound-xs:before,
+.wraparound-xs:after {
+  content:" ";
+  border-top:10px solid #3a87ad;
+  position:absolute;
+  bottom:-10px;
+} 
+.wraparound-xs:before {
+  border-left:10px solid transparent;
+  left:0;
+}
+.wraparound-xs:after {
+  border-right:10px solid transparent;
+  right:0;
+}
+
+.callout {                                                                                                                                                                                              
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+}
+
+.callout-info {                                                                                                                                                                                         
+  background-color: #d9edf7;
+  border-color: #3a87ad;
+}
+
 .countdown-section {
   .well {
-    background-color: #ad1d28;
+    background-color: #007fff;
+    color: white;
+  }
+  .countdown-divide {
+    right: 0;
+    position: absolute;
+    font-size: larger;
   }
 }
 
