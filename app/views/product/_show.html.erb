@@ -2,12 +2,12 @@
   <div class="hidden-xs wraparound">
     <% if product.start_time < Date.today and product.end_time > Date.today %>
       <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-lg-offset-1">
           <div class="center"> 
             Sale Ends In:
           </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-7">
           <div class="no-font-size">
             <div id="product_countdown_<%= product.id %>">
               <div class="row">
@@ -115,6 +115,7 @@
       </div>
     <% end %>
   </div>
+<!--
   <div class="callout callout-info">
     <div class="row">
       <% if product.start_time < Date.today and product.end_time > Date.today %>
@@ -216,6 +217,7 @@
     <% else %>
       Sale Has Ended!
     <% end %>
+-->
   
   <div class="row">
     <div class="col-sm-5">
