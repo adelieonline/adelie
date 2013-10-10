@@ -1,7 +1,6 @@
 class CartController < ApplicationController
   def show
     @cart_items = []
-    @shipping_types = ShippingType.all
     if current_user
       cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
       if cart
