@@ -14,7 +14,7 @@
         <div class="form-group">
           <label for="product_quantity" class="col-xs-4 control-label no-font-size">Quantity</label>
           <div class="col-xs-8">
-            <select id="product_quantity" class="form-control">
+            <select id="product_quantity_<%= product.id %>" class="form-control">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="product_console" class="col-xs-4 control-label no-font-size">Console</label>
+          <label for="product_console_<%= product.id %>" class="col-xs-4 control-label no-font-size">Console</label>
           <div class="col-xs-8">
             <select id="product_console" class="form-control">
               <% product.consoles.each do |console| %>
@@ -35,9 +35,8 @@
             </select>
           </div>
         </div>
-        <input type="hidden" id="product_id" value="<%= product.id %>">
       </form>
-      <button type="button" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart()">
+      <button type="button" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart(<%= product.id %>)">
         <i class="icon-plus icon-large"></i> ADD TO CART
       </button>
     </div>
@@ -107,7 +106,7 @@
         <div class="tab-pane" id="product_time" style="font-size:16px;margin-top:10px">
           <% if product.start_time < Date.today and product.end_time > Date.today %>
             Sale Ends In:
-            <div id="product_countdown">
+            <div id="product_countdown_<%= product.id %>">
               <div class="col-xs-3 center">
                 <span class="countdown-section">
                   <span id="days" class="well well-sm"></span>  
@@ -159,23 +158,6 @@
 </div>
 
 
-<script type="text/javascript">
-  function add_to_cart() {
-    var product_id = $("#product_id").val();
-    var product_quantity = $("#product_quantity").val();
-    var product_console = $("#product_console").val();
-    $.ajax({
-      url: '/cart/add',
-      data: {product_id: product_id, quantity: product_quantity, console_id: product_console},
-      type: "POST",
-      async: false,
-      complete: function(response) {
-        window.location = "/cart"
-      }
-    });
-    $('#cart-value').html(parseInt($('#cart-value').text()) + parseInt(product_quantity))
-  }
-</script>
 
 <script type="text/javascript" charset="utf-8">
 $(function() {
