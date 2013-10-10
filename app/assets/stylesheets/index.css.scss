@@ -14,10 +14,11 @@ body {
 }
 
 .wraparound {
-  position:relative;
-  padding:15px 20px 5px 30px;
+  position: relative;
+  padding: 15px 20px 5px 30px;
   background-color: #d9edf7;
-  margin:0 -70px 0 -70px;
+  margin: 0 -70px 0 -70px;
+  box-shadow: 0 8px 8px -4px rgba(0,0,0,0.3);
 }
 .wraparound:before,
 .wraparound:after {
@@ -35,10 +36,11 @@ body {
   right:0;
 }
 .wraparound-xs {
-  position:relative;
-  padding:20px 30px;
+  position: relative;
+  padding: 15px 20px 5px 30px;
   background-color: #d9edf7;
   margin:0 -40px 0 -40px;
+  box-shadow: 0 8px 8px -4px rgba(0,0,0,0.3);
 }
 .wraparound-xs:before,
 .wraparound-xs:after {
