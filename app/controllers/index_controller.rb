@@ -1,7 +1,7 @@
 class IndexController < ApplicationController
 
   def index
-    @current_product = Product.first if Product.first
+    @current_products = Product.all
   end
 
   def howitworks

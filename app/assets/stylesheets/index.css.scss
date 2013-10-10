@@ -13,6 +13,39 @@ body {
   padding-right: 0;
 }
 
+.carousel-fade {
+  .carousel-inner {
+    .item {
+      opacity: 0;
+      -webkit-transition-property: opacity;
+      -moz-transition-property: opacity;
+      -o-transition-property: opacity;
+      transition-property: opacity;
+    }
+
+    .active {
+      opacity: 1;
+    }
+
+    .active.left,
+    .active.right {
+      left: 0;
+      right: 0;
+      opacity: 0;
+      z-index: 1;
+      text-align: inherit;
+    }
+  }
+}
+
+.carousel-indicators .active {
+  background-color: black;
+}
+
+.carousel-indicators li {
+  margin: 0;
+}
+
 .wraparound {
   position: relative;
   padding: 15px 20px 5px 30px;

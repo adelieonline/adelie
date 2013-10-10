@@ -1,6 +1,23 @@
-<% if @current_product %>
-  <h2 class="no-margin-top divide center" style="margin-bottom:25px;padding-bottom:15px"> Current Product </h2>
-  <%= render partial: 'product/show', locals: {product: @current_product} %>
+<% if @current_products %>
+  <h2 class="no-margin-top divide center" style="margin-bottom:25px;padding-bottom:15px"> Current Products </h2>
+  <div id="products-carousel" class="carousel slide carousel-fade">
+    <!-- Indicators -->
+      <ol class="carousel-indicators" style="bottom:-105px;padding-bottom:48px">
+        <% @current_products.each_with_index do |product, index| %>
+          <li data-target="#products-carousel" data-slide-to="<%= index %>" class="<%= index == 0 ? "active" : " " %>" style="width:20px;height:20px;border:1px solid black;"></li>
+        <% end %>
+      </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" style="overflow:inherit">
+      <% @current_products.each_with_index do |product, index| %>
+        <div class="<%= index == 0 ? "item active" : "item" %>">
+          <%= render partial: 'product/show', locals: {product: product} %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
 <% else %>
   <div class="jumbotron">
     <h2> Soon, young padawan. Soon. </h2>
@@ -15,4 +32,8 @@
 
 <script type="text/javascript">
   $("#products-tab").addClass("active");
+  $("#products-carousel").carousel();
+  $('#products-carousel').on('slide.bs.carousel', function () {
+  })
+
 </script>
