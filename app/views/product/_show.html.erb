@@ -222,7 +222,8 @@
   <div class="row">
     <div class="col-sm-5">
       <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
-      <form class="form-horizontal" role="form">
+      <form class="form-horizontal" role="form" action="/cart/add" method="post">
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
         <div class="form-group">
           <label class="col-xs-4 control-label no-font-size">Price</label>
           <div class="col-xs-8">
@@ -232,9 +233,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="product_quantity" class="col-xs-4 control-label no-font-size">Quantity</label>
+          <label for="cart_item_quantity_<%= product.id %>" class="col-xs-4 control-label no-font-size">Quantity</label>
           <div class="col-xs-8">
-            <select id="product_quantity_<%= product.id %>" class="form-control">
+            <select id="cart_item_quantity_<%= product.id %>" class="form-control" name="cart_item[quantity]">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -244,9 +245,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="product_console_<%= product.id %>" class="col-xs-4 control-label no-font-size">Console</label>
+          <label for="cart_item_console_id_<%= product.id %>" class="col-xs-4 control-label no-font-size">Console</label>
           <div class="col-xs-8">
-            <select id="product_console" class="form-control">
+            <select id="cart_item_console_id_<%= product.id %>" class="form-control" name="cart_item[console_id]">
               <% product.consoles.each do |console| %>
                 <option value="<%= console.id %>">
                   <%= console.name %>
@@ -255,10 +256,11 @@
             </select>
           </div>
         </div>
+        <input type="hidden" id="cart_item_product_id_<%= product.id %>" value="<%= product.id %>" name="cart_item[product_id]"></input>
+        <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%">
+          <i class="icon-plus icon-large"></i> ADD TO CART
+        </button>
       </form>
-      <button type="button" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%" onclick="add_to_cart(<%= product.id %>)">
-        <i class="icon-plus icon-large"></i> ADD TO CART
-      </button>
     </div>
     <div class="col-sm-7">
       <ul class="nav nav-tabs nav-product" id="product-<%= product.id %>-info">

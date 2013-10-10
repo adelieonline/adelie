@@ -24,43 +24,41 @@ class CartController < ApplicationController
   end
 
   def add
-    product_id = params[:product_id].presence
-    quantity = params[:quantity].presence
-    console_id = params[:console_id].presence
-    product = Product.where(:id => product_id).first
-    console = Console.where(:id => console_id).first
-    if product.present? && quantity.present? && console.present?
-      if current_user
-        cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
-        if cart.nil?
-          cart = Cart.create(:user_id => current_user.id, :checked_out => false)
-          cart.save
-        end
-        cart.cart_items.each do |cart_item|
-          if cart_item.product_id == product.id.to_i && cart_item.console_id == console.id.to_i
-            cart_item.quantity += quantity.to_i
-            cart_item.save
-            return render :json => "Saved"
-          end
-        end
-        cart_item = CartItem.create(:cart_id => cart.id, :product_id => product.id, :quantity => quantity, :console_id => console.id)
-        cart_item.save
-        return render :json => "Saved"
-      else
-        session[:cart] ||= []
-        max_id = 0
-        session[:cart].each do |item|
-          if item[:id] > max_id
-            max_id = item[:id].to_i
-          end
-          if item[:product_id] == product.id.to_i && item[:console_id] == console.id.to_i
-            item[:quantity] += quantity.to_i
-            return render :json => "Saved"
-          end
-        end
-        session[:cart].push({:id => (max_id + 1), :product_id => product_id.to_i, :quantity => quantity.to_i, :console_id => console.id.to_i})
-        return render :json => "Saved"
+    new_cart_item = CartItem.new(params[:cart_item])
+    if current_user
+      cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
+      if cart.nil?
+        cart = Cart.create(:user_id => current_user.id, :checked_out => false)
+        cart.save
       end
+      cart.cart_items.each do |cart_item|
+        if cart_item.product_id == new_cart_item.product_id && cart_item.console_id == new_cart_item.console_id
+          cart_item.quantity += new_cart_item.quantity
+          if cart_item.save
+            redirect_to cart_path and return
+          else
+          end
+        end
+      end
+      new_cart_item.cart_id = cart.id
+      if new_cart_item.save
+        redirect_to cart_path and return
+      else
+      end
+    else
+      session[:cart] ||= []
+      max_id = 0
+      session[:cart].each do |item|
+        if item[:id] > max_id
+          max_id = item[:id].to_i
+        end
+        if item[:product_id] == new_cart_item.product_id && item[:console_id] == new_cart_item.console_id
+          item[:quantity] += new_cart_item.quantity
+          redirect_to cart_path and return
+        end
+      end
+      session[:cart].push({:id => (max_id + 1), :product_id => new_cart_item.product_id, :quantity => new_cart_item.quantity, :console_id => new_cart_item.console.id})
+      redirect_to cart_path and return
     end
   end
 
