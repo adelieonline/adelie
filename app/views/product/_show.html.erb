@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <div class="hidden-xs wraparound">
-    <div class="row">
-      <% if product.start_time < Date.today and product.end_time > Date.today %>
+    <% if product.start_time < Date.today and product.end_time > Date.today %>
+      <div class="row">
         <div class="col-lg-3">
           <div class="center"> 
             Sale Ends In:
@@ -46,12 +46,20 @@
             </div>
           </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% elsif product.start_time > Date.today %>
+      <div class="center">
+        Sale Begins On: <%= product.start_time.to_formatted_s(:long_ordinal) %>
+      </div>
+    <% else %>
+      <div class="center">
+        Sale Has Ended!
+      </div>
+    <% end %>
   </div>
   <div class="visible-xs wraparound-xs">
-    <div class="row">
-      <% if product.start_time < Date.today and product.end_time > Date.today %>
+    <% if product.start_time < Date.today and product.end_time > Date.today %>
+      <div class="row">
         <div class="col-lg-3">
           <div class="center"> 
             Sale Ends In:
@@ -59,7 +67,7 @@
         </div>
         <div class="col-lg-9">
           <div class="no-font-size">
-            <div id="product_countdown_<%= product.id %>">
+            <div id="product_countdown_xs_<%= product.id %>">
               <div class="row">
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
@@ -96,8 +104,16 @@
             </div>
           </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% elsif product.start_time > Date.today %>
+      <div class="center">
+        Sale Begins On: <%= product.start_time.to_formatted_s(:long_ordinal) %>
+      </div>
+    <% else %>
+      <div class="center">
+        Sale Has Ended!
+      </div>
+    <% end %>
   </div>
   <div class="callout callout-info">
     <div class="row">
@@ -323,6 +339,20 @@
 $(function() {
     var productEndDate = new Date("<%= product.end_time.to_formatted_s(:long) %>");
     $('#product_countdown_<%= product.id %>').countdown(productEndDate.valueOf(), function(event) {
+      $this = $(this);
+      switch(event.type) {
+      case "seconds":
+      case "minutes":
+      case "hours":
+      case "days":
+      $this.find('span#'+event.type).html(event.value);
+      break;
+      case "finished":
+      $this.fadeTo('slow', .5);
+      break;
+      }
+      });
+    $('#product_countdown_xs_<%= product.id %>').countdown(productEndDate.valueOf(), function(event) {
       $this = $(this);
       switch(event.type) {
       case "seconds":
