@@ -202,6 +202,7 @@ jQuery(function($) {
       var $form = $(this);
       $form.find('button').prop('disabled', true);
       $(".error").hide();
+      $(".has-error").removeClass("has-error");
       shipping_name = $("#shipping_name").val();
       shipping_address_one = $("#shipping_address_one").val();
       shipping_address_two = $("#shipping_address_two").val();
