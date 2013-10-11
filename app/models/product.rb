@@ -6,7 +6,7 @@ class Product < ActiveRecord::Base
                     :tag_line,
                     :start_time,
                     :end_time,
-                    :ship_date,
+                    :release_date,
                     :credited,
                     :video_url,
                     :num_orders,

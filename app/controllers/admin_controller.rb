@@ -14,9 +14,11 @@ class AdminController < ApplicationController
       picture = params[:picture].presence
       caption = params[:caption].presence
       product = Product.where(:id => product_id).first
-      picture = Picture.create! caption: caption,
-                                picture: picture,
-                                product_id: product.id
+      if product.present? && picture.present?
+        picture = Picture.create! caption: caption,
+                                  picture: picture,
+                                  product_id: product.id
+      end
     end
     product_id = params[:id].presence
     @product = Product.where(:id => product_id).first
@@ -25,7 +27,7 @@ class AdminController < ApplicationController
     @start_time = DateTime.parse(@product.start_time.to_s).strftime("%H:%M%p")
     @end_date = DateTime.parse(@product.end_time.to_s).strftime("%m/%d/%Y")
     @end_time = DateTime.parse(@product.end_time.to_s).strftime("%H:%M%p")
-    @ship_date = DateTime.parse(@product.ship_date.to_s).strftime("%m/%d/%Y")
+    @release_date = DateTime.parse(@product.release_date.to_s).strftime("%m/%d/%Y")
     @discount_tiers = DiscountTier.where(:product_id => @product.id)
     @product_pictures = Picture.where(:product_id => @product.id)
     @picture = Picture.new
@@ -41,7 +43,7 @@ class AdminController < ApplicationController
     start_time = DateTime.strptime(params[:start].presence, "%m/%d/%Y %H:%M%p")
     end_time = DateTime.strptime(params[:end].presence, "%m/%d/%Y %H:%M%p")
     price = params[:price].presence
-    ship_date = DateTime.strptime(params[:ship].presence, "%m/%d/%Y")
+    release_date = DateTime.strptime(params[:release].presence, "%m/%d/%Y")
     tag_line = params[:tag_line].presence
     video_url = params[:video_url].presence
     consoles = params[:consoles].presence
@@ -61,7 +63,7 @@ class AdminController < ApplicationController
                                 price: price,
                                 tag_line: tag_line,
                                 end_time: end_time,
-                                ship_date: ship_date,
+                                release_date: release_date,
                                 video_url: video_url
       if product.present?
         for i in 0..10
@@ -90,7 +92,7 @@ class AdminController < ApplicationController
     start_time = DateTime.strptime(params[:start].presence, "%m/%d/%Y %H:%M%p")
     end_time = DateTime.strptime(params[:end].presence, "%m/%d/%Y %H:%M%p")
     price = params[:price].presence
-    ship_date = DateTime.strptime(params[:ship].presence, "%m/%d/%Y")
+    release_date = DateTime.strptime(params[:release].presence, "%m/%d/%Y")
     tag_line = params[:tag_line].presence
     product_id = params[:product_id].presence
     video_url = params[:video_url].presence
@@ -111,7 +113,7 @@ class AdminController < ApplicationController
                                 start_time: start_time,
                                 end_time: end_time,
                                 price: price,
-                                ship_date: ship_date,
+                                release_date: release_date,
                                 tag_line: tag_line,
                                 video_url: video_url
       for i in 0..10
