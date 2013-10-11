@@ -13,8 +13,8 @@
     <tbody>
       <% @cart_items.each do |cart_item| %>
         <tr>
-          <td><h3 class="no-margin-top"><%= cart_item[:product].name %></h3></td>
-          <td><input type="number" id="quantity_<%= cart_item[:id] %>" value="<%= cart_item[:quantity] %>" /></td>
+          <td><h4 class="no-margin-top"><a href="/product/<%= cart_item[:product].id %>"><%= cart_item[:product].name %></a></h4></td>
+          <td><input type="number" id="quantity_<%= cart_item[:id] %>" value="<%= cart_item[:quantity] %>" style="width:50px" /></td>
           <td>
             <%= cart_item[:console].name %>
           </td>
@@ -28,14 +28,17 @@
           </td>
           <td><h3 class="no-margin-top no-font">$<%= cart_item[:product].price %> <small>x<%= cart_item[:quantity] %></small></h3></td>
           <% sub_total += cart_item[:product].price * cart_item[:quantity] %>
+        </tr>
         <% end %>
       </tbody>
       <tfoot>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><h4 class="no-margin-top no-font">Subtotal: $<%= sub_total %></h4></td>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><h4 class="no-margin-top no-font">Subtotal: $<%= sub_total %></h4></td>
+        </tr>
       </tfoot>
     </table>
     <a class="btn btn-default" href="/checkout">

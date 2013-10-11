@@ -14,7 +14,8 @@ class CheckoutController < ApplicationController
         cart.cart_items.each do |cart_item|
           @items += cart_item.quantity
           product = Product.where(:id => cart_item.product_id).first
-          @cart_items.push({:product => product, :quantity => cart_item.quantity})
+          console = Console.where(:id => cart_item.console_id).first
+          @cart_items.push({:id => cart_item.id, :product => product, :quantity => cart_item.quantity, :console => console})
           @price += product.price.to_f * cart_item.quantity.to_f
         end
         @tax = @price * TAX_PERCENT
