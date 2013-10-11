@@ -66,14 +66,14 @@
 
 
 %label
-  Shipping Date
-%span.error#ship_date_error
-  Shipping date must be later than end date
+  Release Date
+%span.error#release_date_error
+  Release date must be later than end date
 %br
-%span.error#ship_blank_error
-  Please enter a shipping date
+%span.error#release_blank_error
+  Please enter a release date
 %br
-%input#product_ship{:type => "text", :name => "product_ship", :value => @ship_date}
+%input#product_release{:type => "text", :name => "product_release", :value => @release_date}
 %br
 
 
@@ -253,7 +253,7 @@
     $("#console_select").multipleSelect();
     $("#product_start_date").datepicker();
     $("#product_end_date").datepicker();
-    $("#product_ship").datepicker();
+    $("#product_release").datepicker();
     $("#product_start_time").timepicker();
     $("#product_end_time").timepicker();
   });
@@ -275,7 +275,7 @@
     start_time = $("#product_start_time").val();
     end_date = $("#product_end_date").val();
     end_time = $("#product_end_time").val();
-    ship_date = $("#product_ship").val();
+    release_date = $("#product_release").val();
     price = $("#product_price").val();
     tag_line = $("#product_tag_line").val();
     video_url = $("#product_video").val();
@@ -316,8 +316,8 @@
       $("#time_diff_error").show();
       save_game = false;
     }
-    if (ship_date == "") {
-      $("#ship_blank_error").show();
+    if (release_date == "") {
+      $("#release_blank_error").show();
       save_game = false;
     }
     if (consoles.length == 0) {
@@ -361,7 +361,7 @@
                 start: start_datetime,
                 end: end_datetime,
                 price: price,
-                ship: ship_date,
+                release: release_date,
                 tag_line: tag_line,
                 product_id: product_id,
                 video_url: video_url,

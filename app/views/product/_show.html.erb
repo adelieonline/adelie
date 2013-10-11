@@ -3,7 +3,7 @@
     <% if product.start_time < Date.today and product.end_time > Date.today %>
       <div class="row">
         <div class="col-lg-3 col-lg-offset-1">
-          <div class="center"> 
+          <div class="center">
             Sale Ends In:
           </div>
         </div>
@@ -13,7 +13,7 @@
               <div class="row">
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="days" class="well well-sm"></span>  
+                    <span id="days" class="well well-sm"></span>
                     <strong class="countdown-divide">:</strong>
                     <br>
                     days
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="hours" class="well well-sm"></span>    
+                    <span id="hours" class="well well-sm"></span>
                     <strong class="countdown-divide">:</strong>
                     <br>
                     hours
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="minutes" class="well well-sm"></span> 
+                    <span id="minutes" class="well well-sm"></span>
                     <strong class="countdown-divide">:</strong>
                     <br>
                     minutes
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="seconds" class="well well-sm"></span> 
+                    <span id="seconds" class="well well-sm"></span>
                     <br>
                     seconds
                   </span>
@@ -61,7 +61,7 @@
     <% if product.start_time < Date.today and product.end_time > Date.today %>
       <div class="row">
         <div class="col-lg-3">
-          <div class="center"> 
+          <div class="center">
             Sale Ends In:
           </div>
         </div>
@@ -279,11 +279,6 @@
           <i class="icon-time"></i>
         </a>
         </li>
-        <li>
-        <a href="#product_<%= product.id %>_reviews" data-toggle="pill">
-          <i class="icon-pencil"></i>
-        </a>
-        </li>
       </ul>
 
       <div class="tab-content" style="height:250px;overflow:auto">
@@ -310,7 +305,7 @@
               <% end %>
               <% product.pictures.each do |picture| %>
                 <div class="item">
-                    <%= image_tag picture.picture(:medium), :width => 468 %>
+                    <%= image_tag picture.picture(:medium), :class => "image_slide" %>
                 </div>
               <% end %>
             </div>
@@ -326,13 +321,10 @@
           <p><%= product.description %></p>
         </div>
         <div class="tab-pane" id="product_<%= product.id %>_time" style="font-size:16px;margin-top:10px">
-          Ship Date: 
+          Release Date:
           <div class="add-tab">
-            <%= product.ship_date.to_formatted_s(:long_ordinal) %>
+            <%= product.release_date.to_formatted_s(:long_ordinal) %>
           </div>
-        </div>
-        <div class="tab-pane" id="product_<%= product.id %>_reviews" style="font-size:16px;margin-top:10px">
-          <p>No reviews! Be the first to write a review!</p>
         </div>
       </div>
     </div>
