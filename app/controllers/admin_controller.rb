@@ -49,7 +49,7 @@ class AdminController < ApplicationController
     consoles = params[:consoles].presence
     should_save = true
     should_save = false if tier_discounts.length != 11 || tier_percents.length != 11
-    should_save = false if name.blank? || description.blank? || start_time.blank? || end_time.blank? || price.blank? || ship_date.blank? || tag_line.blank? || consoles.blank?
+    should_save = false if name.blank? || description.blank? || start_time.blank? || end_time.blank? || price.blank? || release_date.blank? || tag_line.blank? || consoles.blank?
     total_percent = 0
     for i in 0..10
       should_save = false if tier_discounts[i].blank? || tier_percents[i].blank?
@@ -99,7 +99,7 @@ class AdminController < ApplicationController
     consoles = params[:consoles].presence
     should_edit = true
     should_edit = false if tier_discounts.length != 11 || tier_percents.length != 11
-    should_edit = false if name.blank? || description.blank? || start_time.blank? || end_time.blank? || price.blank? || ship_date.blank? || tag_line.blank? || consoles.blank?
+    should_edit = false if name.blank? || description.blank? || start_time.blank? || end_time.blank? || price.blank? || release_date.blank? || tag_line.blank? || consoles.blank?
     total_percent = 0
     for i in 0..10
       should_edit = false if tier_discounts[i].blank? || tier_percents[i].blank?
