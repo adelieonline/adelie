@@ -12,11 +12,15 @@ class CheckoutController < ApplicationController
         @items = 0
         @cart_items = []
         cart.cart_items.each do |cart_item|
-          @items += cart_item.quantity
           product = Product.where(:id => cart_item.product_id).first
-          console = Console.where(:id => cart_item.console_id).first
-          @cart_items.push({:id => cart_item.id, :product => product, :quantity => cart_item.quantity, :console => console})
-          @price += product.price.to_f * cart_item.quantity.to_f
+          if !product.is_active?
+            cart_item.delete
+          else
+            @items += cart_item.quantity
+            console = Console.where(:id => cart_item.console_id).first
+            @cart_items.push({:id => cart_item.id, :product => product, :quantity => cart_item.quantity, :console => console})
+            @price += product.price.to_f * cart_item.quantity.to_f
+          end
         end
         @tax = @price * TAX_PERCENT
         @shipping_types = ShippingType.all
@@ -24,6 +28,9 @@ class CheckoutController < ApplicationController
         @subtotal = @price + @tax
         @total = @subtotal + @shipping
         @error = params[:error].present?
+        if @items == 0
+          return redirect_to :controller => "index", :action => "index"
+        end
       else
         return redirect_to :controller => "index", :action => "index"
       end
@@ -62,7 +69,7 @@ class CheckoutController < ApplicationController
       description = current_user.email
       cart.cart_items.each do |cart_item|
         product = Product.where(:id => cart_item.product_id).first
-        if product.blank?
+        if product.blank? || !product.is_active?
           should_checkout = false
         end
         description += "|" + product.name.to_s + "|" + cart_item.quantity.to_s

@@ -23,6 +23,10 @@ class CartController < ApplicationController
   end
 
   def add
+    product = Product.where(:id => params[:cart_item]['product_id']).first
+    if product.is_past? || product.is_upcoming?
+      redirect_to cart_path and return
+    end
     new_cart_item = CartItem.new(params[:cart_item])
     if current_user
       cart = Cart.where(:user_id => current_user.id, :checked_out => false).first
