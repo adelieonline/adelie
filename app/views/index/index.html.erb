@@ -11,7 +11,7 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner" style="overflow:inherit">
       <% @current_products.each_with_index do |product, index| %>
-        <div class="<%= index == 0 ? "item active" : "item" %>">
+        <div class="<%= index == 0 ? "item active" : "item" %>" id="<%= product.id %>">
           <%= render partial: 'product/show', locals: {product: product} %>
         </div>
       <% end %>
@@ -26,14 +26,19 @@
     </p>
   </div>
 <% end %>
-<% if @upcoming %>
+<% if @upcoming_products %>
   <h2 class="no-margin-top divide center" style="margin-bottom:25px;padding-bottom:15px"> Upcoming Products </h2>
 <% end %>
 
 <script type="text/javascript">
   $("#products-tab").addClass("active");
-  $("#products-carousel").carousel();
+  $(document).ready(function() {
+    $("#products-carousel").carousel();
+  })
   $('#products-carousel').on('slide.bs.carousel', function () {
+    $('#products-carousel')
+    carousel = "#product-" + $("#products-carousel").children().children(".item.active").attr("id") + "-carousel"
+    $(carousel).children(".carousel-inner:first-child").addClass("active")
   })
 
 </script>
