@@ -33,12 +33,31 @@
 <script type="text/javascript">
   $("#products-tab").addClass("active");
   $(document).ready(function() {
-    $("#products-carousel").carousel();
+  //  $("#products-carousel").carousel();
   })
-  $('#products-carousel').on('slide.bs.carousel', function () {
-    $('#products-carousel')
-    carousel = "#product-" + $("#products-carousel").children().children(".item.active").attr("id") + "-carousel"
-    $(carousel).children(".carousel-inner:first-child").addClass("active")
-  })
+
+  $('.thumbnail.carousel-control img').click(function(){
+
+    var index = $(this).index();
+
+    if ($(this).hasClass('active')) {
+    // do nothing
+    }
+    else {
+      $(this).parent().children().removeClass('active');
+      $(this).addClass('active');   
+      $(this).parent().parent().children('.static').find('img').removeClass('active');
+      $(this).parent().parent().children('.static').find('img').eq(index).addClass('active');
+    }
+    return false;
+  });
+
+  // Carousel Lazy Load
+  $('#studios-carousel').on('slid', function() {
+    $img = $(".active .static img[data-lazy-src]", this)
+    $img.each(function() {
+      $(this).attr("src", $(this).data('lazy-src'))
+    });
+  });
 
 </script>
