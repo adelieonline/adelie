@@ -115,114 +115,10 @@
       </div>
     <% end %>
   </div>
-<!--
-  <div class="callout callout-info">
-    <div class="row">
-      <% if product.start_time < Date.today and product.end_time > Date.today %>
-        <div class="col-lg-3">
-          <div class="center"> 
-            Sale Ends In:
-          </div>
-        </div>
-        <div class="col-lg-9">
-          <div class="no-font-size">
-            <div id="product_countdown_<%= product.id %>">
-              <div class="row">
-                <div class="col-xs-3 center no-padding-left no-padding-right">
-                  <span class="countdown-section">
-                    <span id="days" class="well well-sm"></span>  
-                    <strong class="countdown-divide">:</strong>
-                    <br>
-                    days
-                  </span>
-                </div>
-                <div class="col-xs-3 center no-padding-left no-padding-right">
-                  <span class="countdown-section">
-                    <span id="hours" class="well well-sm"></span>    
-                    <strong class="countdown-divide">:</strong>
-                    <br>
-                    hours
-                  </span>
-                </div>
-                <div class="col-xs-3 center no-padding-left no-padding-right">
-                  <span class="countdown-section">
-                    <span id="minutes" class="well well-sm"></span> 
-                    <strong class="countdown-divide">:</strong>
-                    <br>
-                    minutes
-                  </span>
-                </div>
-                <div class="col-xs-3 center no-padding-left no-padding-right">
-                  <span class="countdown-section">
-                    <span id="seconds" class="well well-sm"></span> 
-                    <br>
-                    seconds
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
-    <% if product.start_time < Date.today and product.end_time > Date.today %>
-      <div class="panel panel-primary">
-        <div class="panel-heading center" style="padding:0">
-          Sale Ends In:
-        </div>
-        <div class="panel-body" style="padding:0; padding-top:10px">
-          <div class="no-font-size" style="margin-bottom:20px">
-            <div id="product_countdown_<%= product.id %>">
-              <div class="col-xs-3 center no-padding-left no-padding-right">
-                <span class="countdown-section">
-                  <span id="days" class="well well-sm"></span>  
-                  <strong class="countdown-divide">:</strong>
-                  <br>
-                  days
-                </span>
-              </div>
-              <div class="col-xs-3 center no-padding-left no-padding-right">
-                <span class="countdown-section">
-                  <span id="hours" class="well well-sm"></span>    
-                  <strong class="countdown-divide">:</strong>
-                  <br>
-                  hours
-                </span>
-              </div>
-              <div class="col-xs-3 center no-padding-left no-padding-right">
-                <span class="countdown-section">
-                  <span id="minutes" class="well well-sm"></span> 
-                  <strong class="countdown-divide">:</strong>
-                  <br>
-                  minutes
-                </span>
-              </div>
-              <div class="col-xs-3 center no-padding-left no-padding-right">
-                <span class="countdown-section">
-                  <span id="seconds" class="well well-sm"></span> 
-                  <br>
-                  seconds
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% elsif product.start_time > Date.today %>
-      Sale Begins On:
-      <div class="add-tab">
-        <%= product.start_time.to_formatted_s(:long_ordinal) %>
-      </div>
-    <% else %>
-      Sale Has Ended!
-    <% end %>
--->
-  
   <div class="row">
     <div class="col-sm-5">
       <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
-      <form class="form-horizontal" role="form" action="/cart/add" method="post">
+      <form id="add_to_cart_form_<%= product.id %>" class="form-horizontal" role="form" action="/cart/add" method="post">
         <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
         <div class="form-group">
           <label class="col-xs-4 control-label no-font-size">Price</label>
@@ -257,9 +153,15 @@
           </div>
         </div>
         <input type="hidden" id="cart_item_product_id_<%= product.id %>" value="<%= product.id %>" name="cart_item[product_id]"></input>
-        <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%">
-          <i class="icon-plus icon-large"></i> ADD TO CART
-        </button>
+        <% if product.is_active? %>
+          <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%">
+            <i class="icon-plus icon-large"></i> ADD TO CART
+          </button>
+        <% else %>
+          <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%;background-color:gray" disabled>
+            <i class="icon-plus icon-large"></i> ADD TO CART
+          </button>
+        <% end %>
       </form>
     </div>
     <div class="col-sm-7">
@@ -333,6 +235,11 @@
 
 <script type="text/javascript" charset="utf-8">
 $(function() {
+    <% if product.is_upcoming? || product.is_past? %>
+    $('#add_to_cart_form_<%= product.id %>').submit(function(event) {
+      return false;
+    });
+    <% end %>
     var productEndDate = new Date("<%= product.end_time.to_formatted_s(:long) %>");
     $('#product_countdown_<%= product.id %>').countdown(productEndDate.valueOf(), function(event) {
       $this = $(this);
