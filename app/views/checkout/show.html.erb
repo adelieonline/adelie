@@ -127,7 +127,7 @@
           <input onChange="change_shipping('<%= number_with_precision(shipping_type.price, :precision => 2) %>')" type="radio" name="shipping_type_button" value="<%= shipping_type.id %>">
         <% end %>
         <label>
-          $<%= number_with_precision(shipping_type.price, :precision => 2) %> - <%= shipping_type.name %>
+          $<%= shipping_type.price == 0 ? "Free" : number_with_precision(shipping_type.price, :precision => 2) %> - <%= shipping_type.name %>
         </label>
         <br />
       <% end %>
