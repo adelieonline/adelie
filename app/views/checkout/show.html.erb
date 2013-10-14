@@ -7,7 +7,7 @@
         <div class="form-group">
           <label for="shipping_name">Full Name:</label>
           <span class="error" id="errorShippingName">Please enter a name</span>
-          <input type="text" class="form-control" id="shipping_name" placeholder="Enter Name">
+          <input type="text" class="form-control" id="shipping_name" name="shipping_name" placeholder="Enter Name">
         </div>
         <div class="form-group">
           <label for="shipping_address_one">Address Line 1:</label>
@@ -97,7 +97,7 @@
 
         <div class="form-group">
           <label for="payment_number">Card Number:</label>
-          <input type="text" class="form-control" id="payment_number" placeholder="Enter CC Number" size="20" data-stripe="cc">
+          <input type="text" class="form-control" id="payment_number" placeholder="Enter CC Number" size="20" data-stripe="number">
         </div>
         <div class="form-group">
           <label for="payment_cvc">CVC:</label>

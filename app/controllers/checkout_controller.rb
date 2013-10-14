@@ -72,6 +72,7 @@ class CheckoutController < ApplicationController
         if product.blank? || !product.is_active?
           should_checkout = false
         end
+
         description += "|" + product.name.to_s + "|" + cart_item.quantity.to_s
         subtotal += product.price.to_f * cart_item.quantity.to_i
       end

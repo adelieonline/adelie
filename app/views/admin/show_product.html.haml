@@ -166,72 +166,6 @@
       %input#tier_4_discount{:type => "text", :name => "tier_4_discount", :value => @discount_tiers[4].discount}
     %td
       %input#tier_4_percent{:type => "text", :name => "tier_4_percent", :value => @discount_tiers[4].percent}
-  %tr
-    %td{:colspan => 3}
-      .error#tier_5_error
-        Fill in all fields
-  %tr
-    %td
-      Tier 5
-    %td
-      %input#tier_5_discount{:type => "text", :name => "tier_5_discount", :value => @discount_tiers[5].discount}
-    %td
-      %input#tier_5_percent{:type => "text", :name => "tier_5_percent", :value => @discount_tiers[5].percent}
-  %tr
-    %td{:colspan => 3}
-      .error#tier_6_error
-        Fill in all fields
-  %tr
-    %td
-      Tier 6
-    %td
-      %input#tier_6_discount{:type => "text", :name => "tier_6_discount", :value => @discount_tiers[6].discount}
-    %td
-      %input#tier_6_percent{:type => "text", :name => "tier_6_percent", :value => @discount_tiers[6].percent}
-  %tr
-    %td{:colspan => 3}
-      .error#tier_7_error
-        Fill in all fields
-  %tr
-    %td
-      Tier 7
-    %td
-      %input#tier_7_discount{:type => "text", :name => "tier_7_discount", :value => @discount_tiers[7].discount}
-    %td
-      %input#tier_7_percent{:type => "text", :name => "tier_7_percent", :value => @discount_tiers[7].percent}
-  %tr
-    %td{:colspan => 3}
-      .error#tier_8_error
-        Fill in all fields
-  %tr
-    %td
-      Tier 8
-    %td
-      %input#tier_8_discount{:type => "text", :name => "tier_8_discount", :value => @discount_tiers[8].discount}
-    %td
-      %input#tier_8_percent{:type => "text", :name => "tier_8_percent", :value => @discount_tiers[8].percent}
-  %tr
-    %td{:colspan => 3}
-      .error#tier_9_error
-        Fill in all fields
-  %tr
-    %td
-      Tier 9
-    %td
-      %input#tier_9_discount{:type => "text", :name => "tier_9_discount", :value => @discount_tiers[9].discount}
-    %td
-      %input#tier_9_percent{:type => "text", :name => "tier_9_percent", :value => @discount_tiers[9].percent}
-  %tr
-    %td{:colspan => 3}
-      .error#tier_10_error
-        Fill in all fields
-  %tr
-    %td
-      Tier 10
-    %td
-      %input#tier_10_discount{:type => "text", :name => "tier_10_discount", :value => @discount_tiers[10].discount}
-    %td
-      %input#tier_10_percent{:type => "text", :name => "tier_10_percent", :value => @discount_tiers[10].percent}
 %p
   You an add pictures on the next page
 %button#submit_button{:onClick => "edit_game()"}
@@ -328,7 +262,7 @@
     tier_percents = [];
     total_percent = 0;
     money_given_back = 0;
-    for (var i = 0; i <= 10; i++) {
+    for (var i = 0; i <= 4; i++) {
       var discount = $("#tier_" + i + "_discount").val();
       if ((discount == "" || discount < 0 || discount > price) && i > 0) {
         $("#tier_" + i + "_error").show();
