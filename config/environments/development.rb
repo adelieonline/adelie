@@ -39,4 +39,5 @@ Adelie::Application.configure do
     :url => ':s3_domain_url',
     :path => '/:class/:attachment/:id_partition/:style/:filename'
   }
+  config.s3_bucket = 'adeliedevelopment'
 end

@@ -5,7 +5,7 @@
     <% @current_products.each_with_index do |product, index| %>
       <div>
         <div style="padding-right:10px;padding-left:10px">
-          <%= render partial: 'product/show', locals: {product: product} %>
+          <%= render partial: 'product/active', locals: {product: product} %>
         </div>
       </div>
     <% end %>
@@ -16,7 +16,7 @@
     <% @upcoming_products.each_with_index do |product, index| %>
       <div>
         <div style="padding-right:10px;padding-left:10px">
-          <%= render partial: 'product/show', locals: {product: product} %>
+          <%= render partial: 'product/upcoming', locals: {product: product} %>
         </div>
       </div>
     <% end %>
