@@ -23,7 +23,7 @@ class CheckoutController < ApplicationController
           end
         end
         @tax = @price * TAX_PERCENT
-        @shipping_types = ShippingType.all
+        @shipping_types = ShippingType.where(:active => true)
         @shipping = @shipping_types.first.price
         @subtotal = @price + @tax
         @total = @subtotal + @shipping
@@ -52,7 +52,7 @@ class CheckoutController < ApplicationController
       card_type = params[:stripe_card_type].presence
       last_four = params[:stripe_last_four].presence
       stripe_token = params[:stripe_token].presence
-      shipping_type = ShippingType.where(id: params[:shipping_type_button].presence).first
+      shipping_type = ShippingType.where(id: params[:shipping_type_button].presence, :active => true).first
       should_checkout = true
       if shipping_name.blank? ||
          shipping_address_one.blank? ||
