@@ -1,6 +1,6 @@
 <div class="jumbotron">
-  <div class="hidden-xs wraparound">
-    <% if product.is_active? %>
+  <% if product.is_active? %>
+    <div class="hidden-xs wraparound">
       <div class="row">
         <div class="col-lg-3 col-lg-offset-1">
           <div class="center">
@@ -47,18 +47,65 @@
           </div>
         </div>
       </div>
-    <% elsif product.is_upcoming? %>
-      <div class="center">
-        Sale Begins On: <%= product.start_time.to_formatted_s(:long_ordinal) %>
+    </div>
+  <% elsif product.is_upcoming? %>
+    <div class="hidden-xs wraparound upcoming">
+      <div class="row">
+        <div class="col-lg-3 col-lg-offset-1">
+          <div class="center">
+            Sale Starts In:
+          </div>
+        </div>
+        <div class="col-lg-6 col-lg-offset-1">
+          <div class="no-font-size">
+            <div id="product_countdown_<%= product.id %>">
+              <div class="row">
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="days" class="big-ass-font"></span>
+                    <strong class="countdown-divide">:</strong>
+                    <br>
+                    days
+                  </span>
+                </div>
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="hours" class="big-ass-font"></span>
+                    <strong class="countdown-divide">:</strong>
+                    <br>
+                    hours
+                  </span>
+                </div>
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="minutes" class="big-ass-font"></span>
+                    <strong class="countdown-divide">:</strong>
+                    <br>
+                    minutes
+                  </span>
+                </div>
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="seconds" class="big-ass-font"></span>
+                    <br>
+                    seconds
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    <% else %>
+    </div>
+  <% else %>
+    <div class="hidden-xs wraparound ended">
       <div class="center">
         Sale Has Ended!
       </div>
-    <% end %>
-  </div>
-  <div class="visible-xs wraparound-xs">
-    <% if product.is_active? %>
+    </div>
+  <% end %>
+  <% if product.is_active? %>
+    <div class="visible-xs wraparound-xs">
       <div class="row">
         <div class="col-lg-3">
           <div class="center">
@@ -105,64 +152,122 @@
           </div>
         </div>
       </div>
-    <% elsif product.is_upcoming? %>
-      <div class="center">
-        Sale Begins On: <%= product.start_time.to_formatted_s(:long_ordinal) %>
+    </div>
+  <% elsif product.is_upcoming? %>
+    <div class="visible-xs wraparound-xs upcoming">
+      <div class="row">
+        <div class="col-lg-3 col-lg-offset-1">
+          <div class="center">
+            Sale Starts In:
+          </div>
+        </div>
+        <div class="col-lg-6 col-lg-offset-1">
+          <div class="no-font-size">
+            <div id="product_countdown_<%= product.id %>">
+              <div class="row">
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="days" class="big-ass-font"></span>
+                    <strong class="countdown-divide">:</strong>
+                    <br>
+                    days
+                  </span>
+                </div>
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="hours" class="big-ass-font"></span>
+                    <strong class="countdown-divide">:</strong>
+                    <br>
+                    hours
+                  </span>
+                </div>
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="minutes" class="big-ass-font"></span>
+                    <strong class="countdown-divide">:</strong>
+                    <br>
+                    minutes
+                  </span>
+                </div>
+                <div class="col-xs-3 center no-padding-left no-padding-right">
+                  <span class="countdown-section">
+                    <span id="seconds" class="big-ass-font"></span>
+                    <br>
+                    seconds
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    <% else %>
+    </div>
+  <% else %>
+    <div class="visible-xs wraparound-xs ended">
       <div class="center">
         Sale Has Ended!
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <div class="row">
     <div class="col-sm-5">
-      <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
-      <form id="add_to_cart_form_<%= product.id %>" class="form-horizontal" role="form" action="/cart/add" method="post">
-        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-        <div class="form-group">
-          <label class="col-xs-4 control-label no-font-size">Price</label>
-          <div class="col-xs-8">
-            <p class="form-control-static">
-            <i class="icon-usd"></i><%= number_with_precision(product.price, :precision => 2) %>
-            </p>
+      <% if product.is_active? %>
+        <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
+        <form id="add_to_cart_form_<%= product.id %>" class="form-horizontal" role="form" action="/cart/add" method="post">
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+          <div class="form-group">
+            <label class="col-xs-4 control-label no-font-size">Price</label>
+            <div class="col-xs-8">
+              <p class="form-control-static">
+              <i class="icon-usd"></i><%= number_with_precision(product.price, :precision => 2) %>
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="cart_item_quantity_<%= product.id %>" class="col-xs-4 control-label no-font-size">Quantity</label>
-          <div class="col-xs-8">
-            <select id="cart_item_quantity_<%= product.id %>" class="form-control" name="cart_item[quantity]">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
+          <div class="form-group">
+            <label for="cart_item_quantity_<%= product.id %>" class="col-xs-4 control-label no-font-size">Quantity</label>
+            <div class="col-xs-8">
+              <select id="cart_item_quantity_<%= product.id %>" class="form-control" name="cart_item[quantity]">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="cart_item_console_id_<%= product.id %>" class="col-xs-4 control-label no-font-size">Console</label>
-          <div class="col-xs-8">
-            <select id="cart_item_console_id_<%= product.id %>" class="form-control" name="cart_item[console_id]">
-              <% product.consoles.each do |console| %>
-                <option value="<%= console.id %>">
-                  <%= console.name %>
-                </option>
-              <% end %>
-            </select>
+          <div class="form-group">
+            <label for="cart_item_console_id_<%= product.id %>" class="col-xs-4 control-label no-font-size">Console</label>
+            <div class="col-xs-8">
+              <select id="cart_item_console_id_<%= product.id %>" class="form-control" name="cart_item[console_id]">
+                <% product.consoles.each do |console| %>
+                  <option value="<%= console.id %>">
+                    <%= console.name %>
+                  </option>
+                <% end %>
+              </select>
+            </div>
           </div>
+          <input type="hidden" id="cart_item_product_id_<%= product.id %>" value="<%= product.id %>" name="cart_item[product_id]"></input>
+          <% if product.is_active? %>
+            <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%">
+              <i class="icon-plus icon-large"></i> ADD TO CART
+            </button>
+          <% else %>
+            <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%;background-color:gray" disabled>
+              <i class="icon-plus icon-large"></i> ADD TO CART
+            </button>
+          <% end %>
+        </form>
+      <% else %>
+        <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
+        <div class="callout callout-info">
+          <ul>
+            <% product.consoles.each do |console| %>
+              <li> <%= console.name %></li>
+            <% end %>
+          </ul>
         </div>
-        <input type="hidden" id="cart_item_product_id_<%= product.id %>" value="<%= product.id %>" name="cart_item[product_id]"></input>
-        <% if product.is_active? %>
-          <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%">
-            <i class="icon-plus icon-large"></i> ADD TO CART
-          </button>
-        <% else %>
-          <button type="submit" class="btn btn-primary btn-lg square" style="margin-bottom:30px;width:100%;background-color:gray" disabled>
-            <i class="icon-plus icon-large"></i> ADD TO CART
-          </button>
-        <% end %>
-      </form>
+      <% end %>
     </div>
     <div class="col-sm-7">
       <ul class="nav nav-tabs nav-product" id="product-<%= product.id %>-info">
@@ -240,7 +345,11 @@ $(function() {
       return false;
     });
     <% end %>
-    var productEndDate = new Date("<%= product.end_time.to_formatted_s(:long) %>");
+    <% if product.is_active? %>
+      var productEndDate = new Date("<%= product.end_time.to_formatted_s(:long) %>");
+    <% else %>
+      var productEndDate = new Date("<%= product.start_time.to_formatted_s(:long) %>");
+    <% end %>
     $('#product_countdown_<%= product.id %>').countdown(productEndDate.valueOf(), function(event) {
       $this = $(this);
       switch(event.type) {

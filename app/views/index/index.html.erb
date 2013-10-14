@@ -7,7 +7,7 @@
         <div style="padding-right:10px;padding-left:10px">
           <%= render partial: 'product/show', locals: {product: product} %>
         </div>
-        </div>
+      </div>
     <% end %>
   </div>
 
@@ -21,6 +21,13 @@
 <% end %>
 <% if @upcoming_products %>
   <h2 class="no-margin-top divide center" style="margin-bottom:25px;padding-bottom:15px"> Upcoming Products </h2>
+    <% @upcoming_products.each_with_index do |product, index| %>
+      <div>
+        <div style="padding-right:10px;padding-left:10px">
+          <%= render partial: 'product/show', locals: {product: product} %>
+        </div>
+      </div>
+    <% end %>
 <% end %>
 
 <script type="text/javascript">

@@ -89,6 +89,7 @@
   margin:0 -40px 30px -40px;
   box-shadow: 0 8px 8px -4px rgba(0,0,0,0.3);
 }
+
 .wraparound-xs:before,
 .wraparound-xs:after {
   content:" ";
@@ -103,6 +104,21 @@
 .wraparound-xs:after {
   border-right:10px solid transparent;
   right:0;
+}
+
+.ended {
+  background-color: #d9edf7;
+}
+.ended:before,
+.ended:after {
+  border-top:10px solid #3a87ad;
+}
+.upcoming {
+  background-color: #F8B45D;
+}
+.upcoming:before,
+.upcoming:after {
+  border-top:10px solid #853C0B;
 }
 
 .callout {                                                                                                                                                                                              
