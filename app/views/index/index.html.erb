@@ -19,7 +19,7 @@
           <%= render partial: 'product/show', locals: {product: product} %>
         </div>
       </div>
-    <% end %>
+    <% end %> 
 <% end %>
 
 <script type="text/javascript">
@@ -29,12 +29,24 @@
       width: $("#main-content").width(),
       //height: $("#main-content").height(),
       height: 556,
+      <% if @current_products.length > 1 %>
       play: {
          active: true,
          auto: true,
          interval: 5000,
          swap: true
-       }
+      },
+      <% end %>
+      <% if @current_products.length == 1 %>
+      callback: {
+        loaded: function(number) {
+          $("div.slidesjs-slide").css("left", "0px");
+        },
+        complete: function(number) {
+          $("div.slidesjs-slide").css("left", "0px");
+        }
+      }
+      <% end %>
     });
   })
 
