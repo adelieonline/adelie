@@ -29,7 +29,7 @@
       width: $("#main-content").width(),
       //height: $("#main-content").height(),
       height: 556,
-      <% if @current_products.length > 1 %>
+      <% if @current_products && @current_products.length > 1 %>
       play: {
          active: true,
          auto: true,
@@ -37,7 +37,7 @@
          swap: true
       },
       <% end %>
-      <% if @current_products.length == 1 %>
+      <% if @current_products && @current_products.length == 1 %>
       callback: {
         loaded: function(number) {
           $("div.slidesjs-slide").css("left", "0px");

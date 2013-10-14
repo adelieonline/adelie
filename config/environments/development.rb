@@ -29,4 +29,14 @@ Adelie::Application.configure do
   config.assets.debug = true
   config.stripe_api_key = 'sk_test_L7tarpEirs85dm95NoxRMmQW'
   config.stripe_publishable_key = 'pk_test_VDibhwkeKEdInW1tMaW5fseP'
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => 'adeliedevelopment',
+      :access_key_id => 'AKIAJVFLZNXW6TZZ3USA',
+      :secret_access_key => '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'
+    },
+    :url => ':s3_domain_url',
+    :path => '/:class/:attachment/:id_partition/:style/:filename'
+  }
 end

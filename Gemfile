@@ -11,6 +11,7 @@ gem 'paperclip', '~> 3.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem 'unicorn'
 gem 'rails_12factor'
+gem 'aws-sdk'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
