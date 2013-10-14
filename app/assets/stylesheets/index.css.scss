@@ -266,7 +266,7 @@ a:hover {
 }
 
 .carousel-indicators {
-  bottom: -50px;
+  bottom: -55px;
 }
 
 .carousel-dot {
@@ -276,25 +276,21 @@ a:hover {
 .carousel-control {
   height: 35px;
   top: 250px;
-  width: 25%;
+  width: 100%;
 }
 
-.carousel-control.left {
-  left: 50px;
+.carousel-left {
+  left: -40%;
+  span {
+    color: black;
+  }
 }
 
-.carousel-control.right {
-  right: 50px;
-}
-
-.carousel-control .icon-prev {
-  top: 35%;
-  left: 30%;
-}
-
-.carousel-control .icon-next {
-  top: 35%;
-  left: 65%;
+.carousel-right {
+  left: 40%;
+  span {
+    color: black;
+  }
 }
 
 #slides {

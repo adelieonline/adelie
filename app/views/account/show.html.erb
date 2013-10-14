@@ -1,24 +1,30 @@
-<h3>Orders</h3>
-<% @orders.each_with_index do |(order_id, products), index| %>
-  <h4>Order #<%= index + 1 %></h4>
-  <% products.each do |product, order_products| %>
-    <label>
-      Product Name: <%= product.name %>
-    </label>
-    <br />
-    <% order_products.each_with_index do |op, index| %>
+<% if @orders.present? %>
+  <h3>Orders</h3>
+  <% @orders.each_with_index do |(order_id, products), index| %>
+    <h4>Order #<%= index + 1 %></h4>
+    <% products.each do |product, order_products| %>
       <label>
-        Product #<%= index + 1 %>
+        Product Name: <%= product.name %>
       </label>
       <br />
-      <label>
-        Experience Level: <%= op.experience_level %>
-      </label>
-      <br />
-      <label>
-        Tier Number: <%= op.random_tier == 0? op.time_tier : op.random_tier  %>
-      </label>
-      <br />
+      <% order_products.each_with_index do |op, index| %>
+        <label>
+          Product #<%= index + 1 %>
+        </label>
+        <br />
+        <label>
+          Experience Level: <%= op.experience_level %>
+        </label>
+        <br />
+        <label>
+          Tier Number: <%= op.random_tier == 0? op.time_tier : op.random_tier  %>
+        </label>
+        <br />
+      <% end %>
     <% end %>
   <% end %>
+<% else %>
+  <h3>
+    Once you order something, come back here to track your discounts!
+  </h3>
 <% end %>

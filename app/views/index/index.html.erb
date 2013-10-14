@@ -33,8 +33,16 @@
       play: {
          active: true,
          auto: true,
-         interval: 5000,
-         swap: true
+         interval: 8000,
+         swap: true,
+         pauseOnHover: true
+      },
+      effect: {
+        slide: {
+          // Slide effect settings.
+          speed: 800
+          // [number] Speed in milliseconds of the slide animation.
+        }
       },
       <% end %>
       <% if @current_products && @current_products.length == 1 %>
