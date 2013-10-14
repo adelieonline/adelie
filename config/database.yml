@@ -26,8 +26,22 @@ test:
   password:
   host: 127.0.0.1
 
+staging:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: adelie_testing
+  pool: 10
+  username: root
+  password:
+  host: 127.0.0.1
+
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
-  pool: 5
-  timeout: 5000
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: adelie_testing
+  pool: 10
+  username: root
+  password:
+  host: 127.0.0.1
