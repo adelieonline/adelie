@@ -1,23 +1,16 @@
 <% if @current_products %>
   <h2 class="no-margin-top divide center" style="margin-bottom:25px;padding-bottom:15px"> Current Products </h2>
-  <div id="products-carousel" class="carousel slide carousel-fade">
-    <!-- Indicators -->
-      <ol class="carousel-indicators" style="bottom:-105px;padding-bottom:48px">
-        <% @current_products.each_with_index do |product, index| %>
-          <li data-target="#products-carousel" data-slide-to="<%= index %>" class="<%= index == 0 ? "active" : " " %>" style="width:20px;height:20px;border:1px solid black;"></li>
-        <% end %>
-      </ol>
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" style="overflow:inherit">
-      <% @current_products.each_with_index do |product, index| %>
-        <div class="<%= index == 0 ? "item active" : "item" %>" id="<%= product.id %>">
+  <div id="slides">
+    <% @current_products.each_with_index do |product, index| %>
+      <div>
+        <div style="padding-right:10px;padding-left:10px">
           <%= render partial: 'product/show', locals: {product: product} %>
         </div>
-      <% end %>
-    </div>
-
+        </div>
+    <% end %>
   </div>
+
 <% else %>
   <div class="jumbotron">
     <h2> Soon, young padawan. Soon. </h2>
@@ -33,31 +26,17 @@
 <script type="text/javascript">
   $("#products-tab").addClass("active");
   $(document).ready(function() {
-  //  $("#products-carousel").carousel();
-  })
-
-  $('.thumbnail.carousel-control img').click(function(){
-
-    var index = $(this).index();
-
-    if ($(this).hasClass('active')) {
-    // do nothing
-    }
-    else {
-      $(this).parent().children().removeClass('active');
-      $(this).addClass('active');   
-      $(this).parent().parent().children('.static').find('img').removeClass('active');
-      $(this).parent().parent().children('.static').find('img').eq(index).addClass('active');
-    }
-    return false;
-  });
-
-  // Carousel Lazy Load
-  $('#studios-carousel').on('slid', function() {
-    $img = $(".active .static img[data-lazy-src]", this)
-    $img.each(function() {
-      $(this).attr("src", $(this).data('lazy-src'))
+    $("#slides").slidesjs({
+      width: $("#main-content").width(),
+      //height: $("#main-content").height(),
+      height: 556,
+      play: {
+         active: true,
+         auto: true,
+         interval: 5000,
+         swap: true
+       }
     });
-  });
+  })
 
 </script>

@@ -7,13 +7,13 @@
             Sale Ends In:
           </div>
         </div>
-        <div class="col-lg-7">
+        <div class="col-lg-6 col-lg-offset-1">
           <div class="no-font-size">
             <div id="product_countdown_<%= product.id %>">
               <div class="row">
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="days" class="well well-sm"></span>
+                    <span id="days" class="big-ass-font"></span>
                     <strong class="countdown-divide">:</strong>
                     <br>
                     days
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="hours" class="well well-sm"></span>
+                    <span id="hours" class="big-ass-font"></span>
                     <strong class="countdown-divide">:</strong>
                     <br>
                     hours
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="minutes" class="well well-sm"></span>
+                    <span id="minutes" class="big-ass-font"></span>
                     <strong class="countdown-divide">:</strong>
                     <br>
                     minutes
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-xs-3 center no-padding-left no-padding-right">
                   <span class="countdown-section">
-                    <span id="seconds" class="well well-sm"></span>
+                    <span id="seconds" class="big-ass-font"></span>
                     <br>
                     seconds
                   </span>
@@ -166,12 +166,12 @@
     </div>
     <div class="col-sm-7">
       <ul class="nav nav-tabs nav-product" id="product-<%= product.id %>-info">
-        <li class="active">
+        <li class="active no-remove">
         <a href="#product_<%= product.id %>_images" data-toggle="pill">
           <i class="icon-camera-retro"></i>
         </a>
         </li>
-        <li>
+        <li class="no-remove">
         <a href="#product_<%= product.id %>_description" data-toggle="pill">
           <i class="icon-tag"></i>
         </a>
@@ -184,29 +184,29 @@
       </ul>
 
       <div class="tab-content" style="height:250px;overflow:auto">
-        <div class="tab-pane active" id="product_<%= product.id %>_images">
+        <div class="tab-pane active no-remove" id="product_<%= product.id %>_images">
           <div id="product-<%= product.id %>-carousel" style="height:250px" class="carousel slide" data-interval="false">
             <ol class="carousel-indicators">
               <% if product.video_url.presence %>
-                <li data-target="#product-<%= product.id %>-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#product-<%= product.id %>-carousel" data-slide-to="0" class="active no-remove"></li>
                 <% product.pictures.each_with_index do |picture, index| %>
-                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index + 1 %>"></li>
+                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index + 1 %>" class="no-remove"></li>
                 <% end %>
               <% else %>
                 <% product.pictures.each_with_index do |picture, index| %>
-                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index %>" <%= index == 0 ? "class='active'" : "" %>></li>
+                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index %>" <%= index == 0 ? "class='active'" : "class='no-remove'" %>></li>
                 <% end %>
               <% end %>
             </ol>
-            <div class="carousel-inner">
+            <div class="carousel-inner" style="height:250px">
               <% if product.video_url.presence %>
-                <div class="item active">
+                <div class="item active no-remove">
                   <iframe width="468" height="250" src="<%= product.video_url %>" frameborder="0" allowfullscreen="true">
                   </iframe>
                 </div>
               <% end %>
               <% product.pictures.each do |picture| %>
-                <div class="item">
+                <div class="item no-remove">
                     <%= image_tag picture.picture(:medium), :class => "image_slide" %>
                 </div>
               <% end %>
@@ -219,10 +219,10 @@
             </a>
           </div>
         </div>
-        <div class="tab-pane" id="product_<%= product.id %>_description" style="font-size:16px;margin-top:10px">
+        <div class="tab-pane no-remove" id="product_<%= product.id %>_description" style="font-size:16px;margin-top:10px">
           <p><%= product.description %></p>
         </div>
-        <div class="tab-pane" id="product_<%= product.id %>_time" style="font-size:16px;margin-top:10px">
+        <div class="tab-pane no-remove" id="product_<%= product.id %>_time" style="font-size:16px;margin-top:10px">
           Release Date:
           <div class="add-tab">
             <%= product.release_date.to_formatted_s(:long_ordinal) %>
