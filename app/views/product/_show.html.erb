@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <div class="hidden-xs wraparound">
-    <% if product.start_time < Date.today and product.end_time > Date.today %>
+    <% if product.is_active? %>
       <div class="row">
         <div class="col-lg-3 col-lg-offset-1">
           <div class="center">
@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-    <% elsif product.start_time > Date.today %>
+    <% elsif product.is_upcoming? %>
       <div class="center">
         Sale Begins On: <%= product.start_time.to_formatted_s(:long_ordinal) %>
       </div>
@@ -58,7 +58,7 @@
     <% end %>
   </div>
   <div class="visible-xs wraparound-xs">
-    <% if product.start_time < Date.today and product.end_time > Date.today %>
+    <% if product.is_active? %>
       <div class="row">
         <div class="col-lg-3">
           <div class="center">
@@ -105,7 +105,7 @@
           </div>
         </div>
       </div>
-    <% elsif product.start_time > Date.today %>
+    <% elsif product.is_upcoming? %>
       <div class="center">
         Sale Begins On: <%= product.start_time.to_formatted_s(:long_ordinal) %>
       </div>
