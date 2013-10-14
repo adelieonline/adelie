@@ -29,7 +29,7 @@ namespace :refund do
             while random_discount > 0 && all_discounted < order_products.length
               op = order_products.sample
               if op.time_tier == 0 && op.random_tier == 0
-                op.update_attributes(:random_tier => (10 - on_tier))
+                op.update_attributes(:random_tier => (4 - on_tier))
                 if tiers[on_tier].discount > 0
                   Credit.create :user_id => op.user_id,
                                 :order_id => op.order_id,
@@ -44,11 +44,11 @@ namespace :refund do
               end
             end
             on_tier += 1
-            on_tier = 10 if on_tier > 10
+            on_tier = 4 if on_tier > 4
             games_up_to_tier += (tier_product_discounts[on_tier] / 2)
           end
           if order_product.random_tier == 0
-            order_product.update_attributes(:time_tier => (10 - on_tier))
+            order_product.update_attributes(:time_tier => (4 - on_tier))
             if tiers[on_tier].discount > 0
               Credit.create :user_id => order_product.user_id,
                             :order_id => order_product.order_id,
@@ -71,7 +71,7 @@ namespace :refund do
           if order_refund
             refund_amount_cents = order_refund.refund_amount_cents
             refund_amount_cents += (credit.credit * 100)
-            order_refund.update_attributes(:refund_amount_cents => refund_amount)
+            order_refund.update_attributes(:refund_amount_cents => refund_amount_cents)
           else
             OrderRefund.create! :order_id => order.id,
                                 :product_id => product.id,

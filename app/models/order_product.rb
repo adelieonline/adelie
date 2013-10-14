@@ -30,7 +30,7 @@ class OrderProduct < ActiveRecord::Base
           start_of_tier = end_of_tier
         else
           level = discount_tier.tier_number
-          if level == 10
+          if level == 4
             return [level, 100.0]
           end
           tier_length = end_of_tier - start_of_tier
