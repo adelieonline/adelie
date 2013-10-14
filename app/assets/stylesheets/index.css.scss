@@ -265,8 +265,39 @@ a:hover {
   list-style: none;
 }
 
+.carousel-indicators {
+  bottom: -50px;
+}
 
-#slides {                                                                                                                                                                                           
+.carousel-dot {
+  border-color: black!important;
+}
+
+.carousel-control {
+  height: 35px;
+  top: 250px;
+  width: 25%;
+}
+
+.carousel-control.left {
+  left: 50px;
+}
+
+.carousel-control.right {
+  right: 50px;
+}
+
+.carousel-control .icon-prev {
+  top: 35%;
+  left: 30%;
+}
+
+.carousel-control .icon-next {
+  top: 35%;
+  left: 65%;
+}
+
+#slides {
       display: none
     }
 

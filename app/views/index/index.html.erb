@@ -38,6 +38,9 @@
       },
       <% end %>
       <% if @current_products && @current_products.length == 1 %>
+      play: {
+        active: false
+      },
       callback: {
         loaded: function(number) {
           $("div.slidesjs-slide").css("left", "0px");

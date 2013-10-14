@@ -157,18 +157,18 @@
         </li>
       </ul>
 
-      <div class="tab-content" style="height:250px;overflow:auto">
+      <div class="tab-content" style="height:250px">
         <div class="tab-pane active no-remove" id="product_<%= product.id %>_images">
           <div id="product-<%= product.id %>-carousel" style="height:250px" class="carousel slide" data-interval="false">
             <ol class="carousel-indicators">
               <% if product.video_url.presence %>
-                <li data-target="#product-<%= product.id %>-carousel" data-slide-to="0" class="active no-remove"></li>
+                <li data-target="#product-<%= product.id %>-carousel" data-slide-to="0" class="active no-remove carousel-dot"></li>
                 <% product.pictures.each_with_index do |picture, index| %>
-                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index + 1 %>" class="no-remove"></li>
+                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index + 1 %>" class="no-remove carousel-dot"></li>
                 <% end %>
               <% else %>
                 <% product.pictures.each_with_index do |picture, index| %>
-                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index %>" <%= index == 0 ? "class='active'" : "class='no-remove'" %>></li>
+                  <li data-target="#product-<%= product.id %>-carousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : '' %> no-remove carousel-dot"></li>
                 <% end %>
               <% end %>
             </ol>
@@ -178,11 +178,17 @@
                   <iframe width="468" height="250" src="<%= product.video_url %>" frameborder="0" allowfullscreen="true">
                   </iframe>
                 </div>
-              <% end %>
-              <% product.pictures.each do |picture| %>
-                <div class="item no-remove">
+                <% product.pictures.each do |picture| %>
+                  <div class="item no-remove">
                     <%= image_tag picture.picture(:medium), :class => "image_slide" %>
-                </div>
+                  </div>
+                <% end %>
+              <% else %>
+                <% product.pictures.each_with_index do |picture, index| %>
+                    <div class="<%= index == 0 ? 'item active no-remove' : 'item no-remove' %>">
+                    <%= image_tag picture.picture(:medium), :class => "image_slide" %>
+                  </div>
+                <% end %>
               <% end %>
             </div>
             <a class="left carousel-control" href="#product-<%= product.id %>-carousel" data-slide="prev">
