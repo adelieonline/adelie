@@ -14,8 +14,17 @@
   </head>
 
   <body>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     <nav class="navbar navbar-default navbar-static-top" role="navigation" id="nav-bar">
-    <div class="container">
+      <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -74,6 +83,10 @@
               </span>
             <% end %>
           </a>
+          </li>
+          <li>
+            <div class="fb-like" data-href="https://www.facebook.com/AdelieOnline" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+            <a href="https://twitter.com/AdelieOnline" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @AdelieOnline</a>
           </li>
         </ul>
       </div><!-- /.navbar-collapse -->
