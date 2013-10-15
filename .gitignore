@@ -21,3 +21,7 @@ my.cnf.*
 
 db/schema.rb
 db/structure.sql
+
+bundle.pem
+server.crt
+server.key
