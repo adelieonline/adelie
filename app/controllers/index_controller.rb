@@ -1,7 +1,7 @@
 class IndexController < ApplicationController
 
   def index
-    all_products = Product.all
+    all_products = Product.find(:all, :order => 'start_time')
     @current_products = []
     @upcoming_products = []
     all_products.each do |product|
