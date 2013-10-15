@@ -1,1 +1,5 @@
-<%= render partial: "show", locals: {product: @product} %>
+<% if @product.is_active? %>
+<%= render partial: "active", locals: {product: @product} %>
+<% elsif @product.is_upcoming? %>
+<%= render partial: "upcoming", locals: {product: @product} %>
+<% end %>
