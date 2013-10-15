@@ -37,7 +37,7 @@ Adelie::Application.configure do
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -79,4 +79,15 @@ Adelie::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.stripe_api_key = 'sk_live_WLbfn7yJLxJkwAmZeKzEGosp'
   config.stripe_publishable_key = 'pk_live_tTQMcWlKghx5p6ZegQvbI6OZ'
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => ENV['S3_BUCKET_NAME'],
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    },
+    :url => ':s3_domain_url',
+    :path => '/:class/:attachment/:id_partition/:style/:filename'
+  }
+  config.s3_bucket = ENV['S3_BUCKET_NAME']
 end
