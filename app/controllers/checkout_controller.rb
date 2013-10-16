@@ -2,6 +2,7 @@ require 'stripe'
 
 class CheckoutController < ApplicationController
   protect_from_forgery with: :null_session, except: [:checkout]
+  force_ssl if Rails.env.production?
   TAX_PERCENT = 0.0625
 
   def show
