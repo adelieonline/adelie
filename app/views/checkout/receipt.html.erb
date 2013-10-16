@@ -1,31 +1,8 @@
-<h2>Thank you for placing your order</h2>
-<h3>Order Receipt</h3>
-<label>
-  Subtotal: $<%= number_with_precision(@subtotal, :precision => 2) %>
-</label>
-<br />
-<label>
-  Tax (6.25%): $<%= number_with_precision(@tax, :precision => 2) %>
-</label>
-<br />
-<label>
-  Shipping: $<%= number_with_precision(@shipping, :precision => 2) %>
-</label>
-<br />
-<label>
-  Total: $<%= number_with_precision(@total, :precision => 2) %>
-</label>
-<br />
-<% @products.each do |product, quantity| %>
-  <label>
-    <%= product.name %>
-  </label>
-  <br />
-  <label>
-    Quantity: <%= quantity %>
-  </label>
-  <br />
-  <label>
-    Price: $<%= number_with_precision(product.price, :precision => 2) %>
-  </label>
-<% end %>
+<h1>Thank you for placing an order!</h1>
+<div>
+  <h4>
+    To view your order and track your discounts please visit your <%= link_to "account page", account_path %>.
+    The more people who purchase games the larger your discount, so tell your friends!
+  </h4>
+</div>
+

@@ -8,24 +8,25 @@ class OrderProduct < ActiveRecord::Base
                   :place_in_line,
                   :created_ts,
                   :updated_ts,
-                  :user_id
+                  :user_id,
+                  :console_id
 
   belongs_to :order
+  belongs_to :product
 
   def experience_level
-    product = Product.where(:id => self.product_id).first
-    if product.is_active?
+    if self.product.is_active?
       start_of_tier = 1
       end_of_tier = 0
       level = 0
-      product.discount_tiers.all(:order => 'tier_number DESC').each do |discount_tier|
+      self.product.discount_tiers.order('tier_number DESC').each do |discount_tier|
         if discount_tier.tier_number == 0
-          tier_length = product.num_orders - end_of_tier
+          tier_length = self.product.num_orders - end_of_tier
           place_in_tier = self.place_in_line - end_of_tier
           percent_to_level = 100 - (place_in_tier.to_f / tier_length.to_f * 100)
           return [level, percent_to_level]
         end
-        end_of_tier += ((discount_tier.percent / 2) / 100 * product.num_orders).ceil
+        end_of_tier += ((discount_tier.percent / 2) / 100 * self.product.num_orders).ceil
         if self.place_in_line > end_of_tier
           start_of_tier = end_of_tier
         else

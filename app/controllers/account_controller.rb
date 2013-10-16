@@ -2,10 +2,10 @@ class AccountController < ApplicationController
   def show
     return redirect_to :controller => "index", :action => "index" if not current_user
     @orders = {}
-    Order.where(:user_id => current_user.id).each do |order|
+    current_user.orders.each do |order|
       products = {}
-      OrderProduct.where(:order_id => order).each do |op|
-        product = Product.where(:id => op.product_id).first
+      current_user.order_products.where(:order => order).each do |op|
+        product = op.product
         if products.include?(product)
           products[product].push(op)
         else
@@ -13,6 +13,11 @@ class AccountController < ApplicationController
         end
       end
       @orders[order.id] = products
+    end
+    @orders.each_with_index do |(order_id, products), index|
+      puts "order id: #{order_id}"
+      puts "products: #{products}"
+      puts "index: #{index}"
     end
   end
 end

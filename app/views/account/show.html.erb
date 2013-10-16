@@ -1,27 +1,67 @@
 <% if @orders.present? %>
-  <h3>Orders</h3>
+  <h3 class="no-margin-top">Orders</h3>
   <% @orders.each_with_index do |(order_id, products), index| %>
-    <h4>Order #<%= index + 1 %></h4>
-    <% products.each do |product, order_products| %>
-      <label>
-        Product Name: <%= product.name %>
-      </label>
-      <br />
-      <% order_products.each_with_index do |op, index| %>
-        <label>
-          Product #<%= index + 1 %>
-        </label>
-        <br />
-        <label>
-          Experience Level: <%= op.experience_level %>
-        </label>
-        <br />
-        <label>
-          Tier Number: <%= op.random_tier == 0? op.time_tier : op.random_tier  %>
-        </label>
-        <br />
-      <% end %>
-    <% end %>
+    <h4 class="divide" style="margin-top:30px">Order from <%= Time.at(Order.find(order_id).created_ts).to_datetime.to_s(:cenzo_no_time) %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Console</th>
+          <th>Current Discount</th>
+          <th>Discount Progress</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.each do |product, id| %>
+          <% product.order_products.where(user_id: current_user.id).each_with_index do |op, index| %>
+            <tr>
+              <td><%= product.name %></td>
+              <% if op.present? %>
+                <% exp = op.experience_level %>
+                <% tier_number = exp[0] %>
+                <% discount = op.product.discount_tiers.where(:tier_number => tier_number).first.discount %>
+                <td><%= Console.find(op.console_id).name %></td>
+                <td>$<%= discount %></td>
+                <td>
+                  <% (1..tier_number).each do |i| %>
+                    <div class="row">
+                      <div class="col-xs-8" style="padding-right:0">
+                        <div class="progress">
+                          <span>Tier <%= i %> Unlocked</span>
+                          <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4">
+                        <i class="icon-unlock-alt icon-large"></i>
+                      </div>
+                    </div>
+                  <% end %>
+                  <% (tier_number..3).each do |i| %>
+                    <div class="row">
+                      <div class="col-xs-8" style="padding-right:0">
+                        <div class="progress">
+                          <span style="color:black"><%= "#{exp[1].to_i}% Complete" %></span>
+                          <div class="progress-bar" role="progressbar" aria-valuenow="<%= exp[1] %>" aria-valuemin="0" aria-valuemax="100" style="<%= "width: #{exp[1]}%" %>;">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4">
+                        <i class="icon-lock icon-large"></i>
+                      </div>
+                    </div>
+                  <% end %>
+                </td>
+              <% else %>
+                <td></td>
+                <td></td>
+                <td></td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 <% else %>
   <h3>
