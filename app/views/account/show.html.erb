@@ -1,7 +1,7 @@
 <% if @orders.present? %>
   <h3 class="no-margin-top">Orders</h3>
   <% @orders.each_with_index do |(order_id, products), index| %>
-    <h4 class="divide" style="margin-top:30px"><%= Time.at(Order.find(order_id).created_ts).to_datetime.to_s(:cenzo_no_time) %></h4>
+    <h4 class="divide" style="margin-top:30px"><%= Time.at(Order.find(order_id).created_ts).strftime("%m/%d/%Y %H:%m %p") %></h4>
     <table class="table">
       <thead>
         <tr>
@@ -21,7 +21,7 @@
                 <% tier_number = exp[0] %>
                 <% discount = op.product.discount_tiers.where(:tier_number => tier_number).first.discount %>
                 <td><%= Console.find(op.console_id).name %></td>
-                <td>$<%= discount %></td>
+                <td>$<%= number_with_precision(discount, :precision => 2) %></td>
                 <td>
                   <% (1..tier_number).each do |i| %>
                     <div class="row">
