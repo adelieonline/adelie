@@ -99,8 +99,18 @@
     <div class="col-sm-5">
         <h2 class="no-font no-margin-top"><a href="/product/<%= product.id %>"><%= product.name %></a></h2>
         <h4>
-          <em>"<%= product.tag_line %>"</em>
+          <em><%= product.tag_line %></em>
         </h4>
+        <form id="add_to_cart_form_<%= product.id %>" class="form-horizontal" role="form" action="/cart/add" method="post">
+        <div class="form-group">
+          <label class="col-xs-4 control-label no-font-size">Price</label>
+          <div class="col-xs-8">
+            <p class="form-control-static">
+            <i class="icon-usd"></i><%= number_with_precision(product.price, :precision => 2) %>
+            </p>
+          </div>
+        </div>
+        </form>
         <div class="callout callout-upcoming">
           <h4>
             Consoles at release:
@@ -171,7 +181,7 @@
             </a>
           </div>
         </div>
-        <div class="tab-pane no-remove" id="product_<%= product.id %>_description" style="font-size:16px;margin-top:10px">
+        <div class="tab-pane no-remove description_pane" id="product_<%= product.id %>_description" style="font-size:16px;margin-top:10px">
           <p><%= product.description %></p>
         </div>
         <div class="tab-pane no-remove" id="product_<%= product.id %>_time" style="font-size:16px;margin-top:10px">

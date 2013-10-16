@@ -6,4 +6,5 @@ class ProductController < ApplicationController
       return redirect_to :controller => "index", :action => "index"
     end
   end
+
 end

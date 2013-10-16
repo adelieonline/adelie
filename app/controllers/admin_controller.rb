@@ -91,6 +91,7 @@ class AdminController < ApplicationController
     description = params[:desc].presence
     start_time = DateTime.strptime(params[:start].presence, "%m/%d/%Y %H:%M%p")
     end_time = DateTime.strptime(params[:end].presence, "%m/%d/%Y %H:%M%p")
+    puts end_time
     price = params[:price].presence
     release_date = DateTime.strptime(params[:release].presence, "%m/%d/%Y")
     tag_line = params[:tag_line].presence
