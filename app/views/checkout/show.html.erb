@@ -26,7 +26,7 @@
         <div class="form-group">
           <label for="shipping_state">State:</label>
           <span class="error" id="errorShippingState">Please choose a state</span>
-          <select name="shipping_state" id="shipping_state" class="form-control">
+          <select name="shipping_state" id="shipping_state" class="form-control" onChange="change_tax();">
             <option value="">Choose State</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -141,11 +141,11 @@
       </label>
       <br />
       <label>
-        Tax (6.25%): $<%= number_with_precision(@tax, :precision => 2) %>
+          Tax (6.25%): $<span id="tax_total">0.00</span>
       </label>
       <br />
       <label>
-        Total Price: $<span id="total_price"><%= number_with_precision(@total, :precision => 2) %></span>
+        Total Price: $<span id="total_price"><%= number_with_precision(@subtotal + @shipping, :precision => 2) %></span>
       </label>
       <br />
       <br />
@@ -192,11 +192,23 @@
   </script>
   <script type="text/javascript">
     subtotal = <%= @subtotal %>;
-    function change_shipping(price) {
-      $("#shipping_total").text(price);
-      $("#total_price").text((parseFloat(subtotal) + parseFloat(price)).toFixed(2));
+    tax = <%= @tax %>;
+    current_tax = 0;
+    shipping = <%= @shipping %>;
+    function change_tax() {
+      if ($("#shipping_state").val() == "MA")
+        current_tax = tax;
+      else
+        current_tax = 0;
+      $("#tax_total").text(current_tax.toFixed(2));
+      $("#total_price").text((parseFloat(subtotal) + parseFloat(shipping) + parseFloat(current_tax)).toFixed(2));
     }
-jQuery(function($) {
+    function change_shipping(price) {
+      shipping = price;
+      $("#shipping_total").text(price);
+      $("#total_price").text((parseFloat(subtotal) + parseFloat(price) + parseFloat(current_tax)).toFixed(2));
+    }
+  jQuery(function($) {
     $('#payment-form').submit(function(event) {
       var $form = $(this);
       $form.find('button').prop('disabled', true);

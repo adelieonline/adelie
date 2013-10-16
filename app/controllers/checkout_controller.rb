@@ -25,8 +25,7 @@ class CheckoutController < ApplicationController
         @tax = @price * TAX_PERCENT
         @shipping_types = ShippingType.where(:active => true)
         @shipping = @shipping_types.first.price
-        @subtotal = @price + @tax
-        @total = @subtotal + @shipping
+        @subtotal = @price
         @error = params[:error].present?
         if @items == 0
           return redirect_to :controller => "index", :action => "index"
@@ -77,7 +76,11 @@ class CheckoutController < ApplicationController
         subtotal += product.price.to_f * cart_item.quantity.to_i
       end
       if should_checkout
-        tax = subtotal * TAX_PERCENT
+        if shipping_state == "MA"
+          tax = subtotal * TAX_PERCENT
+        else
+          tax = 0
+        end
         total = (tax + subtotal + shipping_type.price) * 100
         Stripe.api_key = Rails.application.config.stripe_api_key
         begin
@@ -144,9 +147,9 @@ class CheckoutController < ApplicationController
       end
       @subtotal += product.price.to_f
     end
-    @tax = @subtotal * 0.0625
     shipping_type = ShippingType.where(:id => OrderShippingType.where(:order_id => order.id).first.shipping_type_id).first
     @shipping = shipping_type.price
+    @tax = (order.total_cents / 100) - @subtotal - @shipping
     @total = @shipping + @tax + @subtotal
   end
 end
