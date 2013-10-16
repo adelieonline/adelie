@@ -6,6 +6,7 @@ class OrderProduct < ActiveRecord::Base
                   :time_tier,
                   :random_tier,
                   :place_in_line,
+                  :console_id,
                   :created_ts,
                   :updated_ts,
                   :user_id
