@@ -11,122 +11,138 @@
     <%= javascript_include_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <!--
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    -->
   </head>
 
   <body>
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" id="nav-bar">
-      <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">Adelie Online </a>
-      </div>
+    <div class="wrapper">
+      <nav class="navbar navbar-default navbar-static-top" role="navigation" id="nav-bar">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Adelie Online </a>
+          </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav">
-          <li id="products-tab"><a href="/products">Products</a></li>
-          <li id="how-it-works-tab"><a href="/how-it-works">How It Works</a></li>
-          <li id="news-tab"><a href="http://adeliegamers.wordpress.com/">News</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/account">My Account</a></li>
-              <li class="divider"></li>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+              <li id="products-tab"><a href="/products">Products</a></li>
+              <li id="how-it-works-tab"><a href="/how-it-works">How It Works</a></li>
+              <li id="news-tab"><a href="http://adeliegamers.wordpress.com/" target="_blank">News</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <% if user_signed_in? %>
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/account">My Account</a></li>
+                  <li class="divider"></li>
+                  <li>
+                  <%= link_to "Logout", destroy_user_session_path, :method => :delete %> 
+                  </li>
+                </ul>
+                </li>
+              <% else %>
+                <li>
+                <a href="/users/sign_up">Create Account</a>
+                </li>
+                <li class="vertical-divider navbar-text hidden-xs">|</li>
+                <li>
+                <a href="/users/sign_in">Sign In</a>
+                </li>
+              <% end %>
+              <li class="vertical-divider navbar-text hidden-xs">|</li>
               <li>
-              <%= link_to "Logout", destroy_user_session_path, :method => :delete %> 
+              <a href="/cart"><i class="icon-shopping-cart icon-large"></i>
+                <% if user_signed_in? %>
+                  &nbsp;<span class="badge" id="cart-value"><%= current_user.cart_length %></span>
+                <% else %>
+                  &nbsp;<span class="badge" id="cart-value">
+                    <% if session[:cart] %>
+                      <% count = 0 %>
+                      <% session[:cart].each do |item| %>
+                        <% count += item[:quantity] %>
+                      <% end %>
+                      <%= count %>
+                    <% else %>
+                      0
+                    <% end %>
+                  </span>
+                <% end %>
+              </a>
               </li>
             </ul>
-            </li>
-          <% else %>
-            <li>
-            <a href="/users/sign_up">Create Account</a>
-            </li>
-            <li class="vertical-divider navbar-text hidden-xs">|</li>
-            <li>
-            <a href="/users/sign_in">Sign In</a>
-            </li>
-          <% end %>
-          <li class="vertical-divider navbar-text hidden-xs">|</li>
-          <li>
-          <a href="/cart"><i class="icon-shopping-cart icon-large"></i>
-            <% if user_signed_in? %>
-              &nbsp;<span class="badge" id="cart-value"><%= current_user.cart_length %></span>
-            <% else %>
-              &nbsp;<span class="badge" id="cart-value">
-              <% if session[:cart] %>
-                <% count = 0 %>
-                <% session[:cart].each do |item| %>
-                  <% count += item[:quantity] %>
-                <% end %>
-                <%= count %>
-              <% else %>
-                0
-              <% end %>
-              </span>
-            <% end %>
-          </a>
-          </li>
-          <li>
-            <div class="fb-like" data-href="https://www.facebook.com/AdelieOnline" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
-            <a href="https://twitter.com/AdelieOnline" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @AdelieOnline</a>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div>
-    </nav>
-
-    <div class="container">
-      <% if notice %>
-        <div class="alert alert-dismissable alert-info">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= notice %>
+          </div><!-- /.navbar-collapse -->
         </div>
-      <% end %>
-      <% if alert %>
-        <div class="alert alert-dismissable alert-warning">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= alert %>
-        </div>
-      <% end %>
+      </nav>
 
-      <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 content" id="main-content">
-          <%= yield %>
+      <div class="container" id="body">
+        <% if notice %>
+          <div class="alert alert-dismissable alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= notice %>
+          </div>
+        <% end %>
+        <% if alert %>
+          <div class="alert alert-dismissable alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= alert %>
+          </div>
+        <% end %>
+
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1 content" id="main-content">
+            <%= yield %>
+          </div>
         </div>
       </div>
-
+      <div class="push">
+      </div>
     </div>
 
-  <% if Rails.env.production? %>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <div id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1 footer">
+            <p> 
+              <span style="padding-right:10px">Adelie Online &copy; 2013.</span>
+              <span style="padding-right:10px">Built <i class="icon-gamepad"></i> by gamers for gamers.</span>
+              <a class="icon-facebook-sign icon-large" href="https://www.facebook.com/AdelieOnline" target="_blank"></a>
+              <a class="icon-twitter-sign icon-large" href="https://twitter.com/AdelieOnline" target="_blank"></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      ga('create', 'UA-44898632-1', 'adelieonline.com');
-      ga('send', 'pageview');
+    <% if Rails.env.production? %>
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    </script>
-  <% end %>
+        ga('create', 'UA-44898632-1', 'adelieonline.com');
+        ga('send', 'pageview');
+
+      </script>
+    <% end %>
   </body>
+
 
 </html>

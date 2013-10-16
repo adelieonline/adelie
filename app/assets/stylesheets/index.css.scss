@@ -1,6 +1,43 @@
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
 #nav-bar {
   margin-bottom: 30px;
 }
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -4em;
+}
+
+#footer, .push {
+  height: 4em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.footer {
+  padding-top: 10px;
+  border-top: 1px solid #eeeeee;
+  text-align:center;
+  a {
+    color:grey;
+  }
+  a.icon-facebook-sign:hover{
+    color: #4c66a4;
+  }
+  a.icon-twitter-sign:hover{
+    color: #4099FF;
+  }
+}
+
 .progress>span {
   position: absolute;
   z-index: 2;
