@@ -8,7 +8,7 @@
           <th>Product</th>
           <th>Console</th>
           <th>Current Discount</th>
-          <th>Discount Progress</th>
+          <!--<th>Discount Progress</th>-->
         </tr>
       </thead>
       <tbody>
@@ -22,7 +22,7 @@
                 <% discount = op.product.discount_tiers.where(:tier_number => tier_number).first.discount %>
                 <td><%= Console.find(op.console_id).name %></td>
                 <td>$<%= number_with_precision(discount, :precision => 2) %></td>
-                <td>
+                <!--<td>
                   <% (1..tier_number).each do |i| %>
                     <div class="row">
                       <div class="col-lg-8 col-sm-6" style="padding-right:0">
@@ -58,6 +58,7 @@
                     </div>
                   <% end %>
                 </td>
+                -->
               <% else %>
                 <td></td>
                 <td></td>
