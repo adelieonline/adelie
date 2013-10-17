@@ -148,6 +148,12 @@
         Total Price: $<span id="total_price"><%= number_with_precision(@subtotal + @shipping, :precision => 2) %></span>
       </label>
       <br />
+      <span>
+      <span class="error" id="charge_consent_error">Please agree to the below</span>
+      <label><input type="checkbox" id="charge_consent" name="charge_consent" checked>
+          <small>I consent to having my card charged before my order ships</small>
+      </label>
+      </span>
       <br />
       <input id="place_order" class="btn btn-primary" type="submit" value="Place Your Order" style="width:100%" />
     </div>
@@ -174,7 +180,7 @@
             </td>
             <td>
               <button class="btn btn-default btn-sm" onClick="update_quantity(<%= cart_item[:id] %>);">
-                Update 
+                Update
               </button>
               <button class="btn btn-primary btn-sm" onClick="delete_product(<%= cart_item[:id] %>);">
                 Remove From Cart
@@ -221,8 +227,13 @@
       shipping_state = $("#shipping_state").val();
       shipping_zip = $("#shipping_zip").val();
       shipping_id = $("input:radio[name='shipping_type_button']:checked").val();
+      var consent_checked = $("#charge_consent").is(":checked");
       var place_order = true;
       var zip_pattern = new RegExp(/^\d{5}(-\d{4})?$/);
+      if (!consent_checked) {
+        $("#charge_consent_error").show();
+        place_order = false;
+      }
       if (shipping_name == "") {
         $("#errorShippingName").show();
         $("#shipping_name").closest(".form-group").addClass("has-error");
