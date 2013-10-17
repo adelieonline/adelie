@@ -25,7 +25,7 @@ class CheckoutController < ApplicationController
         end
         @tax = @price * TAX_PERCENT
         @shipping_types = ShippingType.where(:active => true)
-        @shipping = @shipping_types.first.price
+        @shipping = @shipping_types.last.price
         @subtotal = @price
         @error = params[:error].present?
         if @items == 0
