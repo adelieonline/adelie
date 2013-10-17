@@ -52,7 +52,7 @@ class CheckoutController < ApplicationController
       card_type = params[:stripe_card_type].presence
       last_four = params[:stripe_last_four].presence
       stripe_token = params[:stripe_token].presence
-      consent_checked = params[:consent_checked].presence
+      consent_checked = params[:charge_consent].presence
       shipping_type = ShippingType.where(id: params[:shipping_type_button].presence, :active => true).first
       should_checkout = true
       if shipping_name.blank? ||
