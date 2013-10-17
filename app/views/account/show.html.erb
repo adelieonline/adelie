@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <% products.each do |product, id| %>
-          <% product.order_products.where(user_id: current_user.id).each_with_index do |op, index| %>
+          <% OrderProduct.where(order_id: order_id, product_id: product.id).each do |op| %>
             <tr>
               <td><%= product.name %></td>
               <% if op.present? %>
@@ -52,7 +52,7 @@
                       <div class="col-lg-4 col-sm-6">
                         <i class="icon-lock icon-large"></i>
                         <% (1..i+1).each do |j| %>
-                          <i class="icon-usd"></i>
+                          <i class="icon-usd" style="color:#ccc"></i>
                         <% end %>
                       </div>
                     </div>
