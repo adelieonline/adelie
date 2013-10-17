@@ -215,7 +215,7 @@
 
 <script type="text/javascript" charset="utf-8">
 $(function() {
-    var productEndDate = new Date("<%= product.end_time.to_formatted_s(:long) %>");
+    var productEndDate = new Date("<%= product.end_time.utc.to_formatted_s(:long) %> UTC");
     $('#product_countdown_<%= product.id %>').countdown(productEndDate.valueOf(), function(event) {
       $this = $(this);
       switch(event.type) {

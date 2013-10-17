@@ -208,7 +208,7 @@ $(function() {
     $('#add_to_cart_form_<%= product.id %>').submit(function(event) {
       return false;
     });
-    var productEndDate = new Date("<%= product.start_time.to_formatted_s(:long) %>");
+    var productEndDate = new Date("<%= product.start_time.to_formatted_s(:long) %> UTC");
     $('#product_countdown_<%= product.id %>').countdown(productEndDate.valueOf(), function(event) {
       $this = $(this);
       switch(event.type) {
