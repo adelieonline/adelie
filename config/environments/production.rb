@@ -71,6 +71,18 @@ Adelie::Application.configure do
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = {:host => "adelieonline.com"}
+  config.action_mailer.delivery_method = :amazon_ses
+  config.action_mailer.smtp_settings = {
+    :address => "email-smtp.us-east-1.amazonaws.com",
+    :user_name => 'AKIAJ7PPYZJ7I7DSO72Q',
+    :password => 'AtmtIdA2Qfn8MbLZdt2kWrZ/vf1q47fLzEjv2nhpYg93',
+    :authentication => :login,
+    :enable_starttls_auto => true,
+    :port => 25,
+    :domain => "adelieonline.com"
+  }
 
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false

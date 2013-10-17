@@ -34,16 +34,19 @@ Adelie::Application.configure do
 
   # Version of your assets, change this if you want to expire all your assets.
   config.assets.version = '1.0'
+
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = {:host => "adelieonline.com"}
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :amazon_ses
   config.action_mailer.smtp_settings = {
     :address => "email-smtp.us-east-1.amazonaws.com",
-    :user_name => 'AKIAJWBJDP6MCXNAK3BQ',
-    :password => 'AhXA9O8KZate/QoRiWpsMuw/T9cwoenPrkk8KTv2ajOr',
+    :user_name => 'AKIAJ7PPYZJ7I7DSO72Q',
+    :password => 'AtmtIdA2Qfn8MbLZdt2kWrZ/vf1q47fLzEjv2nhpYg93',
     :authentication => :login,
     :enable_starttls_auto => true,
+    :port => 25,
+    :domain => "adelieonline.com"
   }
-
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
