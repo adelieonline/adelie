@@ -8,7 +8,6 @@
 /log/*.log
 /tmp
 tmp
-public
 
 .*.swp
 .*.swo
