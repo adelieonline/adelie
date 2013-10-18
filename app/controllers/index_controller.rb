@@ -20,7 +20,8 @@ class IndexController < ApplicationController
   end
 
   def howitworks
-    @product = Product.first if Product.first
   end
 
+  def faq
+  end
 end

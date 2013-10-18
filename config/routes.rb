@@ -14,6 +14,7 @@ Adelie::Application.routes.draw do
 
   get '/products' => 'index#index'
   get '/how-it-works' => 'index#howitworks'
+  get '/faq' => 'index#faq'
 
   get 'cart' => 'cart#show'
   post 'cart/add' => 'cart#add'
