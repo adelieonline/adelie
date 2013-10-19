@@ -187,15 +187,15 @@
         <div class="tab-pane no-remove" id="product_<%= product.id %>_time" style="font-size:16px;margin-top:10px">
           <strong>Sale Start Date:</strong>
           <div class="add-tab">
-            <%= product.start_time.to_formatted_s(:cenzo) %>
+            <%= product.start_time.to_formatted_s(:cenzo) %> UTC
           </div>
           <strong>Sale End Date:</strong>
           <div class="add-tab">
-            <%= product.end_time.to_formatted_s(:cenzo) %>
+            <%= product.end_time.to_formatted_s(:cenzo) %> UTC
           </div>
           <strong>Release Date:</strong>
           <div class="add-tab">
-            <%= product.release_date.to_formatted_s(:cenzo) %>
+            <%= product.release_date.to_formatted_s(:cenzo) %> UTC
           </div>
         </div>
       </div>
